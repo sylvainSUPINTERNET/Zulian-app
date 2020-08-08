@@ -1,13 +1,20 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { createStore } from 'redux'
 import './index.css';
-import App from './App';
+import {Root} from './components/Router';
 import * as serviceWorker from './serviceWorker';
 
+import allReducers from "./redux/reducers/allReducers";
+
+// https://levelup.gitconnected.com/react-redux-hooks-useselector-and-usedispatch-f7d8c7f75cdd
+const store = createStore(
+    allReducers,
+    window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+);
+
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
+  <Root store={store}/>,
   document.getElementById('root')
 );
 
