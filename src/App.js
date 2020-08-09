@@ -60,6 +60,10 @@ const Streaming = (props) => {
 
 function App() {
 
+    let ws;
+    let connected;
+    ws = new WebSocket(`ws://localhost:8080/api/${uuidv4()}`);
+
 
     const counter = useSelector(state => state.incrementReducer);
     console.log("Counter", counter);
@@ -69,10 +73,6 @@ function App() {
     }, []);
     console.log(counter);
 
-
-    let ws;
-    let connected;
-    ws = new WebSocket(`ws://localhost:8080/chat/${uuidv4()}`);
 
     ws.onopen = () => {
         connected = true
