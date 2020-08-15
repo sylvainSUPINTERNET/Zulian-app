@@ -3,7 +3,7 @@ import {uuidv4} from "./utils/generator";
 import {constraints, config} from './config/WebRTC.config';
 import Menu from "./components/Menu";
 import {useSelector, useDispatch} from 'react-redux'
-import allActions from "./redux/actions/allActions";
+import {increaseCounterAction} from "./redux/actions/actions";
 
 // https://gabrieltanner.org/blog/webrtc-video-broadcast
 
@@ -64,14 +64,17 @@ function App() {
     let connected;
     ws = new WebSocket(`ws://localhost:8080/api/${uuidv4()}`);
 
+    const [users, setUsers] = useState([]);
 
-    const counter = useSelector(state => state.incrementReducer);
-    console.log("Counter", counter);
-    const dispatch = useDispatch();
-    useEffect(() => {
-        dispatch(allActions.incrementAction.increment());
+    const getUsers = async () => {
+        const resp = await fetch('http://localhost:4000/users');
+        const data = await resp.json();
+        setUsers(data["users"])
+    };
+
+    useEffect( () => {
+        getUsers();
     }, []);
-    console.log(counter);
 
 
     ws.onopen = () => {
@@ -85,7 +88,16 @@ function App() {
                 <Menu></Menu>
             </header>
             <main className="container">
-                <p>ok</p>
+                <p><div>{JSON.stringify(users)}</div></p>
+                {
+                    users.map( u => {
+                        return <div className="card">
+                            <div className="card-title">{u.firstName}</div>
+                            {u.firstName}
+                        </div>
+                    })
+                }
+
             </main>
         </div>
     );

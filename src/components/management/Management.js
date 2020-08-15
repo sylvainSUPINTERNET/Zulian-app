@@ -2,37 +2,56 @@
 
 import {useParams} from 'react-router-dom'
 
-import React, {useCallback, useState} from "react";
+import React, {useCallback, useEffect, useState} from "react";
 import PropTypes from 'prop-types'
 import Menu from "../Menu";
-
-
 import { useDropzone } from "react-dropzone";
+import {useDispatch, useSelector} from "react-redux";
+import {increaseCounterAction} from "../../redux/actions/actions";
+
 
 function MyDropzone() {
-    let filesList = [];
     const [files, setFiles] = useState([]);
+    let filesList = [];
 
+    const {count} = useSelector(state => state.counter);
+    const dispatch = useDispatch();
+
+    useEffect( () => {
+        console.log("did mount")
+
+        console.log(count);
+    }, []);
 
     const onDrop = useCallback(acceptedFiles => {
         // Do something with the files
         filesList = [...filesList, acceptedFiles];
         setFiles(filesList)
+        console.log(filesList)
     }, []);
-
 
     const {getRootProps, getInputProps, isDragActive} = useDropzone({onDrop})
 
+
+
+
     return (
-        <div {...getRootProps()}>
-            <input {...getInputProps()} />
+        <div>
             <p>Documents : {files.length}</p>
-            {
-                isDragActive ?
-                    <p>Drop the files here ...</p> :
-                    <p>Drag 'n' drop some files here, or click to select files</p>
-            }
+            <div {...getRootProps()}>
+                <input {...getInputProps()} />
+                {
+                    isDragActive ?
+                        <p>Je dépose mes documents ...</p> :
+                        <p>Glissez vos documents</p>
+                }
+            </div>
+
+
+            <p>{count}</p>
+            <button onClick={() => dispatch(increaseCounterAction(4))}>Add to count</button>
         </div>
+
     )
 }
 
