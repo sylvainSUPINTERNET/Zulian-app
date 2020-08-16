@@ -12,6 +12,8 @@ import {increaseCounterAction} from "../../redux/actions/actions";
 
 function MyDropzone() {
     const [files, setFiles] = useState([]);
+    let [tempUrls, setTempUrls] = useState([]);
+
     let filesList = [];
 
     const {count} = useSelector(state => state.counter);
@@ -24,10 +26,33 @@ function MyDropzone() {
     }, []);
 
     const onDrop = useCallback(acceptedFiles => {
+        const {name, path, size, type} = acceptedFiles[0];
+        const fileData = {
+            name,
+            path,
+            size,
+            type
+        };
         // Do something with the files
-        filesList = [...filesList, acceptedFiles];
-        setFiles(filesList)
-        console.log(filesList)
+        filesList = [...filesList, fileData];
+
+
+        // Preview
+        if (type === "image/png" || type === "image/jpeg" || type === "image/jpg") {
+            let reader = new FileReader();
+
+            reader.onload = () => {
+                console.log("prev", tempUrls)
+                tempUrls = [...tempUrls, reader.result];
+                console.log(tempUrls);
+                setTempUrls(tempUrls)
+
+            };
+            reader.readAsDataURL(acceptedFiles[0]);
+
+        }
+
+        setFiles(filesList);
     }, []);
 
     const {getRootProps, getInputProps, isDragActive} = useDropzone({onDrop})
@@ -38,6 +63,14 @@ function MyDropzone() {
     return (
         <div>
             <p>Documents : {files.length}</p>
+            {
+                tempUrls.map( b64Url => {
+                    return <div className="card">
+                        <img className="img-fluid img-thumbnail" src={b64Url}/>
+                    </div>
+                })
+            }
+            <p>{JSON.stringify(files)}</p>
             <div {...getRootProps()}>
                 <input {...getInputProps()} />
                 {

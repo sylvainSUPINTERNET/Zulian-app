@@ -92,12 +92,10 @@ function App() {
                 {
                     users.map( u => {
                         return <div className="card">
-                            <div className="card-title">{u.firstName}</div>
-                            {u.firstName}
+                            <div className="card-title">{u.firstName} - {u.lastName}</div>
                         </div>
                     })
                 }
-
             </main>
         </div>
     );

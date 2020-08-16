@@ -5,7 +5,6 @@ const initState = {
 const counter = (state = initState, action) => {
     switch(action.type) {
         case 'increaseCounter':
-            console.log(action)
             const { nb } = action.payload;
             const sum = state.count + nb;
             return {
