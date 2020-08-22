@@ -85,7 +85,7 @@ function App() {
     return (
         <div className="">
             <header className="">
-                <Menu></Menu>
+                <Menu activeTab="home"></Menu>
             </header>
             <main className="container">
                 <p><div>{JSON.stringify(users)}</div></p>
