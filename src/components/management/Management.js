@@ -6,6 +6,7 @@ import React, {useCallback, useEffect, useState} from "react";
 import PropTypes from 'prop-types'
 import Menu from "../Menu";
 import {useDropzone} from "react-dropzone";
+import {Login} from "../authentication/Authentication";
 import {useDispatch, useSelector} from "react-redux";
 import {increaseCounterAction} from "../../redux/actions/actions";
 
@@ -170,7 +171,6 @@ export const Management = () => {
                         <input type="text" className="form-control" id="formGroupExampleInput"/>
                     </div>
                     <MyDropzone></MyDropzone>
-
                     <div className="text-center">
                         <button className="btn btn-primary btn-lg active m-5" role="button" aria-pressed="true"
                                 disabled={true}>Enregistrer
