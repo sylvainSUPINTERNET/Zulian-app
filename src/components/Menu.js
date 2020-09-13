@@ -24,10 +24,6 @@ const Menu = (props) => {
                 <a className="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab"
                    aria-controls="contact" aria-selected="false">Contact</a>
             </li>
-            <li className="nav-item">
-                <a className="nav-link" id="contact-tab" data-toggle="tab" href="#compte" role="tab"
-                   aria-controls="contact" aria-selected="false">Compte</a>
-            </li>
         </ul>
         {/*
         <div className="tab-content" id="myTabContent">
