@@ -115,7 +115,7 @@ export const MapHome = () => {
 
                 <div className={ showLoaderParkingInfo === true ? 'col-md-12 col-12 loaderBlink': "d-none"}>
                     <div className="container mt-2 mb-3">
-                        <div className="card mx-auto">
+                        <div className="card border-0 mx-auto">
                             <div className="card-body">
                                 <img className="img-fluid mb-3" src="https://voyagesaucoeurdelascience.fr/wp-content/uploads/2019/02/light-grey-background.png"/>
                                 <div className="" style={style.loadingCardTitle}>
@@ -129,7 +129,7 @@ export const MapHome = () => {
 
                 <div className={ showParkinginfos === false ? 'd-none': "col-md-12 col-12"}>
                     <div className="container mt-2 mb-3">
-                        <div className="card mx-auto">
+                        <div className="card border-0 mx-auto">
                             <div className="card-body">
                                 <div className="text-center">
                                     <img className="img-fluid mb-3" src="https://lh3.googleusercontent.com/proxy/YlgV2Eq1vpseViPM6WB0TnLMdWOm6hpjOS8yVRqJ4bxy-KI8QYhI4zPFTSoWdk_ZxxRD1zSf5mT3vTBDf__WPwQPVfWKt7uQjKa_6m5nbhQ-ZnwdbYS0bAhFb5yDlVEwF_4qzWPtjtDNYnq4JIKXiNONV5meejWSUffzdtCouvk4DkgpFQBH-Bt8TrNiBA"/>
