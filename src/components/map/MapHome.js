@@ -5,6 +5,8 @@ import Menu from "../Menu";
 import {Map, TileLayer, Marker, Popup} from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faMoneyBill, faRocket, faStar} from "@fortawesome/free-solid-svg-icons";
 
 export const MapHome = () => {
 
@@ -131,12 +133,24 @@ export const MapHome = () => {
                     <div className="container mt-2 mb-3">
                         <div className="card border-0 mx-auto">
                             <div className="card-body">
+                                <h5 className="card-title">Parking voiture sport</h5>
                                 <div className="text-center">
                                     <img className="img-fluid mb-3" src="https://lh3.googleusercontent.com/proxy/YlgV2Eq1vpseViPM6WB0TnLMdWOm6hpjOS8yVRqJ4bxy-KI8QYhI4zPFTSoWdk_ZxxRD1zSf5mT3vTBDf__WPwQPVfWKt7uQjKa_6m5nbhQ-ZnwdbYS0bAhFb5yDlVEwF_4qzWPtjtDNYnq4JIKXiNONV5meejWSUffzdtCouvk4DkgpFQBH-Bt8TrNiBA"/>
                                 </div>
-                                <h5 className="card-title">Card title</h5>
-                                <p className="card-text">Some quick example text to build on the card title and make up
-                                    the bulk of the card's content.</p>
+                                <div className="row mt-2 mb-2">
+                                    <div className="col-7 mt-2">
+                                        <p className="text-center">(487 avis)</p>
+                                        <p className="text-center"><FontAwesomeIcon icon={faStar} color={'blue'} size="1x" className={"ml-2"}/><FontAwesomeIcon icon={faStar} color={'blue'} size="1x" className={"ml-2"}/><FontAwesomeIcon icon={faStar} color={'blue'} size="1x" className={"ml-2"}/></p>
+                                        <p className="text-center">10 / h <FontAwesomeIcon icon={faMoneyBill} color={'green'} size="2x" className={"ml-2"}/></p>
+                                    </div>
+                                    <div className="col-5">
+                                        <h6 className="text-center">Jean Marc</h6>
+                                        <img className="img-fluid rounded-circle" src="https://wow.zamimg.com/uploads/screenshots/normal/875650.jpg" />
+                                    </div>
+                                </div>
+                                <div className="row mt-2">
+                                    <p className="text-justify card-text">Pellentesque eleifend ipsum ac nisl faucibus congue. Pellentesque condimentum, nunc pellentesque faucibus gravida, ante odio pulvinar est, non porttitor diam urna et tortor. Morbi in quam neque. Cras gravida, velit eget vulputate vestibulum, lorem odio elementum dui, ac euismod mi dui id justo</p>
+                                </div>
                                 <a href="#" className="btn btn-primary">Go somewhere</a>
                             </div>
                         </div>
