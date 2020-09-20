@@ -7,6 +7,7 @@ import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faMoneyBill, faRocket, faStar} from "@fortawesome/free-solid-svg-icons";
+import {Modal} from "../modal/Modal";
 
 export const MapHome = () => {
 
@@ -28,8 +29,22 @@ export const MapHome = () => {
     const [position, setPosition] = React.useState([0, 0]);
 
     useEffect(() => {
-        const L = require("leaflet");
+        // TODO
+        // 1) -> create Parking with auto generate coord (from nominatim) coord of street
+        // 2) -> with nominatim get coord of current position
+        // 3) -> send 2 positions to API (update API too) to generate the matrix for polyline
+        // 4) rerender the component with the polyline (if user click on "drive")
+        
+         let getTestData = async () => {
+             const test = await fetch(`http://localhost:4999/api/v1/map/vectorize/eazeae;ezaeaea`);
+             const testJson = await test.json();
 
+             console.log("data -> ", testJson);
+        };
+
+        console.log(getTestData());
+
+        const L = require("leaflet");
         console.log("INFO parking : ", showParkinginfos);
 
         // import for icon marker
@@ -155,9 +170,13 @@ export const MapHome = () => {
                                 [
                                     48.827586,
                                     2.264692,
+                                ],
+                                [
+                                    48.828120,
+                                    2.2646200
                                 ]
                             ]
-                        } color={'red'} />
+                        } color={'blue'} />
 
                         <Marker position={position} icon={meIcon} id="myPosition">
                             <Popup>
@@ -212,9 +231,10 @@ export const MapHome = () => {
                                 <div className="row mt-2">
                                     <p className="text-justify card-text">Pellentesque eleifend ipsum ac nisl faucibus congue. Pellentesque condimentum, nunc pellentesque faucibus gravida, ante odio pulvinar est, non porttitor diam urna et tortor. Morbi in quam neque. Cras gravida, velit eget vulputate vestibulum, lorem odio elementum dui, ac euismod mi dui id justo</p>
                                 </div>
-                                <div className="text-center mt-3 mb-3">
-                                    <a href="#" className="btn btn-primary">Je réserve</a>
+                                <div className="mt-3 mb-3">
+                                    <Modal idModal="parking-rent-modal" btnClassNameTrigger="btn btn-success" btnTextTrigger="Je réserve" title="This is my modal" footerBtnTextClose="close" footerBtnTextAction="apply" content="salut" wrapperTriggerBtnClassName="text-center" className="modal-dialog modal-full-height modal-right"></Modal>
                                 </div>
+
                             </div>
                         </div>
                     </div>
