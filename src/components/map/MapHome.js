@@ -34,7 +34,7 @@ export const MapHome = () => {
         // 2) -> with nominatim get coord of current position
         // 3) -> send 2 positions to API (update API too) to generate the matrix for polyline
         // 4) rerender the component with the polyline (if user click on "drive")
-        
+
          let getTestData = async () => {
              const test = await fetch(`http://localhost:4999/api/v1/map/vectorize/eazeae;ezaeaea`);
              const testJson = await test.json();

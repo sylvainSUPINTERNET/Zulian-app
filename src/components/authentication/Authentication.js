@@ -32,7 +32,7 @@ export const Authentication = ({props}) => {
                         <div className="col-md-3"></div>
                         <div className="col-md-6">
                             <form onSubmit={handleSubmit(onSubmit)}>
-                                <div className="form-group form-control-lg m-5 m-md-3">
+                                <div className="form-group m-5  m-md-3">
                                     <label htmlFor="emailInput">Email<span className="text-danger">*</span></label>
                                     <input type="email" className="form-control" id="emailInput" name="email"
                                            ref={register({required: true})}
@@ -40,7 +40,7 @@ export const Authentication = ({props}) => {
                                     {errors.email && <span className="small text-danger">Champ email est obligatoire</span>}
                                 </div>
 
-                                <div className="form-group form-control-lg m-5 m-md-3">
+                                <div className="form-group m-5 m-md-3">
                                     <label htmlFor="lastNameInput">Nom<span className="text-danger">*</span></label>
                                     <input type="text" className="form-control" id="lastNameInput" name="lastName"
                                            ref={register({required: true})}
@@ -48,7 +48,7 @@ export const Authentication = ({props}) => {
                                     {errors.lastName && <span className="small text-danger">Champ nom est obligatoire</span>}
                                 </div>
 
-                                <div className="form-group form-control-lg m-5 m-md-3">
+                                <div className="form-group m-5 m-md-3">
                                     <label htmlFor="firstNameInput">Prénom<span className="text-danger">*</span></label>
                                     <input type="text" className="form-control" id="firstNameInput" name="firstName"
                                            ref={register({required: true})}
@@ -56,23 +56,33 @@ export const Authentication = ({props}) => {
                                     {errors.firstName && <span className="small text-danger">Champ prénom est obligatoire</span>}
                                 </div>
 
-                                {/* register your input into the hook by invoking the "register" function */}
-                                <input name="example" defaultValue="test"/>
-                                {errors.example && <span>This field is required</span>}
+                                <div className="form-group m-5 m-md-3">
+                                    <label htmlFor="phoneNumberInput">Numéro de téléphone</label>
+                                    <input type="text" className="form-control" id="phoneNumberInput" name="phoneNumber"
+                                           ref={register({required: false})}
+                                           placeholder="+33644501140"/>
+                                </div>
 
-                                {/* include validation with required or other standard HTML validation rules */}
-                                <input name="exampleRequired" ref={register({required: true})}/>
-                                {/* errors will return when field validation fails  */}
-                                {errors.exampleRequired && <span>This field is required</span>}
-                                <select name="gender" ref={register({required: true})}>
-                                    <option value="female">female</option>
-                                    <option value="male">male</option>
-                                    <option value="other">other</option>
-                                </select>
-                                {errors.gender && <span>This field is required</span>}
+                                <div className="form-group m-5 m-md-3">
+                                    <label htmlFor="passwordInput">Mot de passe<span className="text-danger">*</span></label>
+                                    <input type="text" className="form-control" id="passwordInput" name="password"
+                                           ref={register({required: true})}
+                                           placeholder=""/>
+                                    {errors.password && <span className="small text-danger">Champ mot de passe est obligatoire</span>}
+                                </div>
+
+                                <div className="form-group m-5 m-md-3">
+                                    <label htmlFor="passwordConfirmedInput">Confirmer le mot de passe<span className="text-danger">*</span></label>
+                                    <input type="text" className="form-control" id="passwordConfirmedInput" name="passwordConfirmed"
+                                           ref={register({required: true})}
+                                           placeholder=""/>
+                                    {errors.passwordConfirmed && <span className="small text-danger">Mot de passe ne correspond pas</span>}
+                                </div>
 
 
-                                <input type="submit"/>
+                                <div className="text-center">
+                                    <button className="btn btn-success btn-md">Enregistrer</button>
+                                </div>
                             </form>
                         </div>
                         <div className="col-md-3"></div>
