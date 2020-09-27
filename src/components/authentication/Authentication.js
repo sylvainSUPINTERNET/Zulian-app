@@ -26,7 +26,7 @@ export const Authentication = ({props}) => {
 
             <Menu></Menu>
             {
-                <div className="container mt-4">
+                <div className="container mt-4 black-background text-white">
                     <h3 className="text-center mt-5 text-primary"><kbd className="p-4">Connection</kbd></h3>
                     <div className="row">
                         <div className="col-md-3"></div>

@@ -2,6 +2,10 @@ import React, {VideoHTMLAttributes, useEffect, useState, useRef} from 'react';
 import {uuidv4} from "./utils/generator";
 import {constraints, config} from './config/WebRTC.config';
 import Menu from "./components/Menu";
+import Card from "./components/card/Card";
+
+import Caroussel from "./components/caroussel/Caroussel";
+
 import {useSelector, useDispatch} from 'react-redux'
 import {increaseCounterAction} from "./redux/actions/actions";
 
@@ -88,6 +92,11 @@ function App() {
                 <Menu activeTab="home"></Menu>
             </header>
             <main className="container">
+
+                <Card></Card>
+                <Card></Card>
+                <Card></Card>
+
                 <p><div>{JSON.stringify(users)}</div></p>
                 {
                     users.map( u => {

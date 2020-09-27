@@ -5,3 +5,67 @@
 @keyframes blinker {
     50% { opacity: 0; }
 }
+
+.black-background {
+    background-color: #000;
+}
+
+body {
+    background: url('background-global.jpg') no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    background-size: cover;
+    -o-background-size: cover;
+}
+
+/*
+    STYLE
+    body {
+    background: radial-gradient(circle at bottom, navy 0, black 100%);
+    height: 100vh;
+    overflow: hidden;
+}
+ */
+
+.link {
+    background-image: linear-gradient(to bottom right, #ffccff 0%, #6600ff 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+}
+
+.rainbow3 {
+
+    background-image: -webkit-gradient( linear, left top, right top, color-stop(0, #9f82ff), color-stop(0.15, #f2f), color-stop(0.3, #c4ffee), color-stop(0.45, #2ff), color-stop(0.6, #2f2),color-stop(0.75, #2f2), color-stop(0.9, #ff2), color-stop(1, #f22) );
+    background-image: gradient( linear, left top, right top, color-stop(0, #a8d3ff), color-stop(0.15, #f2f), color-stop(0.3, #22f), color-stop(0.45, #2ff), color-stop(0.6, #2f2),color-stop(0.75, #2f2), color-stop(0.9, #ff2), color-stop(1, #f22) );
+    color:transparent;
+    -webkit-background-clip: text;
+    background-clip: text;
+}
+
+
+.rainbow2 {
+    background-image: -webkit-linear-gradient(left, #E0F8F7, #585858, #fff); /* For Chrome and Safari */
+    background-image:    -moz-linear-gradient(left, #E0F8F7, #585858, #fff); /* For old Fx (3.6 to 15) */
+    background-image:     -ms-linear-gradient(left, #E0F8F7, #585858, #fff); /* For pre-releases of IE 10*/
+    background-image:      -o-linear-gradient(left, #E0F8F7, #585858, #fff); /* For old Opera (11.1 to 12.0) */
+    background-image:         linear-gradient(to right, #E0F8F7, #585858, #fff); /* Standard syntax; must be last */
+    color:transparent;
+    -webkit-background-clip: text;
+    background-clip: text;
+}
+
+
+.rainbow {
+    background-image: -webkit-gradient( linear, left top, right top, color-stop(0, #9700ff), color-stop(0.15, #f2f), color-stop(0.3, #6622ff), color-stop(0.45, #bfb6ff), color-stop(0.6, #2f2),color-stop(0.75, #2f2), color-stop(0.9, #ff2), color-stop(1, #f22) );
+    background-image: gradient( linear, left top, right top, color-stop(0, #bc00ff), color-stop(0.15, #f2f), color-stop(0.3, #ff41de), color-stop(0.45, #9f8bff), color-stop(0.6, #2f2),color-stop(0.75, #2f2), color-stop(0.9, #ff2), color-stop(1, #f22) );
+    color:transparent;
+    -webkit-background-clip: text;
+    background-clip: text;
+}
+
+
+.menu-nav-text {
+    background-image: linear-gradient(315deg, #1fd1f9 0%, #b621fe 74%);
+    -webkit-background-clip: text;
+    background-clip: text;
+}
