@@ -26,64 +26,71 @@ export const Authentication = ({props}) => {
 
             <Menu></Menu>
             {
-                <div className="container mt-4 black-background text-white">
-                    <h3 className="text-center mt-5 text-primary"><kbd className="p-4">Connection</kbd></h3>
+                <div className="container mt-4 text-white animated fadeInDown rounded">
                     <div className="row">
                         <div className="col-md-3"></div>
-                        <div className="col-md-6">
-                            <form onSubmit={handleSubmit(onSubmit)}>
-                                <div className="form-group m-5  m-md-3">
-                                    <label htmlFor="emailInput">Email<span className="text-danger">*</span></label>
-                                    <input type="email" className="form-control" id="emailInput" name="email"
-                                           ref={register({required: true})}
-                                           placeholder=""/>
-                                    {errors.email && <span className="small text-danger">Champ email est obligatoire</span>}
+                        <div className="col-md-6 black-background p-3" style={{borderRadius: '15px'}}>
+                            <div className="row">
+                                <div className="col-md-6">
+                                    <h1 className="rainbow text-center mt-3">Bienvenue</h1>
                                 </div>
 
-                                <div className="form-group m-5 m-md-3">
-                                    <label htmlFor="lastNameInput">Nom<span className="text-danger">*</span></label>
-                                    <input type="text" className="form-control" id="lastNameInput" name="lastName"
-                                           ref={register({required: true})}
-                                           placeholder=""/>
-                                    {errors.lastName && <span className="small text-danger">Champ nom est obligatoire</span>}
-                                </div>
+                                <div className="col-md-6">
+                                    <form onSubmit={handleSubmit(onSubmit)}>
+                                        <div className="form-group m-5  m-md-3">
+                                            <label htmlFor="emailInput">Email<span className="text-danger">*</span></label>
+                                            <input type="email" className="form-control" id="emailInput" name="email"
+                                                   ref={register({required: true})}
+                                                   placeholder=""/>
+                                            {errors.email && <span className="small text-danger">Champ email est obligatoire</span>}
+                                        </div>
 
-                                <div className="form-group m-5 m-md-3">
-                                    <label htmlFor="firstNameInput">Prénom<span className="text-danger">*</span></label>
-                                    <input type="text" className="form-control" id="firstNameInput" name="firstName"
-                                           ref={register({required: true})}
-                                           placeholder=""/>
-                                    {errors.firstName && <span className="small text-danger">Champ prénom est obligatoire</span>}
-                                </div>
+                                        <div className="form-group m-5 m-md-3">
+                                            <label htmlFor="lastNameInput">Nom<span className="text-danger">*</span></label>
+                                            <input type="text" className="form-control" id="lastNameInput" name="lastName"
+                                                   ref={register({required: true})}
+                                                   placeholder=""/>
+                                            {errors.lastName && <span className="small text-danger">Champ nom est obligatoire</span>}
+                                        </div>
 
-                                <div className="form-group m-5 m-md-3">
-                                    <label htmlFor="phoneNumberInput">Numéro de téléphone</label>
-                                    <input type="text" className="form-control" id="phoneNumberInput" name="phoneNumber"
-                                           ref={register({required: false})}
-                                           placeholder="+33644501140"/>
-                                </div>
+                                        <div className="form-group m-5 m-md-3">
+                                            <label htmlFor="firstNameInput">Prénom<span className="text-danger">*</span></label>
+                                            <input type="text" className="form-control" id="firstNameInput" name="firstName"
+                                                   ref={register({required: true})}
+                                                   placeholder=""/>
+                                            {errors.firstName && <span className="small text-danger">Champ prénom est obligatoire</span>}
+                                        </div>
 
-                                <div className="form-group m-5 m-md-3">
-                                    <label htmlFor="passwordInput">Mot de passe<span className="text-danger">*</span></label>
-                                    <input type="text" className="form-control" id="passwordInput" name="password"
-                                           ref={register({required: true})}
-                                           placeholder=""/>
-                                    {errors.password && <span className="small text-danger">Champ mot de passe est obligatoire</span>}
-                                </div>
+                                        <div className="form-group m-5 m-md-3">
+                                            <label htmlFor="phoneNumberInput">Numéro de téléphone</label>
+                                            <input type="text" className="form-control" id="phoneNumberInput" name="phoneNumber"
+                                                   ref={register({required: false})}
+                                                   placeholder="+33644501140"/>
+                                        </div>
 
-                                <div className="form-group m-5 m-md-3">
-                                    <label htmlFor="passwordConfirmedInput">Confirmer le mot de passe<span className="text-danger">*</span></label>
-                                    <input type="text" className="form-control" id="passwordConfirmedInput" name="passwordConfirmed"
-                                           ref={register({required: true})}
-                                           placeholder=""/>
-                                    {errors.passwordConfirmed && <span className="small text-danger">Mot de passe ne correspond pas</span>}
-                                </div>
+                                        <div className="form-group m-5 m-md-3">
+                                            <label htmlFor="passwordInput">Mot de passe<span className="text-danger">*</span></label>
+                                            <input type="text" className="form-control" id="passwordInput" name="password"
+                                                   ref={register({required: true})}
+                                                   placeholder=""/>
+                                            {errors.password && <span className="small text-danger">Champ mot de passe est obligatoire</span>}
+                                        </div>
+
+                                        <div className="form-group m-5 m-md-3">
+                                            <label htmlFor="passwordConfirmedInput">Confirmer le mot de passe<span className="text-danger">*</span></label>
+                                            <input type="text" className="form-control" id="passwordConfirmedInput" name="passwordConfirmed"
+                                                   ref={register({required: true})}
+                                                   placeholder=""/>
+                                            {errors.passwordConfirmed && <span className="small text-danger">Mot de passe ne correspond pas</span>}
+                                        </div>
 
 
-                                <div className="text-center">
-                                    <button className="btn btn-success btn-md">Enregistrer</button>
+                                        <div className="text-center">
+                                            <button className="btn purple-gradient">Enregistrer</button>
+                                        </div>
+                                    </form>
                                 </div>
-                            </form>
+                            </div>
                         </div>
                         <div className="col-md-3"></div>
                     </div>

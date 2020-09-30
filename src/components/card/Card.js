@@ -3,7 +3,7 @@ import React from "react";
 const Card = (props) => {
 
     return (
-        <div className="card mt-3 text-white"  style={{backgroundColor: '#000000'}}>
+        <div className="shadow p-3 card mt-3 text-white"  style={{backgroundColor: '#000000'}}>
             <div className="card-body">
                 <h4 className="card-title rainbow3">Card title</h4>
                 <p className="card-text text-white">Some quick example text to build on the card title and make up the bulk

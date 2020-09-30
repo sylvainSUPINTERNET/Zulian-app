@@ -64,16 +64,24 @@ const Streaming = (props) => {
 
 function App() {
 
+
     let ws;
-    let connected;
+    let connected;  
     ws = new WebSocket(`ws://localhost:8080/api/${uuidv4()}`);
 
     const [users, setUsers] = useState([]);
 
     const getUsers = async () => {
+        const r = await fetch('http://localhost:9999/api/auth/token', {credentials: 'include'});
+        const e = await r.json();
+        console.log("access token -> ", e)
+
         const resp = await fetch('http://localhost:4000/users');
         const data = await resp.json();
         setUsers(data["users"])
+
+
+
     };
 
     useEffect( () => {

@@ -10,7 +10,7 @@ const Menu = (props) => {
 
     return (
     <div>
-        <nav className="navbar navbar-expand-lg navbar-dark black-background">
+        <nav className="p-4 navbar navbar-expand-lg navbar-dark black-background">
             <a className="navbar-brand" href="#">
                 <img src="https://static.vecteezy.com/system/resources/previews/000/480/309/non_2x/supermassive-black-hole-vector-graphic.jpg" width="30" height="30" alt=""/>
             </a>
