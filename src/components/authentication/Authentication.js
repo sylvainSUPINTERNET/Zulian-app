@@ -2,6 +2,7 @@
 import React, {useCallback, useEffect, useState} from "react";
 import Menu from "../Menu";
 import {useForm} from "react-hook-form";
+import img from './Spell_Arcane_PortalDarnassus.png'
 
 
 // full screen mobile : https://openlayers.org/en/latest/examples/index.html?q=full-screen
@@ -26,27 +27,24 @@ export const Authentication = ({props}) => {
 
             <Menu></Menu>
             {
-                <div className="container mt-4 text-white animated fadeInDown rounded">
-                    <div className="row">
+                <div className="container mt-4 text-white animated fadeInDown rounded mb-2 shadow p-4 rounded-circle" style={{   backgroundColor: 'rgba(140,80,255,0.2)'}}>
+                    <div className="row rounded-circle">
                         <div className="col-md-3"></div>
-                        <div className="col-md-6 black-background p-3" style={{borderRadius: '15px'}}>
-                            <div className="row">
-                                <div className="col-md-6">
-                                    <h1 className="rainbow text-center mt-3">Bienvenue</h1>
-                                </div>
-
-                                <div className="col-md-6">
+                        <div className="col-md-6 rounded-circle" style={{borderRadius: '15px', backgroundColor: 'rgba(255,80,255,0.2)'}}>
+                            <div className="row mb-5">
+                                <div className="col-md-12">
+                                    <img src={img} className="img-fluid center-image mt-4"/>
                                     <form onSubmit={handleSubmit(onSubmit)}>
                                         <div className="form-group m-5  m-md-3">
-                                            <label htmlFor="emailInput">Email<span className="text-danger">*</span></label>
-                                            <input type="email" className="form-control" id="emailInput" name="email"
+                                            <label htmlFor="emailInput" className="rainbow3">Email <span className="text-danger"> *</span></label>
+                                            <input type="email" className="form-control black-background input-text-galaxy-green" id="emailInput" name="email"
                                                    ref={register({required: true})}
                                                    placeholder=""/>
                                             {errors.email && <span className="small text-danger">Champ email est obligatoire</span>}
                                         </div>
 
                                         <div className="form-group m-5 m-md-3">
-                                            <label htmlFor="lastNameInput">Nom<span className="text-danger">*</span></label>
+                                            <label htmlFor="lastNameInput" className="rainbow3">Nom <span className="text-danger">*</span></label>
                                             <input type="text" className="form-control" id="lastNameInput" name="lastName"
                                                    ref={register({required: true})}
                                                    placeholder=""/>
@@ -54,7 +52,7 @@ export const Authentication = ({props}) => {
                                         </div>
 
                                         <div className="form-group m-5 m-md-3">
-                                            <label htmlFor="firstNameInput">Prénom<span className="text-danger">*</span></label>
+                                            <label htmlFor="firstNameInput" className="rainbow3">Prénom <span className="text-danger">*</span></label>
                                             <input type="text" className="form-control" id="firstNameInput" name="firstName"
                                                    ref={register({required: true})}
                                                    placeholder=""/>
@@ -62,14 +60,14 @@ export const Authentication = ({props}) => {
                                         </div>
 
                                         <div className="form-group m-5 m-md-3">
-                                            <label htmlFor="phoneNumberInput">Numéro de téléphone</label>
+                                            <label htmlFor="phoneNumberInput" className="rainbow3">Numéro de téléphone</label>
                                             <input type="text" className="form-control" id="phoneNumberInput" name="phoneNumber"
                                                    ref={register({required: false})}
                                                    placeholder="+33644501140"/>
                                         </div>
 
                                         <div className="form-group m-5 m-md-3">
-                                            <label htmlFor="passwordInput">Mot de passe<span className="text-danger">*</span></label>
+                                            <label htmlFor="passwordInput" className="rainbow3">Mot de passe <span className="text-danger">*</span></label>
                                             <input type="text" className="form-control" id="passwordInput" name="password"
                                                    ref={register({required: true})}
                                                    placeholder=""/>
@@ -77,7 +75,7 @@ export const Authentication = ({props}) => {
                                         </div>
 
                                         <div className="form-group m-5 m-md-3">
-                                            <label htmlFor="passwordConfirmedInput">Confirmer le mot de passe<span className="text-danger">*</span></label>
+                                            <label htmlFor="passwordConfirmedInput" className="rainbow3">Confirmer le mot de passe <span className="text-danger">*</span></label>
                                             <input type="text" className="form-control" id="passwordConfirmedInput" name="passwordConfirmed"
                                                    ref={register({required: true})}
                                                    placeholder=""/>
@@ -85,8 +83,11 @@ export const Authentication = ({props}) => {
                                         </div>
 
 
+                                        <div className="text-center m-4">
+                                            <a className="switch-auth-form" onClick={ () => {console.log("click")}}> J'ai déjà un compte ?</a>
+                                        </div>
                                         <div className="text-center">
-                                            <button className="btn purple-gradient">Enregistrer</button>
+                                            <button className="btn btn-lg purple-gradient">Enregistrer</button>
                                         </div>
                                     </form>
                                 </div>
