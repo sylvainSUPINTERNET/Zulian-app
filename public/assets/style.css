@@ -127,8 +127,7 @@ body {
     margin-right: auto;
 }
 
-
-.input-galaxy-green:hover {
+.input-galaxy-green:active {
     background: #262626;
     color: #00e640;
 }

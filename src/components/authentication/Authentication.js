@@ -3,6 +3,7 @@ import React, {useCallback, useEffect, useState} from "react";
 import Menu from "../Menu";
 import {useForm} from "react-hook-form";
 import img from './Spell_Arcane_PortalDarnassus.png'
+import {emailValidator} from "../../utils/validators";
 
 
 // full screen mobile : https://openlayers.org/en/latest/examples/index.html?q=full-screen
@@ -38,9 +39,15 @@ export const Authentication = ({props}) => {
                                         <div className="form-group m-5  m-md-3">
                                             <label htmlFor="emailInput" className="rainbow3">Email <span className="text-danger"> *</span></label>
                                             <input type="email" className="form-control black-background input-text-galaxy-green" id="emailInput" name="email"
-                                                   ref={register({required: true})}
+                                                   ref={ register({
+                                                       required: true,
+                                                       validate: async emailValue => {
+                                                          return await emailValidator(emailValue) === true ? '': 'Email non valide';
+                                                       }
+                                                    })
+                                                   }
                                                    placeholder=""/>
-                                            {errors.email && <span className="small text-danger">Champ email est obligatoire</span>}
+                                            {errors.email && <span className="small text-danger">{errors.email.message}</span>}
                                         </div>
 
                                         <div className="form-group m-5 m-md-3">
@@ -61,14 +68,14 @@ export const Authentication = ({props}) => {
 
                                         <div className="form-group m-5 m-md-3">
                                             <label htmlFor="phoneNumberInput" className="rainbow3">Numéro de téléphone</label>
-                                            <input type="text" className="form-control" id="phoneNumberInput" name="phoneNumber"
+                                            <input type="phone" className="form-control" id="phoneNumberInput" name="phoneNumber"
                                                    ref={register({required: false})}
                                                    placeholder="+33644501140"/>
                                         </div>
 
                                         <div className="form-group m-5 m-md-3">
                                             <label htmlFor="passwordInput" className="rainbow3">Mot de passe <span className="text-danger">*</span></label>
-                                            <input type="text" className="form-control" id="passwordInput" name="password"
+                                            <input type="password" className="form-control" id="passwordInput" name="password"
                                                    ref={register({required: true})}
                                                    placeholder=""/>
                                             {errors.password && <span className="small text-danger">Champ mot de passe est obligatoire</span>}
@@ -76,7 +83,7 @@ export const Authentication = ({props}) => {
 
                                         <div className="form-group m-5 m-md-3">
                                             <label htmlFor="passwordConfirmedInput" className="rainbow3">Confirmer le mot de passe <span className="text-danger">*</span></label>
-                                            <input type="text" className="form-control" id="passwordConfirmedInput" name="passwordConfirmed"
+                                            <input type="password" className="form-control" id="passwordConfirmedInput" name="passwordConfirmed"
                                                    ref={register({required: true})}
                                                    placeholder=""/>
                                             {errors.passwordConfirmed && <span className="small text-danger">Mot de passe ne correspond pas</span>}
