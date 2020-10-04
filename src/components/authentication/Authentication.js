@@ -4,6 +4,7 @@ import Menu from "../Menu";
 import {useForm} from "react-hook-form";
 import img from './Spell_Arcane_PortalDarnassus.png'
 import {emailValidator} from "../../utils/validators";
+import {auth} from '../../api/authentication/authentication';
 
 
 // full screen mobile : https://openlayers.org/en/latest/examples/index.html?q=full-screen
@@ -11,132 +12,216 @@ import {emailValidator} from "../../utils/validators";
 // https://dribbble.com/shots/3378512-Parking-search
 
 export const Authentication = ({props}) => {
-    const [msg, setMsg] = useState("");
 
-    const {register, handleSubmit, watch, errors} = useForm();
+    const formTitleRegister = "S'enregistrer";
+    const formTitleLogin = "Connection";
+
+    const [formTitle, setFormTitle] = useState(formTitleRegister);
+
+    let {register, handleSubmit, watch, errors} = useForm();
+
+    const resetFormErrorsMessage = (errors) => {
+        Object.keys(errors).map( key => {
+            errors[key] = null
+        })
+    };
 
 
-    const onSubmit = data => {
-        console.log(data);
+    const [isLoading, setIsLoading] = useState(false);
+    const onSubmit = async data => {
+        setIsLoading(true);
+
+        const payload = {
+            firstName: data.firstName,
+            lastName: data.lastName,
+            password: data.password,
+            email: data.email,
+            phoneNumber: data.phoneNumber
+        };
+
+        try {
+            const res  = await auth.register(payload);
+            const resJson = await res.json();
+            setTimeout( () => {
+                console.log("json _ ", resJson);
+                console.log(res.status);
+                if ( res.status !== 200 ) {
+                    setIsLoading(false);
+                }
+            }, 1000)
+
+        } catch (e) {
+            alert(e)
+        }
     };
 
     useEffect(() => {
-        setMsg("Authentication - ")
-    }, [msg]);
+        console.log("CHANGEMENT DETECTED");
+        console.log("> " , formTitle);
+        console.log("FORM ERRORS => ", errors)
+        resetFormErrorsMessage(errors);
 
-    return (<div>
+    }, [formTitle]); // trigger when formTitle change / if nothing trigger just once
 
-            <Menu></Menu>
-            {
-                <div className="container mt-4 text-white animated fadeInDown rounded mb-2 shadow p-4 rounded-circle" style={{   backgroundColor: 'rgba(140,80,255,0.2)'}}>
-                    <div className="row rounded-circle">
-                        <div className="col-md-3"></div>
-                        <div className="col-md-6 rounded-circle" style={{borderRadius: '15px', backgroundColor: 'rgba(255,80,255,0.2)'}}>
-                            <div className="row mb-5">
-                                <div className="col-md-12">
-                                    <img src={img} className="img-fluid center-image mt-4"/>
-                                    <form onSubmit={handleSubmit(onSubmit)}>
-                                        <div className="form-group m-5  m-md-3">
-                                            <label htmlFor="emailInput" className="rainbow3">Email <span className="text-danger"> *</span></label>
-                                            <input type="email" className="form-control black-background input-text-galaxy-green" id="emailInput" name="email"
-                                                   ref={ register({
-                                                       required: true,
-                                                       validate: async emailValue => {
-                                                          return await emailValidator(emailValue) === true ? '': 'Email non valide';
+    if (formTitle === formTitleRegister) {
+        return (<div>
+
+                <Menu></Menu>
+                {
+
+                    <div className="container mt-4 text-white animated fadeInDown rounded mb-2 shadow p-4 rounded-circle" style={{   backgroundColor: 'rgba(140,80,255,0.2)'}}>
+                        <div className="row rounded-circle shadow-lg">
+                            <div className="col-md-3"></div>
+                            <div className="col-md-6 rounded-circle" style={{borderRadius: '15px', backgroundColor: 'rgba(255,80,255,0.2)'}}>
+                                <div className="row mb-5">
+                                    <div className="col-md-12">
+                                        <form onSubmit={handleSubmit(onSubmit)} className="black-background p-4 rounded ">
+                                            <img src={img} className="img-fluid center-image mt-4 rounded-circle"/>
+
+                                            <div className="form-group m-5  m-md-3">
+                                                <label htmlFor="emailInput" className="input-color">Email <span className="text-danger"> *</span></label>
+                                                <input type="email" className="form-control" id="emailInput" name="email" disabled={isLoading}
+                                                       ref={ register({
+                                                           required: true,
+
+                                                           /*
+                                                           validate: async emailValue => {
+                                                               console.log(await emailValidator(emailValue) === true ? '': 'Email non valide')
+                                                              return await emailValidator(emailValue) === true ? '': 'Email non valide';
+                                                           }
+                                                           */
+                                                       })
                                                        }
-                                                    })
-                                                   }
-                                                   placeholder=""/>
-                                            {errors.email && <span className="small text-danger">{errors.email.message}</span>}
-                                        </div>
+                                                       placeholder=""/>
+                                                {errors.email && <span className="small text-danger">Email non valide</span>}
+                                            </div>
 
-                                        <div className="form-group m-5 m-md-3">
-                                            <label htmlFor="lastNameInput" className="rainbow3">Nom <span className="text-danger">*</span></label>
-                                            <input type="text" className="form-control" id="lastNameInput" name="lastName"
-                                                   ref={register({required: true})}
-                                                   placeholder=""/>
-                                            {errors.lastName && <span className="small text-danger">Champ nom est obligatoire</span>}
-                                        </div>
+                                            <div className="form-group m-5 m-md-3">
+                                                <label htmlFor="lastNameInput" className="input-color">Nom <span className="text-danger">*</span></label>
+                                                <input type="text" className="form-control" id="lastNameInput" name="lastName" disabled={isLoading}
+                                                       ref={register({required: true})}
+                                                       placeholder=""/>
+                                                {errors.lastName && <span className="small text-danger">Champ nom est obligatoire</span>}
+                                            </div>
 
-                                        <div className="form-group m-5 m-md-3">
-                                            <label htmlFor="firstNameInput" className="rainbow3">Prénom <span className="text-danger">*</span></label>
-                                            <input type="text" className="form-control" id="firstNameInput" name="firstName"
-                                                   ref={register({required: true})}
-                                                   placeholder=""/>
-                                            {errors.firstName && <span className="small text-danger">Champ prénom est obligatoire</span>}
-                                        </div>
+                                            <div className="form-group m-5 m-md-3">
+                                                <label htmlFor="firstNameInput" className="input-color">Prénom <span className="text-danger">*</span></label>
+                                                <input type="text" className="form-control" id="firstNameInput" name="firstName" disabled={isLoading}
+                                                       ref={register({required: true})}
+                                                       placeholder=""/>
+                                                {errors.firstName && <span className="small text-danger">Champ prénom est obligatoire</span>}
+                                            </div>
 
-                                        <div className="form-group m-5 m-md-3">
-                                            <label htmlFor="phoneNumberInput" className="rainbow3">Numéro de téléphone</label>
-                                            <input type="phone" className="form-control" id="phoneNumberInput" name="phoneNumber"
-                                                   ref={register({required: false})}
-                                                   placeholder="+33644501140"/>
-                                        </div>
+                                            <div className="form-group m-5 m-md-3">
+                                                <label htmlFor="phoneNumberInput" className="input-color">Numéro de téléphone</label>
+                                                <input type="phone" className="form-control" id="phoneNumberInput" name="phoneNumber" disabled={isLoading}
+                                                       ref={register({required: false})}
+                                                       placeholder="+33644501140"/>
+                                            </div>
 
-                                        <div className="form-group m-5 m-md-3">
-                                            <label htmlFor="passwordInput" className="rainbow3">Mot de passe <span className="text-danger">*</span></label>
-                                            <input type="password" className="form-control" id="passwordInput" name="password"
-                                                   ref={register({required: true})}
-                                                   placeholder=""/>
-                                            {errors.password && <span className="small text-danger">Champ mot de passe est obligatoire</span>}
-                                        </div>
+                                            <div className="form-group m-5 m-md-3">
+                                                <label htmlFor="passwordInput" className="input-color">Mot de passe <span className="text-danger">*</span></label>
+                                                <input type="password" className="form-control" id="passwordInput" name="password" disabled={isLoading}
+                                                       ref={register({required: true})}
+                                                       placeholder=""/>
+                                                {errors.password && <span className="small text-danger">Champ mot de passe est obligatoire</span>}
+                                            </div>
 
-                                        <div className="form-group m-5 m-md-3">
-                                            <label htmlFor="passwordConfirmedInput" className="rainbow3">Confirmer le mot de passe <span className="text-danger">*</span></label>
-                                            <input type="password" className="form-control" id="passwordConfirmedInput" name="passwordConfirmed"
-                                                   ref={register({required: true})}
-                                                   placeholder=""/>
-                                            {errors.passwordConfirmed && <span className="small text-danger">Mot de passe ne correspond pas</span>}
-                                        </div>
+                                            <div className="form-group m-5 m-md-3">
+                                                <label htmlFor="passwordConfirmedInput" className="input-color">Confirmer le mot de passe <span className="text-danger">*</span></label>
+                                                <input type="password" className="form-control" id="passwordConfirmedInput" name="passwordConfirmed" disabled={isLoading}
+                                                       ref={register({required: true})}
+                                                       placeholder=""/>
+                                                {errors.passwordConfirmed && <span className="small text-danger">Mot de passe ne correspond pas</span>}
+                                            </div>
 
 
-                                        <div className="text-center m-4">
-                                            <a className="switch-auth-form" onClick={ () => {console.log("click")}}> J'ai déjà un compte ?</a>
-                                        </div>
-                                        <div className="text-center">
-                                            <button className="btn btn-lg purple-gradient">Enregistrer</button>
-                                        </div>
-                                    </form>
+                                            <div className="text-center m-4">
+                                                <a className="" onClick={ () => {
+                                                    setFormTitle(formTitleLogin)
+                                                }}> J'ai déjà un compte ?</a>
+
+                                            </div>
+                                            <div className="text-center">
+
+                                                <button className={isLoading === true ? "btn btn-lg purple-gradient disabled":"btn btn-lg purple-gradient" }>Enregistrer
+                                                    <span className={isLoading === true ? "ml-2 spinner-border spinner-border-sm": "d-none" } role="status"
+                                                          aria-hidden="true"></span>
+                                                    <span className="sr-only">Loading...</span>
+                                                </button>
+                                            </div>
+                                        </form>
+                                    </div>
                                 </div>
                             </div>
+                            <div className="col-md-3"></div>
                         </div>
-                        <div className="col-md-3"></div>
                     </div>
-                </div>
-            }
-
-            {/*
-            <p>{msg} page</p>
-            <div className="container">
-                <div className="row align-items-start">
-                    <div className="col-md-3"></div>
-                    <div className="col-md-6 align-self-center">
-                        <from onSubmit={handleSubmit(onSubmit)}>
-                            <div className="form-group">
-                                <label htmlFor="exampleFormControlInput1">Nom d'utilisateur</label>
-                                <input type="email" className="form-control" id="exampleFormControlInput1"
-                                       placeholder="name@example.com"></input>
-                            </div>
-
-                            <div className="form-group">
-                                <label htmlFor="exampleFormControlInput1">Prénom</label>
-                                <input type="email" className="form-control" id="exampleFormControlInput1"
-                                       placeholder="name@example.com"></input>
-                            </div>
-
-                            <div className="form-group">
-                                <label htmlFor="exampleFormControlInput1">Email address</label>
-                                <input type="email" className="form-control" id="exampleFormControlInput1"
-                                       placeholder="name@example.com"></input>
-                            </div>
-                        </from>
-                    </div>
-                    <div className="col-md-3"></div>
-                </div>
+                }
             </div>
-            */}
+        );
+    } else {
+        return (<div>
+
+                <Menu></Menu>
+                {
+
+                    <div className="container mt-4 text-white animated fadeInDown rounded mb-2 shadow p-4 rounded-circle" style={{   backgroundColor: 'rgba(140,80,255,0.2)'}}>
+                        <div className="row rounded-circle shadow-lg">
+                            <div className="col-md-3"></div>
+                            <div className="col-md-6 rounded-circle" style={{borderRadius: '15px', backgroundColor: 'rgba(255,80,255,0.2)'}}>
+                                <div className="row mb-5">
+                                    <div className="col-md-12">
+                                        <form onSubmit={handleSubmit(onSubmit)} className="black-background p-4 rounded">
+                                            <img src={img} className="img-fluid center-image mt-4 rounded-circle"/>
+
+                                            <div className="form-group m-5  m-md-3">
+                                                <label htmlFor="emailInput" className="input-color">Email <span className="text-danger"> *</span></label>
+                                                <input type="email" className="form-control" id="emailLogin" name="emailLogin"
+                                                       ref={ register({
+                                                           required: true,
+
+                                                           /*
+                                                           validate: async emailValue => {
+                                                               console.log(await emailValidator(emailValue) === true ? '': 'Email non valide')
+                                                              return await emailValidator(emailValue) === true ? '': 'Email non valide';
+                                                           }
+                                                           */
+                                                       })
+                                                       }
+                                                       placeholder=""/>
+                                                {errors.emailLogin && <span className="small text-danger">Email non valide</span>}
+                                            </div>
+
+                                            <div className="form-group m-5 m-md-3">
+                                                <label htmlFor="passwordInput" className="input-color">Mot de passe <span className="text-danger">*</span></label>
+                                                <input type="passwordLogin" className="form-control" id="passwordInput" name="passwordLogin"
+                                                       ref={register({required: true})}
+                                                       placeholder=""/>
+                                                {errors.passwordLogin && <span className="small text-danger">Champ mot de passe est obligatoire</span>}
+                                            </div>
 
 
-        </div>
-    );
+
+                                            <div className="text-center m-4">
+                                                <a className="" onClick={ () => {
+                                                    setFormTitle(formTitleRegister)
+                                                }}> Pas de compte ?</a>
+
+                                            </div>
+                                            <div className="text-center">
+                                                <button className="btn btn-lg purple-gradient">Se connecter</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="col-md-3"></div>
+                        </div>
+                    </div>
+                }
+            </div>
+        );
+    }
+
 };
