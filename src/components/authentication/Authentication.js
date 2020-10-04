@@ -5,6 +5,7 @@ import {useForm} from "react-hook-form";
 import img from './Spell_Arcane_PortalDarnassus.png'
 import {emailValidator} from "../../utils/validators";
 import {auth} from '../../api/authentication/authentication';
+import Modal from "react-bootstrap/Modal";
 
 
 // full screen mobile : https://openlayers.org/en/latest/examples/index.html?q=full-screen
@@ -26,8 +27,16 @@ export const Authentication = ({props}) => {
         })
     };
 
+    const handleCloseErrorRegister = () => {
+        setShowErrorRegister(false)
+    };
+
 
     const [isLoading, setIsLoading] = useState(false);
+    const [showErrorRegister, setShowErrorRegister] = useState(false);
+    const [textErrorRegister, setTextErrorRegister] = useState(false);
+
+
     const onSubmit = async data => {
         setIsLoading(true);
 
@@ -43,10 +52,12 @@ export const Authentication = ({props}) => {
             const res  = await auth.register(payload);
             const resJson = await res.json();
             setTimeout( () => {
-                console.log("json _ ", resJson);
+                const {message} = resJson;
                 console.log(res.status);
                 if ( res.status !== 200 ) {
                     setIsLoading(false);
+                    setShowErrorRegister(true);
+                    setTextErrorRegister(message);
                 }
             }, 1000)
 
@@ -151,6 +162,15 @@ export const Authentication = ({props}) => {
                                                 </button>
                                             </div>
                                         </form>
+
+
+                                        <Modal show={showErrorRegister} onHide={handleCloseErrorRegister}>
+                                            <Modal.Header closeButton>
+                                                <Modal.Title>Enregistrement</Modal.Title>
+                                            </Modal.Header>
+                                            <Modal.Body className={"text-center"}> {textErrorRegister}</Modal.Body>
+                                        </Modal>
+
                                     </div>
                                 </div>
                             </div>
