@@ -5,7 +5,7 @@ import {useForm} from "react-hook-form";
 import img from './Spell_Arcane_PortalDarnassus.png'
 import {emailValidator} from "../../utils/validators";
 import {auth} from '../../api/authentication/authentication';
-import Modal from "react-bootstrap/Modal";
+import {Modal} from "react-bootstrap";
 
 
 // full screen mobile : https://openlayers.org/en/latest/examples/index.html?q=full-screen
@@ -18,6 +18,7 @@ export const Authentication = ({props}) => {
     const formTitleLogin = "Connection";
 
     const [formTitle, setFormTitle] = useState(formTitleRegister);
+    const [passwordInput, setPasswordInput] = useState("");
 
     let {register, handleSubmit, watch, errors} = useForm();
 
@@ -58,6 +59,9 @@ export const Authentication = ({props}) => {
                     setIsLoading(false);
                     setShowErrorRegister(true);
                     setTextErrorRegister(message);
+                } else {
+                    setIsLoading(false);
+                    setFormTitle(formTitleLogin)
                 }
             }, 1000)
 
@@ -86,7 +90,7 @@ export const Authentication = ({props}) => {
                             <div className="col-md-6 rounded-circle" style={{borderRadius: '15px', backgroundColor: 'rgba(255,80,255,0.2)'}}>
                                 <div className="row mb-5">
                                     <div className="col-md-12">
-                                        <form onSubmit={handleSubmit(onSubmit)} className="black-background p-4 rounded ">
+                                        <form onSubmit={handleSubmit(onSubmit)} className="witness p-4 rounded ">
                                             <img src={img} className="img-fluid center-image mt-4 rounded-circle"/>
 
                                             <div className="form-group m-5  m-md-3">
@@ -94,13 +98,9 @@ export const Authentication = ({props}) => {
                                                 <input type="email" className="form-control" id="emailInput" name="email" disabled={isLoading}
                                                        ref={ register({
                                                            required: true,
-
-                                                           /*
-                                                           validate: async emailValue => {
-                                                               console.log(await emailValidator(emailValue) === true ? '': 'Email non valide')
-                                                              return await emailValidator(emailValue) === true ? '': 'Email non valide';
+                                                           validate: emailValue => {
+                                                              return  emailValidator(emailValue) === true ? '': 'Email non valide';
                                                            }
-                                                           */
                                                        })
                                                        }
                                                        placeholder=""/>
@@ -133,15 +133,24 @@ export const Authentication = ({props}) => {
                                             <div className="form-group m-5 m-md-3">
                                                 <label htmlFor="passwordInput" className="input-color">Mot de passe <span className="text-danger">*</span></label>
                                                 <input type="password" className="form-control" id="passwordInput" name="password" disabled={isLoading}
-                                                       ref={register({required: true})}
+                                                       onChange={ passInput => {
+                                                           setPasswordInput(passInput.target.value)
+                                                       }}
+                                                       ref={register({required: true, minLength: 8,
+                                                       })}
                                                        placeholder=""/>
-                                                {errors.password && <span className="small text-danger">Champ mot de passe est obligatoire</span>}
+                                                {errors.password && <span className="small text-danger">8 caractères minimum</span>}
                                             </div>
 
                                             <div className="form-group m-5 m-md-3">
                                                 <label htmlFor="passwordConfirmedInput" className="input-color">Confirmer le mot de passe <span className="text-danger">*</span></label>
                                                 <input type="password" className="form-control" id="passwordConfirmedInput" name="passwordConfirmed" disabled={isLoading}
-                                                       ref={register({required: true})}
+                                                       ref={register({
+                                                           required: true,
+                                                           validate: (passwordConfirmedValue) => {
+                                                               return passwordConfirmedValue === passwordInput
+                                                           }, // returns true if valid
+                                                       })}
                                                        placeholder=""/>
                                                 {errors.passwordConfirmed && <span className="small text-danger">Mot de passe ne correspond pas</span>}
                                             </div>
@@ -164,7 +173,7 @@ export const Authentication = ({props}) => {
                                         </form>
 
 
-                                        <Modal show={showErrorRegister} onHide={handleCloseErrorRegister}>
+                                        <Modal show={showErrorRegister} onHide={handleCloseErrorRegister} contentClassName={'background-black'}>
                                             <Modal.Header closeButton>
                                                 <Modal.Title>Enregistrement</Modal.Title>
                                             </Modal.Header>
@@ -192,7 +201,7 @@ export const Authentication = ({props}) => {
                             <div className="col-md-6 rounded-circle" style={{borderRadius: '15px', backgroundColor: 'rgba(255,80,255,0.2)'}}>
                                 <div className="row mb-5">
                                     <div className="col-md-12">
-                                        <form onSubmit={handleSubmit(onSubmit)} className="black-background p-4 rounded">
+                                        <form onSubmit={handleSubmit(onSubmit)} className="witness p-4 rounded" >
                                             <img src={img} className="img-fluid center-image mt-4 rounded-circle"/>
 
                                             <div className="form-group m-5  m-md-3">
