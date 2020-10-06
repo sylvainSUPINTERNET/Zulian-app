@@ -17,6 +17,8 @@ export const Authentication = ({props}) => {
     const formTitleRegister = "S'enregistrer";
     const formTitleLogin = "Connection";
 
+    const [activeAccountMessage, setActiveAccountMessage] = useState(false);
+
     const [formTitle, setFormTitle] = useState(formTitleRegister);
     const [passwordInput, setPasswordInput] = useState("");
 
@@ -25,7 +27,7 @@ export const Authentication = ({props}) => {
     const resetFormErrorsMessage = (errors) => {
         Object.keys(errors).map( key => {
             errors[key] = null
-        })
+        });
     };
 
     const handleCloseErrorRegister = () => {
@@ -61,7 +63,8 @@ export const Authentication = ({props}) => {
                     setTextErrorRegister(message);
                 } else {
                     setIsLoading(false);
-                    setFormTitle(formTitleLogin)
+                    setFormTitle(formTitleLogin);
+                    setActiveAccountMessage(true);
                 }
             }, 1000)
 
@@ -98,9 +101,10 @@ export const Authentication = ({props}) => {
                                                 <input type="email" className="form-control" id="emailInput" name="email" disabled={isLoading}
                                                        ref={ register({
                                                            required: true,
+                                                           /*
                                                            validate: emailValue => {
                                                               return  emailValidator(emailValue) === true ? '': 'Email non valide';
-                                                           }
+                                                           }*/
                                                        })
                                                        }
                                                        placeholder=""/>
@@ -204,6 +208,9 @@ export const Authentication = ({props}) => {
                                         <form onSubmit={handleSubmit(onSubmit)} className="witness p-4 rounded" >
                                             <img src={img} className="img-fluid center-image mt-4 rounded-circle"/>
 
+                                            <div className="mt-5 mb-5 text-center">
+                                                <p className="text-light">Connectez vous pour activer votre compte !</p>
+                                            </div>
                                             <div className="form-group m-5  m-md-3">
                                                 <label htmlFor="emailInput" className="input-color">Email <span className="text-danger"> *</span></label>
                                                 <input type="email" className="form-control" id="emailLogin" name="emailLogin"
@@ -234,7 +241,8 @@ export const Authentication = ({props}) => {
 
                                             <div className="text-center m-4">
                                                 <a className="" onClick={ () => {
-                                                    setFormTitle(formTitleRegister)
+                                                    setFormTitle(formTitleRegister);
+                                                    setActiveAccountMessage(false);
                                                 }}> Pas de compte ?</a>
 
                                             </div>
