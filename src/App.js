@@ -69,7 +69,10 @@ function App() {
     let connected;  
     ws = new WebSocket(`ws://localhost:8080/api/${uuidv4()}`);
 
+
+    /*
     const [users, setUsers] = useState([]);
+
 
     const getUsers = async () => {
         const r = await fetch('http://localhost:9999/api/v1/auth/token', {credentials: 'include'});
@@ -80,12 +83,10 @@ function App() {
         const data = await resp.json();
         setUsers(data["users"])
 
-
-
-    };
+    };*/
 
     useEffect( () => {
-        getUsers();
+        //getUsers();
     }, []);
 
 
@@ -104,15 +105,7 @@ function App() {
                 <Card></Card>
                 <Card></Card>
                 <Card></Card>
-
-                <p><div>{JSON.stringify(users)}</div></p>
-                {
-                    users.map( u => {
-                        return <div className="card">
-                            <div className="card-title">{u.firstName} - {u.lastName}</div>
-                        </div>
-                    })
-                }
+                
             </main>
         </div>
     );
