@@ -72,7 +72,7 @@ function App() {
     const [users, setUsers] = useState([]);
 
     const getUsers = async () => {
-        const r = await fetch('http://localhost:9999/api/auth/token', {credentials: 'include'});
+        const r = await fetch('http://localhost:9999/api/v1/auth/token', {credentials: 'include'});
         const e = await r.json();
         console.log("access token -> ", e)
 

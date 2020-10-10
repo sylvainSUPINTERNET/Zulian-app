@@ -6,6 +6,8 @@ import img from './Spell_Arcane_PortalDarnassus.png'
 import {emailValidator} from "../../utils/validators";
 import {auth} from '../../api/authentication/authentication';
 import {Modal} from "react-bootstrap";
+import { useRouter, useParams, useLocation, useHistory, useRouteMatch } from 'react-router-dom';
+
 
 
 // full screen mobile : https://openlayers.org/en/latest/examples/index.html?q=full-screen
@@ -13,6 +15,10 @@ import {Modal} from "react-bootstrap";
 // https://dribbble.com/shots/3378512-Parking-search
 
 export const Authentication = ({props}) => {
+
+    const history = useHistory();
+
+
 
     const formTitleRegister = "S'enregistrer";
     const formTitleLogin = "Connection";
@@ -24,6 +30,7 @@ export const Authentication = ({props}) => {
 
     let {register, handleSubmit, watch, errors} = useForm();
 
+
     const resetFormErrorsMessage = (errors) => {
         Object.keys(errors).map( key => {
             errors[key] = null
@@ -34,42 +41,79 @@ export const Authentication = ({props}) => {
         setShowErrorRegister(false)
     };
 
+    const handleCloseErrorLogin = () => {
+        setShowErrorLogin(false)
+    };
 
     const [isLoading, setIsLoading] = useState(false);
     const [showErrorRegister, setShowErrorRegister] = useState(false);
     const [textErrorRegister, setTextErrorRegister] = useState(false);
 
 
+    const [isLoadingLogin, setIsLoadingLogin] = useState(false);
+    const [showErrorLogin, setShowErrorLogin] = useState(false);
+    const [textErrorLogin, setTextErrorLogin] = useState(false);
+
+
     const onSubmit = async data => {
-        setIsLoading(true);
+        if ( formTitle === formTitleLogin) {
+            setIsLoadingLogin(true);
 
-        const payload = {
-            firstName: data.firstName,
-            lastName: data.lastName,
-            password: data.password,
-            email: data.email,
-            phoneNumber: data.phoneNumber
-        };
+            const payload = {
+                password: data.passwordLogin,
+                email: data.emailLogin
+            };
 
-        try {
-            const res  = await auth.register(payload);
-            const resJson = await res.json();
-            setTimeout( () => {
-                const {message} = resJson;
-                console.log(res.status);
-                if ( res.status !== 200 ) {
-                    setIsLoading(false);
-                    setShowErrorRegister(true);
-                    setTextErrorRegister(message);
-                } else {
-                    setIsLoading(false);
-                    setFormTitle(formTitleLogin);
-                    setActiveAccountMessage(true);
-                }
-            }, 1000)
+            try {
+                const res  = await auth.login(payload);
+                const resJson = await res.json();
+                setTimeout( () => {
+                    const {message} = resJson;
 
-        } catch (e) {
-            alert(e)
+                    if ( res.status !== 200 ) {
+                        setIsLoadingLogin(false);
+                        setShowErrorLogin(true);
+                        setTextErrorLogin(message);
+                    } else {
+                        history.push("/map");
+                    }
+                }, 1000)
+
+            } catch (e) {
+                alert(e)
+            }
+
+        } else {
+            setIsLoading(true);
+
+            const payload = {
+                firstName: data.firstName,
+                lastName: data.lastName,
+                password: data.password,
+                email: data.email,
+                phoneNumber: data.phoneNumber
+            };
+
+            try {
+                const res  = await auth.register(payload);
+                const resJson = await res.json();
+                setTimeout( () => {
+                    const {message} = resJson;
+                    console.log(res.status);
+                    if ( res.status !== 200 ) {
+                        setIsLoading(false);
+                        setShowErrorRegister(true);
+                        setTextErrorRegister(message);
+                    } else {
+                        setIsLoading(false);
+                        setFormTitle(formTitleLogin);
+                        setActiveAccountMessage(true);
+                    }
+                }, 1000)
+
+            } catch (e) {
+                alert(e)
+            }
         }
     };
 
@@ -199,7 +243,7 @@ export const Authentication = ({props}) => {
                 <Menu></Menu>
                 {
 
-                    <div className="container mt-4 text-white animated fadeInDown rounded mb-2 shadow p-4 rounded-circle" style={{   backgroundColor: 'rgba(140,80,255,0.2)'}}>
+                    <div className="container mt-4 text-white animated fadeInDown rounded mb-2 shadow p-4 rounded-circle" style={{ backgroundColor: 'rgba(140,80,255,0.2)'}}>
                         <div className="row rounded-circle shadow-lg">
                             <div className="col-md-3"></div>
                             <div className="col-md-6 rounded-circle" style={{borderRadius: '15px', backgroundColor: 'rgba(255,80,255,0.2)'}}>
@@ -208,9 +252,12 @@ export const Authentication = ({props}) => {
                                         <form onSubmit={handleSubmit(onSubmit)} className="witness p-4 rounded" >
                                             <img src={img} className="img-fluid center-image mt-4 rounded-circle"/>
 
-                                            <div className="mt-5 mb-5 text-center">
-                                                <p className="text-light">Connectez vous pour activer votre compte !</p>
+                                            <div className={activeAccountMessage === true ?  'mt-5 mb-5 alert text-center purple-gradient' : 'd-none'}>
+                                                <p className="text-light">
+                                                    Connectez vous pour activer votre compte !
+                                                </p>
                                             </div>
+
                                             <div className="form-group m-5  m-md-3">
                                                 <label htmlFor="emailInput" className="input-color">Email <span className="text-danger"> *</span></label>
                                                 <input type="email" className="form-control" id="emailLogin" name="emailLogin"
@@ -231,7 +278,7 @@ export const Authentication = ({props}) => {
 
                                             <div className="form-group m-5 m-md-3">
                                                 <label htmlFor="passwordInput" className="input-color">Mot de passe <span className="text-danger">*</span></label>
-                                                <input type="passwordLogin" className="form-control" id="passwordInput" name="passwordLogin"
+                                                <input type="password" className="form-control" id="passwordInput" name="passwordLogin"
                                                        ref={register({required: true})}
                                                        placeholder=""/>
                                                 {errors.passwordLogin && <span className="small text-danger">Champ mot de passe est obligatoire</span>}
@@ -241,13 +288,20 @@ export const Authentication = ({props}) => {
 
                                             <div className="text-center m-4">
                                                 <a className="" onClick={ () => {
+                                                    setIsLoadingLogin(false);
+                                                    setIsLoading(false);
                                                     setFormTitle(formTitleRegister);
                                                     setActiveAccountMessage(false);
                                                 }}> Pas de compte ?</a>
 
                                             </div>
                                             <div className="text-center">
-                                                <button className="btn btn-lg purple-gradient">Se connecter</button>
+
+                                                <button className={isLoadingLogin === true ? "btn btn-lg purple-gradient disabled":"btn btn-lg purple-gradient" }>Connecter
+                                                    <span className={isLoadingLogin === true ? "ml-2 spinner-border spinner-border-sm": "d-none" } role="status"
+                                                          aria-hidden="true"></span>
+                                                    <span className="sr-only">Loading...</span>
+                                                </button>
                                             </div>
                                         </form>
                                     </div>
@@ -255,6 +309,14 @@ export const Authentication = ({props}) => {
                             </div>
                             <div className="col-md-3"></div>
                         </div>
+
+                        <Modal show={showErrorLogin} onHide={handleCloseErrorLogin} contentClassName={'background-black'}>
+                            <Modal.Header closeButton>
+                                <Modal.Title>Connection</Modal.Title>
+                            </Modal.Header>
+                            <Modal.Body className={"text-center"}> {textErrorLogin}</Modal.Body>
+                        </Modal>
+
                     </div>
                 }
             </div>
