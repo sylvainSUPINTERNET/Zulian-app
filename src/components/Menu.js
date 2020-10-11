@@ -21,8 +21,10 @@ const Menu = (props) => {
             <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
                 <div className="navbar-nav">
                     <a className="nav-item nav-link menu-nav-text" href="/">Accueil</a>
-                    <a className="nav-item nav-link menu-nav-text" href="#">Nos produits</a>
+                    <a className="nav-item nav-link menu-nav-text" href="/produits">Nos produits</a>
                     <a className="nav-item nav-link menu-nav-text" href="#">Compte</a>
+                    <a className="nav-item nav-link menu-nav-text" href="/dashboard">Dashboard</a>
+
                 </div>
             </div>
         </nav>

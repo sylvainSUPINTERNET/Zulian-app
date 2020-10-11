@@ -8,6 +8,7 @@ import Caroussel from "./components/caroussel/Caroussel";
 
 import {useSelector, useDispatch} from 'react-redux'
 import {increaseCounterAction} from "./redux/actions/actions";
+import {auth as authentication} from "./api/authentication/authentication";
 
 // https://gabrieltanner.org/blog/webrtc-video-broadcast
 
@@ -64,6 +65,21 @@ const Streaming = (props) => {
 
 function App() {
 
+    const o = async () => {
+        /*
+        const t = await fetch('http://localhost:4999/api/v1/auth/login');
+        const e = await t.json();
+        console.log(e)
+
+         */
+
+        const res = await authentication.verifyPermission("ROLE_USER");
+        console.log(res);
+        const jsonRes = await res.json();
+        console.log(jsonRes)
+    };
+
+
 
     let ws;
     let connected;  
@@ -87,6 +103,7 @@ function App() {
 
     useEffect( () => {
         //getUsers();
+        o();
     }, []);
 
 
@@ -105,7 +122,7 @@ function App() {
                 <Card></Card>
                 <Card></Card>
                 <Card></Card>
-                
+
             </main>
         </div>
     );

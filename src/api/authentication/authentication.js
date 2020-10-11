@@ -1,7 +1,7 @@
 import config from '../../config/api';
 
 const register = (payload) => {
-    return fetch(`${config.authApiUrl}/users`,{
+    return fetch(`${config.apiUrl}/users`,{
         method: 'post',
         headers: {
             'Accept': 'application/json',
@@ -12,7 +12,7 @@ const register = (payload) => {
 };
 
 const login = (payload) => {
-    return fetch(`${config.authApiUrl}/auth/token`,{
+    return fetch(`${config.apiUrl}/auth/token`,{
         method: 'post',
         credentials: 'include', // keep cookie (where the token is set at Read only and https safe)
         headers: {
@@ -23,7 +23,19 @@ const login = (payload) => {
     });
 };
 
+const verifyPermission = (roleTarget) => {
+    return fetch(`${config.apiUrl}/auth/verify/${roleTarget}`, {
+        method: 'get',
+        credentials: 'include',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        }
+    })
+};
+
 export const auth = {
     register,
-    login
+    login,
+    verifyPermission
 };

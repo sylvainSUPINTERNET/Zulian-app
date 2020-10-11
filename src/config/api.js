@@ -2,7 +2,7 @@
 
 
 const config = {
-    authApiUrl: 'http://localhost:9999/api/v1',
+    apiUrl: 'http://localhost:9999/api/v1',
 };
 
 export default config;
