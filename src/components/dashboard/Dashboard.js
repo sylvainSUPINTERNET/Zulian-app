@@ -1,9 +1,18 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import Menu from "../Menu";
 import Card from "../card/Card";
+import {auth as authentication} from "../../api/authentication/authentication";
+import {Redirect, useHistory} from "react-router-dom";
 
 
 export const Dashboard = (props) => {
+    const history = useHistory();
+
+    useEffect( () => {
+
+    }, []);
+
+
  return (
      <div className="">
          <header className="">
