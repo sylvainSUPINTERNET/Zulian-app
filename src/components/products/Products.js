@@ -1,9 +1,29 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 
 import Menu from "../Menu";
 import Card from "../card/Card";
+import {category} from "../../api/category/category";
+import {generateOptionFieldsList} from "../../utils/optionFields";
 
 export const Products = ( {} ) => {
+    const [categories, setCategories] = useState([]);
+
+    let  getCategories = async () => {
+        try {
+            const categoriesRes = await category.getCategories();
+            const categoriesData = await categoriesRes.json();
+
+            const {message, error} = categoriesData;
+            setCategories(message);
+        } catch (e) {
+            alert(e)
+        }
+    };
+
+    useEffect(  () => {
+            getCategories();
+    }, []);
+
     return (
         <div className="">
             <header className="">
@@ -17,10 +37,7 @@ export const Products = ( {} ) => {
                                 <label className="input-group-text" htmlFor="inputGroupSelect01">Catégorie</label>
                             </div>
                             <select className="custom-select" id="inputGroupSelect01">
-                                <option selected> - choisir une catégorie -</option>
-                                <option value="1">One</option>
-                                <option value="2">Two</option>
-                                <option value="3">Three</option>
+                                {generateOptionFieldsList(categories, "name", "name", "-- sélectionner une catégorie --")}
                             </select>
                         </div>
                     </div>

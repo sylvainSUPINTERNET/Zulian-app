@@ -21,7 +21,6 @@ export const Root = ( {store} ) => {
     const verifyRole = async (roleName) => {
         try {
             const resp = await authentication.verifyPermission(roleName);
-            console.log("res : ", resp.status === 200 ? <Dashboard/> : <Authentication/>)
             return resp.status === 200
         } catch (e) {
             return false
