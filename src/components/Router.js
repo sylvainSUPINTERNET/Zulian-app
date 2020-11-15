@@ -12,6 +12,7 @@ import {MapHome} from "./map/MapHome";
 import { Products } from "./products/Products";
 import {Dashboard} from "./dashboard/Dashboard";
 import {auth as authentication} from "../api/authentication/authentication";
+import {Realisation} from "../components/realisation/Realisation";
 
 
 
@@ -53,6 +54,7 @@ export const Root = ( {store} ) => {
                         return <Dashboard/>
                     }
                 }}/>
+                <Route exact path="/realisations" component={Realisation}/>
             </Router>
         </Provider>
     )
