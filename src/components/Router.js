@@ -10,11 +10,10 @@ import {Management} from '../components/management/Management';
 import {Authentication} from "./authentication/Authentication";
 import {MapHome} from "./map/MapHome";
 import { Products } from "./products/Products";
-import {Dashboard} from "./dashboard/Dashboard";
+import {CoinDashboard} from "./coinDashboard/CoinDashboard";
 import {auth as authentication} from "../api/authentication/authentication";
 import {Realisation} from "../components/realisation/Realisation";
-
-
+import {Dashboard} from "./dashboard/Dashboard";
 
 
 
@@ -55,6 +54,7 @@ export const Root = ( {store} ) => {
                     }
                 }}/>
                 <Route exact path="/realisations" component={Realisation}/>
+                <Route exact path="/coins" component={CoinDashboard}/>
             </Router>
         </Provider>
     )

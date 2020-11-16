@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 import Menu from "../Menu";
 import {ModelViewer} from "./3DModelViewer";
 
-import modelTest from "../../cleaned.gltf";
+import modelTest from "../../AnimatedMorphCube.glb";
 
 export const Realisation = () => {
     return (

@@ -25,6 +25,7 @@
     "react-router": "^5.2.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.1",
+    "react-three-fiber": "^5.2.1",
     "redux": "^4.0.5",
     "three": "^0.122.0"
   },

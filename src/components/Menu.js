@@ -25,6 +25,7 @@ const Menu = (props) => {
                     <a className="nav-item nav-link menu-nav-text" href="#">Compte</a>
                     <a className="nav-item nav-link menu-nav-text" href="/dashboard">Dashboard</a>
                     <a className="nav-item nav-link menu-nav-text" href="/realisations">Mes réalisations</a>
+                    <a className="nav-item nav-link menu-nav-text" href="/coins">Coins</a>
                 </div>
             </div>
         </nav>
