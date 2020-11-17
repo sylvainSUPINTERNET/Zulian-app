@@ -12,6 +12,9 @@ export const CoinDashboard = () => {
     let [listThick, setListThick] = useState([]);
 
 
+    let test = []
+
+
     useEffect(() => {
         console.log(ws);
     });
@@ -78,7 +81,19 @@ export const CoinDashboard = () => {
                 volume_24h,
                 volume_30d)
 
-            setListThick(pushBack(listThick, thickObj, 5));
+
+            setListThick(pushBack(listThick, thickObj, 5))
+
+
+            /*
+            if ( listThick.length > 5) {
+                console.log(listThick.pop())
+                setListThick([thickObj,...listThick])
+            } else {
+                setListThick([...listThick, thickObj])
+            }*/
+
+
         }
     }
 

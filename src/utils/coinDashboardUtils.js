@@ -7,15 +7,16 @@
  */
 export const pushBack = (thickList, thickerObj, sizeMax) => {
 
-    if ( thickList.length === sizeMax ) {
-        console.log("her");
-        thickList.splice(thickList.length - 1, 1);
-        thickList.push(thickerObj);
-        console.log(thickList)
-    } else {
-        thickList = [...thickList, thickerObj]
+    if (thickerObj.best_ask) { // check if best_ask from wss feed is not undefined, else ignore it
+        if ( thickList.length === sizeMax ) {
+            thickList.pop();
+            thickList = [thickerObj, ...thickList]
+        } else {
+            thickList = [...thickList, thickerObj]
+        }
     }
-    return thickList;
+
+    return thickList
 }
 
 
