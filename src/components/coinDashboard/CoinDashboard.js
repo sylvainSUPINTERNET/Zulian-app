@@ -4,9 +4,13 @@ import React, {useEffect, useState, useMemo} from "react";
 import Menu from "../Menu";
 import Thick from "../../api/CoinDashboard/Thick";
 import {pushBack} from "../../utils/coinDashboardUtils";
+import useMousePosition from "../mouseTracker";
 
 
 export const CoinDashboard = () => {
+    const { x, y } = useMousePosition();
+    const hasMovedCursor = typeof x === "number" && typeof y === "number";
+
 
     let [ws, setWs] = useState(new WebSocket('wss://ws-feed.pro.coinbase.com'));
     let [listThick, setListThick] = useState([]);
@@ -40,6 +44,13 @@ export const CoinDashboard = () => {
 
 
     ws.onmessage = async msg => {
+
+        /*
+        const r = await fetch('http://localhost:8080/api/v1/products');
+        console.log(await r.json());
+
+         */
+
         let thick = JSON.parse(msg.data);
 
         let hasOneValueUndefined = Object.values(thick).filter( th => typeof th === "undefined");
@@ -104,6 +115,11 @@ export const CoinDashboard = () => {
                 <Menu activeTab=""/>
             </header>
             <main className="container witness mb-4">
+                <h1>
+                    {hasMovedCursor
+                        ? `Your cursor is at ${x}, ${y}.`
+                        : "Move your mouse around."}
+                </h1>
                 <div className="row">
                     <ul>
 
@@ -122,6 +138,7 @@ export const CoinDashboard = () => {
 
                     </ul>
                 </div>
+
             </main>
         </div>
 
