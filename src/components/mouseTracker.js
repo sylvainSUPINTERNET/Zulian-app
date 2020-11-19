@@ -5,8 +5,23 @@ const useMousePosition = () => {
 
     const updateMousePosition = ev => {
         setMousePosition({ x: ev.clientX, y: ev.clientY });
-        let test = document.createElement("div").setAttribute("id","mouseTrackerTorch")
-        document.body.appendChild(test)
+        console.log(window.pageXOffset)
+        let torch = document.createElement("div");
+        torch.setAttribute("id","mouseTrackerTorch")
+        torch.style.position = "absolute";
+        torch.style.width = '20px';
+        torch.style.height = '20px';
+        torch.style.left = ev.clientX + 'px';
+        torch.style.top = ev.clientY + 'px';
+        torch.style.backgroundColor = '#00ff00';
+        torch.style.borderRadius = "50%";
+        if ( document.getElementById("mouseTrackerTorch") === null ) {
+            document.body.appendChild(torch);
+        } else {
+            document.body.removeChild(document.getElementById("mouseTrackerTorch"));
+            document.body.appendChild(torch);
+        }
+
 
     };
 
