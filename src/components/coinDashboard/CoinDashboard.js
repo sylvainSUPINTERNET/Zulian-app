@@ -5,7 +5,7 @@ import Menu from "../Menu";
 import Thick from "../../api/CoinDashboard/Thick";
 import {pushBack} from "../../utils/coinDashboardUtils";
 import useMousePosition from "../mouseTracker";
-
+import config from "../../config/api";
 
 export const CoinDashboard = () => {
     let [userLocalisationData, setUserLocalisationData] = useState({});
@@ -26,7 +26,10 @@ export const CoinDashboard = () => {
     let test = []
 
 
+    const ws = new WebSocket(config.wsUrl)
+
     useEffect(() => {
+
         navigator.geolocation.getCurrentPosition( async (success) => {
             const getUserLocalisationInfos = await fetch (`http://nominatim.openstreetmap.org/reverse?format=json&lat=${success.coords.latitude}&lon=${success.coords.longitude}&zoom=18&addressdetails=1`)
             const jsonUserInfosLocalisation = await getUserLocalisationInfos.json();
@@ -42,11 +45,30 @@ export const CoinDashboard = () => {
                     town
                 }
             );
+            ws.send(JSON.stringify({
+                country,
+                country_code,
+                county,
+                municipality,
+                postcode,
+                state,
+                town
+            }));
         }, (err) => {
 
             })
         //console.log(ws);
     }, []);
+
+    ws.onopen = (openEv) => {}
+
+    ws.onmessage = (msgEv) => {
+        console.log("message", msgEv)
+    }
+
+    ws.onerror = (errEv) => {
+        console.log("error")
+    }
 
     /*
     ws.onopen = () => {
