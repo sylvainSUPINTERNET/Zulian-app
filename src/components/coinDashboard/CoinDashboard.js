@@ -8,10 +8,15 @@ import useMousePosition from "../mouseTracker";
 
 
 export const CoinDashboard = () => {
+    let [userLocalisationData, setUserLocalisationData] = useState({});
+
+    let [bi, setTest] = useState("salut");
+
     let useMousePositionResponse = useMousePosition();
     const { x, y } = useMousePositionResponse[0];
-    const matrixMove = useMousePositionResponse[1];
+    //const matrixMove = useMousePositionResponse[1];
     const hasMovedCursor = typeof x === "number" && typeof y === "number";
+
 
 
     //let [ws, setWs] = useState(new WebSocket('wss://ws-feed.pro.coinbase.com'));
@@ -22,8 +27,26 @@ export const CoinDashboard = () => {
 
 
     useEffect(() => {
+        navigator.geolocation.getCurrentPosition( async (success) => {
+            const getUserLocalisationInfos = await fetch (`http://nominatim.openstreetmap.org/reverse?format=json&lat=${success.coords.latitude}&lon=${success.coords.longitude}&zoom=18&addressdetails=1`)
+            const jsonUserInfosLocalisation = await getUserLocalisationInfos.json();
+            const { country, country_code, county, municipality, postcode, state, town } = jsonUserInfosLocalisation.address;
+            setUserLocalisationData(
+                {
+                    country,
+                    country_code,
+                    county,
+                    municipality,
+                    postcode,
+                    state,
+                    town
+                }
+            );
+        }, (err) => {
+
+            })
         //console.log(ws);
-    });
+    }, []);
 
     /*
     ws.onopen = () => {
@@ -35,6 +58,8 @@ export const CoinDashboard = () => {
             ],
             "channels": [
                 {
+
+
                     "name": "ticker",
                     "product_ids": [
                         "ETH-BTC",
@@ -116,12 +141,33 @@ export const CoinDashboard = () => {
         }
         */
 
+    let displayUserLocalisationInformations = () => {
+        if ( Object.values(userLocalisationData).length > 0 ) {
+            return (
+                <div>
+                    {
+                        Object.keys(userLocalisationData).map( key => {
+                            return <pre className="black-background">{key} : {userLocalisationData[key]}</pre>
+                        })
+                    }
+                </div>
+            )
+        } else {
+            return (
+                <div>
+                    <p> loading user info ...</p>
+                </div>
+            )
+        }
+    }
 
     return (
         <div className="">
             <header className="">
                 <Menu activeTab=""/>
             </header>
+            { displayUserLocalisationInformations() }
+
             <main className="container witness mb-4">
                 <h1>
                     {hasMovedCursor

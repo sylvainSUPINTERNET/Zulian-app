@@ -7,8 +7,10 @@ const useMousePosition = () => {
     const updateMousePosition = ev => {
         setMousePosition({x: ev.clientX, y: ev.clientY});
 
+        /*
         pathMatrix.push([ev.clientX, ev.clientY]);
         setPathMatrix(pathMatrix);
+         */
 
         let torch = document.createElement("div");
         torch.setAttribute("id", "mouseTrackerTorch")
