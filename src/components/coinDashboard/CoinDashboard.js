@@ -8,11 +8,13 @@ import useMousePosition from "../mouseTracker";
 
 
 export const CoinDashboard = () => {
-    const { x, y } = useMousePosition();
+    let useMousePositionResponse = useMousePosition();
+    const { x, y } = useMousePositionResponse[0];
+    const matrixMove = useMousePositionResponse[1];
     const hasMovedCursor = typeof x === "number" && typeof y === "number";
 
 
-    let [ws, setWs] = useState(new WebSocket('wss://ws-feed.pro.coinbase.com'));
+    //let [ws, setWs] = useState(new WebSocket('wss://ws-feed.pro.coinbase.com'));
     let [listThick, setListThick] = useState([]);
 
 
@@ -20,9 +22,10 @@ export const CoinDashboard = () => {
 
 
     useEffect(() => {
-        console.log(ws);
+        //console.log(ws);
     });
 
+    /*
     ws.onopen = () => {
         ws.send(JSON.stringify({
             "type": "subscribe",
@@ -40,9 +43,10 @@ export const CoinDashboard = () => {
                 }
             ]
         }));
-    }
+    }*/
 
 
+    /*
     ws.onmessage = async msg => {
 
         /*
@@ -51,6 +55,7 @@ export const CoinDashboard = () => {
 
          */
 
+        /*
         let thick = JSON.parse(msg.data);
 
         let hasOneValueUndefined = Object.values(thick).filter( th => typeof th === "undefined");
@@ -95,6 +100,8 @@ export const CoinDashboard = () => {
 
             setListThick(pushBack(listThick, thickObj, 5))
 
+         */
+
 
             /*
             if ( listThick.length > 5) {
@@ -105,8 +112,9 @@ export const CoinDashboard = () => {
             }*/
 
 
+    /*
         }
-    }
+        */
 
 
     return (
@@ -123,6 +131,7 @@ export const CoinDashboard = () => {
                 <div className="row">
                     <ul>
 
+                        {/*
                         {
                             listThick.map(thick => {
                                 if ( thick ) {
@@ -134,7 +143,7 @@ export const CoinDashboard = () => {
                                 }
                             })
 
-                        }
+                        }*/}
 
                     </ul>
                 </div>
