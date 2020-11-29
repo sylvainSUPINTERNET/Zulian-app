@@ -2,7 +2,7 @@
 
 import React, {useEffect} from "react";
 import PropTypes from 'prop-types'
-import { BrowserRouter as Router, Route, Redirect, useHistory } from 'react-router-dom'
+import { BrowserRouter as Router, Route, Redirect, useHistory, useLocation  } from 'react-router-dom'
 import { Provider } from 'react-redux'
 
 import App from "../App";

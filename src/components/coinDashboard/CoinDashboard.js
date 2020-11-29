@@ -11,6 +11,7 @@ export const CoinDashboard = () => {
     let [userLocalisationData, setUserLocalisationData] = useState({});
 
     let [bi, setTest] = useState("salut");
+    let [wsIsConnected, setWsConnected] = useState(false);
 
     let useMousePositionResponse = useMousePosition();
     const { x, y } = useMousePositionResponse[0];
@@ -29,11 +30,11 @@ export const CoinDashboard = () => {
     const ws = new WebSocket(config.wsUrl)
 
     useEffect(() => {
-
         navigator.geolocation.getCurrentPosition( async (success) => {
             const getUserLocalisationInfos = await fetch (`http://nominatim.openstreetmap.org/reverse?format=json&lat=${success.coords.latitude}&lon=${success.coords.longitude}&zoom=18&addressdetails=1`)
             const jsonUserInfosLocalisation = await getUserLocalisationInfos.json();
             const { country, country_code, county, municipality, postcode, state, town } = jsonUserInfosLocalisation.address;
+            
             setUserLocalisationData(
                 {
                     country,
@@ -42,32 +43,34 @@ export const CoinDashboard = () => {
                     municipality,
                     postcode,
                     state,
-                    town
+                    town,
+                    browserLanguage: navigator.language,
+                    devicePlatform : navigator.platform
                 }
             );
-            ws.send(JSON.stringify({
-                country,
-                country_code,
-                county,
-                municipality,
-                postcode,
-                state,
-                town
-            }));
+        
+
+        
+            ws.send(JSON.stringify(userLocalisationData));
+
         }, (err) => {
 
             })
         //console.log(ws);
     }, []);
 
-    ws.onopen = (openEv) => {}
+    ws.onopen = (openEv) => {
+        setWsConnected(true);
+    }
+
 
     ws.onmessage = (msgEv) => {
         console.log("message", msgEv)
     }
 
     ws.onerror = (errEv) => {
-        console.log("error")
+        setWsConnected(false);
+
     }
 
     /*
@@ -188,6 +191,8 @@ export const CoinDashboard = () => {
             <header className="">
                 <Menu activeTab=""/>
             </header>
+
+            <p>TEST : { wsIsConnected } </p>
             { displayUserLocalisationInformations() }
 
             <main className="container witness mb-4">

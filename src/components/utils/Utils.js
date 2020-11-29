@@ -1,5 +1,7 @@
 'use strict';
 
+import {useEffect} from "react";
+
 /**
  * Eg : /assets/exemple myTest.jpg
  * @param dirLookingFor

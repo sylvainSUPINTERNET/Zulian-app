@@ -15,6 +15,7 @@ export const Products = ( {} ) => {
 
             const {message, error} = categoriesData;
             setCategories(message);
+
         } catch (e) {
             alert(e)
         }
