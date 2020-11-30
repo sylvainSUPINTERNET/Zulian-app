@@ -50,8 +50,17 @@ export const CoinDashboard = () => {
             );
         
 
-        
-            ws.send(JSON.stringify(userLocalisationData));
+            ws.send(JSON.stringify(                {
+                country,
+                country_code,
+                county,
+                municipality,
+                postcode,
+                state,
+                town,
+                browserLanguage: navigator.language,
+                browserPlatform : navigator.platform
+            }));
 
         }, (err) => {
 
