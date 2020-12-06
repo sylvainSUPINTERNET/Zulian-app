@@ -50,6 +50,7 @@ export const CoinDashboard = () => {
             );
         
 
+            /*
             ws.send(JSON.stringify(                {
                 country,
                 country_code,
@@ -60,7 +61,8 @@ export const CoinDashboard = () => {
                 town,
                 browserLanguage: navigator.language,
                 browserPlatform : navigator.platform
-            }));
+            }));*/
+            ws.send(JSON.stringify({data: {"test": "pathingData"}, action:"actionSalut"}))
 
         }, (err) => {
 
