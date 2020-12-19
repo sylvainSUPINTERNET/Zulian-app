@@ -62,7 +62,15 @@ export const CoinDashboard = () => {
                 browserLanguage: navigator.language,
                 browserPlatform : navigator.platform
             }));*/
-            ws.send(JSON.stringify({data: {"test": "pathingData"}, action:"actionSalut"}))
+            ws.send(JSON.stringify({data: { country,
+                country_code,
+                county,
+                municipality,
+                postcode,
+                state,
+                town,
+                browserLanguage: navigator.language,
+                browserPlatform : navigator.platform }, action:"CREATE_VISITOR"}))
 
         }, (err) => {
 

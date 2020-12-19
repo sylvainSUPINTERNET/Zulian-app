@@ -47,11 +47,14 @@ export const Root = ( {store} ) => {
                 <Route exact path="/map" component={MapHome}/>
                 <Route exact path="/produits" component={Products}/>
                 <Route exact path="/dashboard" render={ props => {
+                    // TODO disable for dev purpose
+                    /*
                     if (!isSuperAdmin) {
                         return <Redirect to={"/authentication"}/>
                     } else {
                         return <Dashboard/>
-                    }
+                    }*/
+                    return <Dashboard/>;
                 }}/>
                 <Route exact path="/realisations" component={Realisation}/>
                 <Route exact path="/coins" component={CoinDashboard}/>
