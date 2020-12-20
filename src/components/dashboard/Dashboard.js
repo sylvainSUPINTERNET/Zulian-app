@@ -38,8 +38,8 @@ export const Dashboard = (props) => {
          <main className="container-fluid witness mb-4">
              <div className="row black-background mt-4">
                  <div className="col-md-6">
-                     <div className="card m-3 rainbow3 shadow p-3 mb-5 rounded" style={{"border" : "4mm ridge rgba(170, 50, 220, .6)"}}>
-                         <div className="card-title m-3">Visitors registered</div>
+                     <div className="card m-3 rainbow3 shadow p-3 mb-5 rounded rainbow-box" >
+                         <div className="card-title m-3 text-center text-lg">Visitors registered</div>
                          <div className="overflow-auto card-body">
                             <VisitorList page={page} size={size} filter={filter}/>
                          </div>
