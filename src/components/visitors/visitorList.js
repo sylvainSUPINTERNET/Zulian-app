@@ -1,6 +1,13 @@
 import React, {useEffect} from "react";
 import {visitor} from "../../api/visitors/visitors";
-import { AccessAlarm, ThreeDRotation } from '@material-ui/icons';
+import {
+    AccessAlarm, DevicesTwoTone, Language, LanguageTwoTone,
+    LocationCityTwoTone,
+    LocationOn,
+    LocationOnTwoTone,
+    OutlinedFlagTwoTone,
+    ThreeDRotation
+} from '@material-ui/icons';
 import Card from "../card/Card";
 
 
@@ -8,6 +15,12 @@ export const VisitorList = (props) => {
     let [visitors, setVisitors] = React.useState([]);
     let [progressBarValue, setProgressBarValue] = React.useState(0);
     let [visitorIsLoaded, setVisitorIsLoaded] = React.useState(false);
+
+    // TODO :
+    // - Add WS support
+    // - Change event server side, to received properly notification whe nnew user is added
+    // - Popup for users added ? => no
+
 
     useEffect( () => {
 
@@ -65,9 +78,41 @@ export const VisitorList = (props) => {
                 {
                     visitors.map( visitor => {
                         return    <div className="shadow p-3 card mt-3 text-white rainbow-box" style={{"background": "#000000"}}>
-                            <div className="card-body">
-                                <h4 className="card-title rainbow3">{visitor.id}</h4>
-                                <p className="card-text text-white text-justify">{visitor.country}</p>
+                            <div className="card-body rainbow3">
+                                <code>{JSON.stringify(visitor)}</code>
+                                <h4 className="card-title">{visitor.id}</h4>
+                                <div className="card-text text-white text-justify">
+                                    <p>
+                                        <OutlinedFlagTwoTone style={{"color": "#BE90D4"}} className="mr-2"/>
+                                        {visitor.country} - {visitor.countryCode}
+                                    </p>
+                                </div>
+                                <div className="card-text text-white text-justify">
+                                    <p>
+                                        <LocationOnTwoTone style={{"color": "#BE90D4"}} className="mr-2"/>
+                                        {visitor.state} - {visitor.town} - {visitor.postcode}
+                                    </p>
+                                </div>
+                                <div className="card-text text-white text-justify">
+                                    <p>
+                                        <LocationCityTwoTone style={{"color": "#BE90D4"}} className="mr-2"/>
+                                        {visitor.county} - {visitor.municipality} - {visitor.postcode}
+                                    </p>
+                                </div>
+                                <hr className={"bg-danger"}></hr>
+                                <h5>Browser infos</h5>
+                                <div className="card-text text-white text-justify">
+                                    <p>
+                                        <LanguageTwoTone style={{"color": "#BE90D4"}} className="mr-2"/>
+                                        {visitor.browserLanguage}
+                                    </p>
+                                </div>
+                                <div className="card-text text-white text-justify">
+                                    <p>
+                                        <DevicesTwoTone style={{"color": "#BE90D4"}} className="mr-2"/>
+                                        {visitor.browserPlatform}
+                                    </p>
+                                </div>
                             </div>
                         </div>
                     })

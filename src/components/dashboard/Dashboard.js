@@ -4,6 +4,7 @@ import Card from "../card/Card";
 import {auth as authentication} from "../../api/authentication/authentication";
 import {Redirect, useHistory} from "react-router-dom";
 import {VisitorList} from "../visitors/visitorList";
+import {People} from "@material-ui/icons";
 
 export const Dashboard = (props) => {
     const history = useHistory();
@@ -33,13 +34,15 @@ export const Dashboard = (props) => {
          <button onClick={ () => {
              setPage(page + 1);
          }}>
-             test {page}
+             change page {page}
          </button>
          <main className="container-fluid witness mb-4">
              <div className="row black-background mt-4">
                  <div className="col-md-6">
                      <div className="card m-3 rainbow3 shadow p-3 mb-5 rounded rainbow-box" >
-                         <div className="card-title m-3 text-center text-lg">Visitors registered</div>
+                         <h3 className="card-title m-3 text-lg">
+                             <People className="mr-2" style={{color: '#BE90D4'}}></People>
+                             Visitors registered</h3>
                          <div className="overflow-auto card-body">
                             <VisitorList page={page} size={size} filter={filter}/>
                          </div>

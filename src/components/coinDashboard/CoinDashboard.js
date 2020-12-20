@@ -34,7 +34,6 @@ export const CoinDashboard = () => {
             const getUserLocalisationInfos = await fetch (`http://nominatim.openstreetmap.org/reverse?format=json&lat=${success.coords.latitude}&lon=${success.coords.longitude}&zoom=18&addressdetails=1`)
             const jsonUserInfosLocalisation = await getUserLocalisationInfos.json();
             const { country, country_code, county, municipality, postcode, state, town } = jsonUserInfosLocalisation.address;
-            
             setUserLocalisationData(
                 {
                     country,
@@ -45,7 +44,7 @@ export const CoinDashboard = () => {
                     state,
                     town,
                     browserLanguage: navigator.language,
-                    devicePlatform : navigator.platform
+                    browserPlatform : navigator.platform
                 }
             );
         
@@ -63,10 +62,10 @@ export const CoinDashboard = () => {
                 browserPlatform : navigator.platform
             }));*/
             ws.send(JSON.stringify({data: { country,
-                country_code,
+                countryCode: country_code,
                 county,
                 municipality,
-                postcode,
+                postCode: postcode,
                 state,
                 town,
                 browserLanguage: navigator.language,
