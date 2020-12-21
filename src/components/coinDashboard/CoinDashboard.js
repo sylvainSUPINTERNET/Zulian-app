@@ -6,30 +6,38 @@ import Thick from "../../api/CoinDashboard/Thick";
 import {pushBack} from "../../utils/coinDashboardUtils";
 import useMousePosition from "../mouseTracker";
 import config from "../../config/api";
+import {getWsConnection} from "../ws/ws";
 
 export const CoinDashboard = () => {
     let [userLocalisationData, setUserLocalisationData] = useState({});
 
-    let [bi, setTest] = useState("salut");
+    //let [bi, setTest] = useState("salut");
     let [wsIsConnected, setWsConnected] = useState(false);
 
-    let useMousePositionResponse = useMousePosition();
-    const { x, y } = useMousePositionResponse[0];
+    //let useMousePositionResponse = useMousePosition();
+    //const { x, y } = useMousePositionResponse[0];
     //const matrixMove = useMousePositionResponse[1];
-    const hasMovedCursor = typeof x === "number" && typeof y === "number";
+    //const hasMovedCursor = typeof x === "number" && typeof y === "number";
 
-
-
-    //let [ws, setWs] = useState(new WebSocket('wss://ws-feed.pro.coinbase.com'));
-    let [listThick, setListThick] = useState([]);
-
-
-    let test = []
-
-
-    const ws = new WebSocket(config.wsUrl)
+    // TODO make only one connection for app
+    const ws = getWsConnection();
 
     useEffect(() => {
+        ws.onopen = (openEv) => {
+            console.log("call ahow many times ?")
+            setWsConnected(true);
+        }
+
+
+        ws.onmessage = (msgEv) => {
+            console.log("message", msgEv)
+        }
+
+        ws.onerror = (errEv) => {
+            setWsConnected(false);
+
+        }
+
         navigator.geolocation.getCurrentPosition( async (success) => {
             const getUserLocalisationInfos = await fetch (`http://nominatim.openstreetmap.org/reverse?format=json&lat=${success.coords.latitude}&lon=${success.coords.longitude}&zoom=18&addressdetails=1`)
             const jsonUserInfosLocalisation = await getUserLocalisationInfos.json();
@@ -47,20 +55,6 @@ export const CoinDashboard = () => {
                     browserPlatform : navigator.platform
                 }
             );
-        
-
-            /*
-            ws.send(JSON.stringify(                {
-                country,
-                country_code,
-                county,
-                municipality,
-                postcode,
-                state,
-                town,
-                browserLanguage: navigator.language,
-                browserPlatform : navigator.platform
-            }));*/
             ws.send(JSON.stringify({data: { country,
                 countryCode: country_code,
                 county,
@@ -74,22 +68,8 @@ export const CoinDashboard = () => {
         }, (err) => {
 
             })
-        //console.log(ws);
     }, []);
 
-    ws.onopen = (openEv) => {
-        setWsConnected(true);
-    }
-
-
-    ws.onmessage = (msgEv) => {
-        console.log("message", msgEv)
-    }
-
-    ws.onerror = (errEv) => {
-        setWsConnected(false);
-
-    }
 
     /*
     ws.onopen = () => {
@@ -214,11 +194,16 @@ export const CoinDashboard = () => {
             { displayUserLocalisationInformations() }
 
             <main className="container witness mb-4">
-                <h1>
+                {
+                    /*
+                                    <h1>
                     {hasMovedCursor
                         ? `Your cursor is at ${x}, ${y}.`
                         : "Move your mouse around."}
                 </h1>
+                     */
+                }
+
                 <div className="row">
                     <ul>
 

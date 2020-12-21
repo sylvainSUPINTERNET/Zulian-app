@@ -79,7 +79,6 @@ export const VisitorList = (props) => {
                     visitors.map( visitor => {
                         return    <div className="shadow p-3 card mt-3 text-white rainbow-box" style={{"background": "#000000"}}>
                             <div className="card-body rainbow3">
-                                <code>{JSON.stringify(visitor)}</code>
                                 <h4 className="card-title">{visitor.id}</h4>
                                 <div className="card-text text-white text-justify">
                                     <p>
