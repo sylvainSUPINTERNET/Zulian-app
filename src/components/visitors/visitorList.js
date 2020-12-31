@@ -9,12 +9,22 @@ import {
     ThreeDRotation
 } from '@material-ui/icons';
 import Card from "../card/Card";
+import {Pagination} from "../pagination/pagination";
 
 
 export const VisitorList = (props) => {
     let [visitors, setVisitors] = React.useState([]);
     let [progressBarValue, setProgressBarValue] = React.useState(0);
     let [visitorIsLoaded, setVisitorIsLoaded] = React.useState(false);
+    let [paginationInfo, setPaginationInfos] = React.useState({
+        totalPages: null,
+        totalElements: null,
+        pageSize: null,
+        pageNumber: null
+    })
+
+    let [visitorsEtag, setVisitorsEtag] = React.useState(null);
+
 
     // TODO :
     // - Add WS support
@@ -23,18 +33,26 @@ export const VisitorList = (props) => {
 
 
     useEffect( () => {
-
-        const getVisitors = async (page, size, filter) => {
+        const getVisitors = async (page, size, filter, visitorsEtag) => {
             for (let x =0; x <= 100; x++) {
-                
                 setTimeout( async() => {
                     setProgressBarValue(x);
 
                     if ( x === 100 ) {
                         try {
-                            const resp = await visitor.getVisitors(page, size, filter);
+                            const resp = await visitor.getVisitors(page, size, filter, visitorsEtag);
+                            setVisitorsEtag(resp.headers.get("ETag"));
                             const jsonData = await resp.json();
                             setVisitors(jsonData.content);
+                            setPaginationInfos(
+                                {
+                                    totalPages: jsonData.totalPages,
+                                    totalElements: jsonData.totalElements,
+                                    pageSize : jsonData.pageable.pageSize,
+                                    pageNumber: jsonData.pageable.pageNumber
+                                }
+                            )
+
                             setTimeout( () => {
                                 setVisitorIsLoaded(true);
                             }, 1500)
@@ -51,12 +69,14 @@ export const VisitorList = (props) => {
         }
 
         const {size, page, filter} = props;
-        getVisitors(page,size, filter);
+        getVisitors(page,size, filter, visitorsEtag);
 
         //stuff that happens upon initial render
         ///and subsequent re-renders
         //e.g. make a fetch request, open a socket connection
         return () => {
+            setVisitorIsLoaded(false);
+
             //stuff that happens when the component unmounts
             //e.g. close socket connection
         }
@@ -66,6 +86,11 @@ export const VisitorList = (props) => {
     return (
         <div className="">
             <div className="">
+                <Pagination totalPages={paginationInfo.totalPages}
+                            totalElements={paginationInfo.totalElements}
+                            pageSize={paginationInfo.pageSize}
+                            pageNumber={paginationInfo.pageNumber}/>
+
                 <div className={visitorIsLoaded === true ? "d-none" : "progress"}>
                     <div className={"progress-bar progress-bar-striped progress-bar-animated witness"} role="progressbar"
                          aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style={{"width": progressBarValue + "%"}}>
@@ -74,12 +99,14 @@ export const VisitorList = (props) => {
                 </div>
             </div>
 
+
+
             <div className="">
                 {
                     visitors.map( visitor => {
                         return    <div className="shadow p-3 card mt-3 text-white rainbow-box" style={{"background": "#000000"}}>
                             <div className="card-body rainbow3">
-                                <h4 className="card-title">{visitor.id}</h4>
+                                <h4 className="card-title"> N° {visitor.id}</h4>
                                 <div className="card-text text-white text-justify">
                                     <p>
                                         <OutlinedFlagTwoTone style={{"color": "#BE90D4"}} className="mr-2"/>

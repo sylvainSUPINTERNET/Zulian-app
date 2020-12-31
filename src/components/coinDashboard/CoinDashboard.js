@@ -7,6 +7,7 @@ import {pushBack} from "../../utils/coinDashboardUtils";
 import useMousePosition from "../mouseTracker";
 import config from "../../config/api";
 import {getWsConnection} from "../ws/ws";
+import {Pagination} from "react-bootstrap";
 
 export const CoinDashboard = () => {
     let [userLocalisationData, setUserLocalisationData] = useState({});
@@ -189,7 +190,6 @@ export const CoinDashboard = () => {
             <header className="">
                 <Menu activeTab=""/>
             </header>
-
             <p>TEST : { wsIsConnected } </p>
             { displayUserLocalisationInformations() }
 

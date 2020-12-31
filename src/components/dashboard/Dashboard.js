@@ -5,6 +5,7 @@ import {auth as authentication} from "../../api/authentication/authentication";
 import {Redirect, useHistory} from "react-router-dom";
 import {VisitorList} from "../visitors/visitorList";
 import {People} from "@material-ui/icons";
+import {Pagination} from "../../components/pagination/pagination";
 
 export const Dashboard = (props) => {
     const history = useHistory();
@@ -26,6 +27,16 @@ export const Dashboard = (props) => {
     }, []);
 
 
+    const changePage = (pageNb) => {
+        setPage(pageNb);
+
+        // TODO trigger loader for 1 second
+
+    }
+
+    // TODO
+    // Pass
+
  return (
      <div className="">
          <header className="">
@@ -36,9 +47,16 @@ export const Dashboard = (props) => {
          }}>
              change page {page}
          </button>
+
          <main className="container-fluid witness mb-4">
              <div className="row black-background mt-4">
+
                  <div className="col-md-6">
+                     <ul className="pagination">
+                         <li className="page-item"><a className="page-link" onClick={ () => { setPage(0)}}>Previous</a></li>
+                         <li className="page-item"><a className="page-link" onClick={ () => { setPage(0)}}>1</a></li>
+                         <li className="page-item"><a className="page-link" onClick={ () => { changePage(1)}}>Next</a></li>
+                     </ul>
                      <div className="card m-3 rainbow3 shadow p-3 mb-5 rounded rainbow-box" >
                          <h3 className="card-title m-3 text-lg">
                              <People className="mr-2" style={{color: '#BE90D4'}}></People>

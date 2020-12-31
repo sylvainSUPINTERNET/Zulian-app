@@ -12,6 +12,8 @@ import {auth as authentication} from "./api/authentication/authentication";
 
 // https://gabrieltanner.org/blog/webrtc-video-broadcast
 
+import axios from 'axios';
+
 
 
 /*
@@ -63,7 +65,7 @@ const Streaming = (props) => {
 };
 */
 
-function App() {
+function App(props) {
 
     const o = async () => {
         /*
@@ -73,17 +75,18 @@ function App() {
 
          */
 
+         /*
         const res = await authentication.verifyPermission("ROLE_USER");
         console.log(res);
         const jsonRes = await res.json();
-        console.log(jsonRes)
+        console.log(jsonRes)*/
     };
 
 
 
     let ws;
     let connected;  
-    ws = new WebSocket(`ws://localhost:8080/api/${uuidv4()}`);
+   // ws = new WebSocket(`ws://localhost:8080/api/${uuidv4()}`);
 
 
     /*
@@ -102,14 +105,17 @@ function App() {
     };*/
 
     useEffect( () => {
+
+
         //getUsers();
-        o();
+       // o();
     }, []);
 
 
+    /*
     ws.onopen = () => {
         connected = true
-    };
+    };*/
 
 
     return (
@@ -117,8 +123,38 @@ function App() {
             <header className="">
                 <Menu activeTab="home"></Menu>
             </header>
+            <a href="https://accounts.google.com/o/oauth2/v2/auth?scope=email&access_type=offline&redirect_uri=http://localhost:5999/connect/google&response_type=code&client_id=105171889289-nufvlvi9cit9pmqqk9ofemfhb8lpvgkj.apps.googleusercontent.com">Connect avec Gmail</a>
             <main className="container">
+                <button onClick={ async () => {
 
+                    try {
+                    const res = await axios.get(
+                        'http://localhost:5999/test',
+                        {
+                        withCredentials: true,
+                        }
+                    )
+                    return res
+                    } catch (error) {
+                    console.log(error)
+                    }
+        
+                    /*
+                    let test = await fetch("http://localhost:5999/test", {
+                                method: "GET",
+                                headers: {
+                                  'Accept': 'application/json',
+                                  'Content-Type': 'application/json'
+                                },
+                                credentials: 'include'
+                            });
+                    let resp = await test.json();
+                    
+
+                    console.log(resp.headers.get('set-cookie'));*/
+                }}>
+                    CLICK
+                </button>
                 <Card></Card>
                 <Card></Card>
                 <Card></Card>

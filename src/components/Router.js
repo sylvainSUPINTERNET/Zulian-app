@@ -14,7 +14,8 @@ import {CoinDashboard} from "./coinDashboard/CoinDashboard";
 import {auth as authentication} from "../api/authentication/authentication";
 import {Realisation} from "../components/realisation/Realisation";
 import {Dashboard} from "./dashboard/Dashboard";
-
+import {Search} from "./search/search";
+import {Profil} from "./profil/profil";
 
 
 export const Root = ( {store} ) => {
@@ -30,9 +31,10 @@ export const Root = ( {store} ) => {
     let [isSuperAdmin, setIsSuperAdmin] = React.useState(false);
 
     useEffect(() => {
+        /*
         verifyRole("ROLE_SUPER_ADMIN").then( resp => {
             setIsSuperAdmin(resp)
-        })
+        })*/
     }, []);
 
 
@@ -40,6 +42,9 @@ export const Root = ( {store} ) => {
         <Provider store={store}>
             <Router>
                 <Route exact path="/" component={App}/>
+                <Route exact path="/search" component={Search} />
+                <Route exact path="/profil" component={Profil} />
+                {/*
                 <Route exact path="/:uuid/management" component={Management}/>
                 <Route exact path="/authentication" render={() => {
                     return (<Authentication/>)
@@ -48,16 +53,17 @@ export const Root = ( {store} ) => {
                 <Route exact path="/produits" component={Products}/>
                 <Route exact path="/dashboard" render={ props => {
                     // TODO disable for dev purpose
-                    /*
-                    if (!isSuperAdmin) {
-                        return <Redirect to={"/authentication"}/>
-                    } else {
-                        return <Dashboard/>
-                    }*/
-                    return <Dashboard/>;
+
+                    //if (!isSuperAdmin) {
+                      //  return <Redirect to={"/authentication"}/>
+                   // } else {
+                     //   return <Dashboard/>
+                   // }
+                   // return <Dashboard/>;
                 }}/>
                 <Route exact path="/realisations" component={Realisation}/>
                 <Route exact path="/coins" component={CoinDashboard}/>
+                */}
             </Router>
         </Provider>
     )
