@@ -6,7 +6,8 @@ const config = {
     apiUrlMapZulian: 'http://localhost:8080/api/v1', // APi for map
     // at least, should be one path (proxy with nginx)
     wsUrl: 'ws://localhost:8080/api/v1/socket',
-    wsZgUrl: 'ws://localhost:4999'
+    wsZgUrl: 'ws://localhost:4999',
+    wsPpcUrl: "http://localhost:5999/api/v1"
 };
 
 export default config;

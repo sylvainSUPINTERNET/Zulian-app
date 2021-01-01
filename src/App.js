@@ -123,7 +123,7 @@ function App(props) {
             <header className="">
                 <Menu activeTab="home"></Menu>
             </header>
-            <a href="https://accounts.google.com/o/oauth2/v2/auth?scope=email&access_type=offline&redirect_uri=http://localhost:5999/connect/google&response_type=code&client_id=105171889289-nufvlvi9cit9pmqqk9ofemfhb8lpvgkj.apps.googleusercontent.com">Connect avec Gmail</a>
+            <a href="https://accounts.google.com/o/oauth2/v2/auth?scope=email%20profile&access_type=offline&redirect_uri=http://localhost:5999/connect/google&response_type=code&client_id=105171889289-nufvlvi9cit9pmqqk9ofemfhb8lpvgkj.apps.googleusercontent.com">Connect avec Gmail</a>
             <main className="container">
                 <button onClick={ async () => {
 

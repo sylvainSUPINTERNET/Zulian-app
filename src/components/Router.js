@@ -4,6 +4,7 @@ import React, {useEffect} from "react";
 import PropTypes from 'prop-types'
 import { BrowserRouter as Router, Route, Redirect, useHistory, useLocation  } from 'react-router-dom'
 import { Provider } from 'react-redux'
+import queryString from 'query-string';
 
 import App from "../App";
 import {Management} from '../components/management/Management';
@@ -16,7 +17,8 @@ import {Realisation} from "../components/realisation/Realisation";
 import {Dashboard} from "./dashboard/Dashboard";
 import {Search} from "./search/search";
 import {Profil} from "./profil/profil";
-
+import Cookies from 'universal-cookie';
+import config from "../config/api";
 
 export const Root = ( {store} ) => {
     const verifyRole = async (roleName) => {
@@ -38,12 +40,48 @@ export const Root = ( {store} ) => {
     }, []);
 
 
+
+
     return (
         <Provider store={store}>
             <Router>
                 <Route exact path="/" component={App}/>
                 <Route exact path="/search" component={Search} />
                 <Route exact path="/profil" component={Profil} />
+                <Route exact path="/auth/redirect" render={ (props) => {
+                    // Verify redirection JWT (contains only userInfos + role / permissions => infos from OAuth2)
+                    let token = queryString.parse(props.location.search)["tok"]
+                    if ( typeof token !== "undefined") {
+                        fetch(`${config.wsPpcUrl}/token/verify`, {
+                            headers:{
+                                'Authorization': `Bearer ${token}`, 
+                                'Content-Type': 'application/json'
+                            }, 
+                        }).then( resp => {
+                            if (resp.status === 200) {
+                                localStorage.setItem("apiPpcToken", token )
+                                window.location = "/";
+                            } else {    
+                                localStorage.removeItem("apiPpcToken" )
+                                window.location = "/";
+                            }
+                        }).catch(err => {
+                            localStorage.removeItem("apiPpcToken" )
+                            window.location = "/";
+                        })
+    
+                    } else {
+                        localStorage.removeItem("apiPpcToken" )
+                        window.location = "/";
+                    }
+
+                return (
+                    <div>
+
+                    </div>
+                )
+                   
+                }} />
                 {/*
                 <Route exact path="/:uuid/management" component={Management}/>
                 <Route exact path="/authentication" render={() => {
