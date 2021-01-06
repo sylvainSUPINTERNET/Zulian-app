@@ -123,8 +123,40 @@ function App(props) {
             <header className="">
                 <Menu activeTab="home"></Menu>
             </header>
-            <a href="https://accounts.google.com/o/oauth2/v2/auth?scope=email%20profile&access_type=offline&redirect_uri=http://localhost:5999/connect/google&response_type=code&client_id=105171889289-nufvlvi9cit9pmqqk9ofemfhb8lpvgkj.apps.googleusercontent.com">Connect avec Gmail</a>
             <main className="container">
+            
+            <div  class="d-flex flex-column">
+                <a class="btn btn-block btn-social btn-google mt-2" href="https://accounts.google.com/o/oauth2/v2/auth?scope=email%20profile&access_type=offline&redirect_uri=http://localhost:5999/connect/google&response_type=code&client_id=105171889289-nufvlvi9cit9pmqqk9ofemfhb8lpvgkj.apps.googleusercontent.com">
+                    <span class="fa fa-google mt-1 mb-1"></span>
+                    Connection avec Google
+                </a>
+                <a class="btn btn-block btn-social btn-twitter mt-2" href="https://accounts.google.com/o/oauth2/v2/auth?scope=email%20profile&access_type=offline&redirect_uri=http://localhost:5999/connect/google&response_type=code&client_id=105171889289-nufvlvi9cit9pmqqk9ofemfhb8lpvgkj.apps.googleusercontent.com">
+                    <span class="fa fa-twitter mt-1 mb-1"></span>
+                    Connection avec Twitter
+                </a>
+                <a class="btn btn-block btn-social btn-microsoft mt-2" href="https://accounts.google.com/o/oauth2/v2/auth?scope=email%20profile&access_type=offline&redirect_uri=http://localhost:5999/connect/google&response_type=code&client_id=105171889289-nufvlvi9cit9pmqqk9ofemfhb8lpvgkj.apps.googleusercontent.com">
+                    <span class="fa fa-windows mt-1 mb-1"></span>
+                    Connection avec microsoft
+                </a>
+                <a class="btn btn-block btn-social btn-facebook mt-2" href="https://accounts.google.com/o/oauth2/v2/auth?scope=email%20profile&access_type=offline&redirect_uri=http://localhost:5999/connect/google&response_type=code&client_id=105171889289-nufvlvi9cit9pmqqk9ofemfhb8lpvgkj.apps.googleusercontent.com">
+                    <span class="fa fa-facebook mt-1 mb-1"></span>
+                    Connection avec facebook
+                </a>
+                <a class="btn btn-block btn-social btn-github mt-2" href="https://accounts.google.com/o/oauth2/v2/auth?scope=email%20profile&access_type=offline&redirect_uri=http://localhost:5999/connect/google&response_type=code&client_id=105171889289-nufvlvi9cit9pmqqk9ofemfhb8lpvgkj.apps.googleusercontent.com">
+                    <span class="fa fa-github mt-1 mb-1"></span>
+                    Connection avec Github
+                </a>
+                <a class="btn btn-block btn-social btn-instagram mt-2" href="https://accounts.google.com/o/oauth2/v2/auth?scope=email%20profile&access_type=offline&redirect_uri=http://localhost:5999/connect/google&response_type=code&client_id=105171889289-nufvlvi9cit9pmqqk9ofemfhb8lpvgkj.apps.googleusercontent.com">
+                    <span class="fa fa-instagram mt-1 mb-1"></span>
+                    Connection avec Github
+                </a>
+                <a class="btn btn-block btn-social btn-pinterest mt-2" href="https://accounts.google.com/o/oauth2/v2/auth?scope=email%20profile&access_type=offline&redirect_uri=http://localhost:5999/connect/google&response_type=code&client_id=105171889289-nufvlvi9cit9pmqqk9ofemfhb8lpvgkj.apps.googleusercontent.com">
+                    <span class="fa fa-pinterest mt-1 mb-1"></span>
+                    Connection avec Pinterest
+                </a>
+            </div>
+            
+            
                 <button onClick={ async () => {
 
                     try {
