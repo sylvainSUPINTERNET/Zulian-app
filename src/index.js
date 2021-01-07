@@ -5,6 +5,8 @@ import './index.css';
 import {Root} from './components/Router';
 import * as serviceWorker from './serviceWorker';
 import rootReducer from "./redux/reducers/reducerRoot";
+import * as THREE from "three";
+
 
 
 // https://levelup.gitconnected.com/react-redux-hooks-useselector-and-usedispatch-f7d8c7f75cdd

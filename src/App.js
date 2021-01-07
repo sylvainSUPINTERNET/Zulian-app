@@ -10,6 +10,8 @@ import {useSelector, useDispatch} from 'react-redux'
 import {increaseCounterAction} from "./redux/actions/actions";
 import {auth as authentication} from "./api/authentication/authentication";
 
+
+
 // https://gabrieltanner.org/blog/webrtc-video-broadcast
 
 import axios from 'axios';
@@ -104,12 +106,7 @@ function App(props) {
 
     };*/
 
-    useEffect( () => {
-
-
-        //getUsers();
-       // o();
-    }, []);
+ 
 
 
     /*
