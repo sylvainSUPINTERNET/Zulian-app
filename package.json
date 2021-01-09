@@ -31,6 +31,7 @@
     "react-three-fiber": "^5.2.1",
     "redux": "^4.0.5",
     "three": "^0.122.0",
+    "three.interaction": "^0.2.3",
     "universal-cookie": "^4.0.4"
   },
   "scripts": {
