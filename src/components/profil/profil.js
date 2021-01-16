@@ -17,7 +17,63 @@ const styleFormProfil = {
     },
 }
 
+export const HobbiesList = props => {
+    let [selectedHobbies, setSelectedHobbies] = React.useState([]);
+
+    return
+}
+
 export const Profil = (props) => {
+
+
+    let [selectedHobbies, setSelectedHobbies] = React.useState([]);
+
+
+
+    const getHobbyValue = e => {
+        console.log(e.target.id);
+        selectedHobbies = [...selectedHobbies, {"name": e.target.id}];
+        setSelectedHobbies(selectedHobbies);
+        // TODO 
+        // Il faudrait creer un autre component ici pour jsute cette liste
+        // En gros dire que lorsqu'on set, il faut rerender ce component pour pouvoir changer la class et dire "quil est chois
+    }
+
+    const [hobbies, setHobbies] = React.useState([
+        {
+            "name":"sortie"
+        },{
+            "name": "promenade"
+        },
+        {
+            "name": "théâtre"
+        },
+                {
+            "name": "théâtre"
+        },
+        {
+            "name": "théâtre"
+        },                {
+            "name": "théâtre"
+        },                {
+            "name": "théâtre"
+        },                {
+            "name": "théâtre"
+        },                {
+            "name": "théâtre"
+        },                {
+            "name": "théâtre"
+        },                {
+            "name": "théâtre"
+        },                {
+            "name": "théâtre"
+        },                {
+            "name": "théâtre"
+        }
+    ]);
+    useEffect( () => {
+
+    }, [])
     return (
 
         <div className="">
@@ -31,77 +87,9 @@ export const Profil = (props) => {
                         <i className="fa fa-plus rainbow"> </i>  Creer un profile
                     </button>
                 </div>
-
-                
-
-{/*
-            <div className="d-flex align-items-center justify-content-center mt-5">
-                <form> 
-                            <div class="form-group mb-4 rounded">
-                                <input type="text" className="rainbow-box p-2" placeholder="Utilisateur" style={styleFormProfil.inputText}/>
-                            </div>
-
-                            <div className="mt-3 text-white display-4">
-                                Je suis
-                            </div>
-                            <div class="form-group">
-                            <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1" checked style={styleFormProfil.radio.input}/>
-                                <label class="form-check-label mr-5" for="exampleRadios1" style={styleFormProfil.radio.label}>
-                                    Homme
-                                </label>
-
-                                <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1" checked  style={styleFormProfil.radio.input}/>
-                                <label class="form-check-label" for="exampleRadios1" style={styleFormProfil.radio.label}>
-                                    Femme
-                                </label>
-                            </div>
-
-                            <div class="form-group">
-                            <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1" checked/>
-                                <label class="form-check-label" for="exampleRadios1">
-                                    Amoureuse
-                                </label>
-
-                                <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1" checked/>
-                                <label class="form-check-label" for="exampleRadios1">
-                                    Amical
-                                </label>
-                                <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1" checked/>
-                                <label class="form-check-label" for="exampleRadios1">
-                                    Sexuelles
-                                </label>
-                            </div>
-                            
-
-                            <div class="form-group">
-                                <textarea>
-                                    My desc
-                                </textarea>
-                            </div>
-
-                            <div class="form-group">
-                                <textarea>
-                                    Je recherche ...
-                                </textarea>
-                            </div>
-
-                            
-                            <div class="form-group">
-                                <p>Vos hobbies</p>
-                            </div>
-
-                            <div class="form-group">
-                                <p>Photo de profil</p>
-                            </div>
-
-                        </form>
-
-                    </div>
-
- */}
                 <div class="collapse" id="collapseContainer">
                     <div className="d-flex">
-                        <div className="w-50 text-center p-2">
+                        <div className="w-100 text-center p-2">
                             <form className="">
                                 <div className="form-group">
                                     <input type="nickname" className="form-control form-control-lg  rainbow-box" id="nicknameInput" placeholder="Nom d'utilisateur"/>
@@ -363,20 +351,47 @@ export const Profil = (props) => {
     <option value="ZW">Zimbabwe​​​​​</option>
 </select>
 </div>
-<div class="input-group mb-3">
-  <div class="input-group-prepend">
-    <div class="input-group-text">
-      <input type="checkbox" aria-label="Checkbox for following text input"/>
+
+
+<div className="">
+    <div className="form-group">
+        <div className="mt-4 rainbow-box">
+            <select class="form-select form-control form-control-lg" aria-label="Default select example">
+            <option value="h">Homme</option>
+            <option value="f">Femme</option>
+            <option value="a">Autre</option>
+            </select>
+        </div>
     </div>
-  </div>
-  <input type="text" class="form-control" aria-label="Text input with checkbox"/>
 </div>
+
+
+<p className="text-center display-4 text-white">Je recherche</p>
+<div className="form-group">
+<div className="mt-4 rainbow-box">
+        <select class="form-select form-control form-control-lg" aria-label="Default select example">
+        <option value="RAL">Relation Amicale</option>
+        <option value="RAM">Relation Amoureuse</option>
+        <option value="RS">Relation Sexuelle</option>
+        </select>
+    </div>
+</div>
+
+
+<div className="mt-3">
+<p className="text-center display-4 text-white">Hobbies</p>
+        {
+            hobbies.map( hobby => {
+                return (<div class="rainbow-box btn btn-md p-2" id={hobby.name} onClick={getHobbyValue}>{hobby.name}</div>
+                );
+            })
+        }
+</div>
+
 
                             </form>
                         </div>
-                        <div className="w-50 text-center" style={{background: 'blue'}}>
-                            zeae
-                        </div>
+
                     </div>
 
                     <div class="d-flex p-2 bd-highlight mt-4" style={{"background": "green"}}>
