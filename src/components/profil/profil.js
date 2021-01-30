@@ -31,12 +31,26 @@ export const Profil = (props) => {
 
 
     const getHobbyValue = e => {
-        console.log(e.target.id);
-        selectedHobbies = [...selectedHobbies, {"name": e.target.id}];
+
+        let target = e.target.id;
+
+        const isExist = selectedHobbies.filter(el => el.name === target).length > 0;
+
+        if ( isExist ) {
+            e.target.style.background = "";
+            e.target.style.color = "";
+
+            selectedHobbies = selectedHobbies.filter(el => el.name !== target);
+
+        } else {
+
+            e.target.style.background = "#ecf0f1";
+            e.target.style.color = "#2c3e50";    
+
+            selectedHobbies = [...selectedHobbies, {"name": e.target.id}];
+        }
+
         setSelectedHobbies(selectedHobbies);
-        // TODO 
-        // Il faudrait creer un autre component ici pour jsute cette liste
-        // En gros dire que lorsqu'on set, il faut rerender ce component pour pouvoir changer la class et dire "quil est chois
     }
 
     const [hobbies, setHobbies] = React.useState([
@@ -72,8 +86,8 @@ export const Profil = (props) => {
         }
     ]);
     useEffect( () => {
-
-    }, [])
+        console.log(selectedHobbies)
+    }, [selectedHobbies])
     return (
 
         <div className="">
@@ -394,11 +408,9 @@ export const Profil = (props) => {
 
                     </div>
 
-                    <div class="d-flex p-2 bd-highlight mt-4" style={{"background": "green"}}>
-                        I'm a flexbox container!
-                        <textarea>
-
-                        </textarea>
+                    <div className="form-group">
+                        <label for="exampleFormControlFile1" className="display-9">Ajouter une photo de profil</label>
+                        <input type="file" class="form-control-file" id="exampleFormControlFile1" onChange={ (ev) => {console.log(ev.target.files[0])}}/>
                     </div>
 
                 </div>
