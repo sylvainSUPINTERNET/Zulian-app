@@ -17,17 +17,37 @@ const styleFormProfil = {
     },
 }
 
-export const HobbiesList = props => {
-    let [selectedHobbies, setSelectedHobbies] = React.useState([]);
 
-    return
-}
+
+
 
 export const Profil = (props) => {
 
 
     let [selectedHobbies, setSelectedHobbies] = React.useState([]);
+    let preview = React.useRef(null);
 
+    const onUploadPicture = ev => {
+        const file = ev.target.files[0];
+
+        let reader = new FileReader();
+
+        reader.addEventListener("load", function () { // no arraow here, we need this in this context from listener
+            console.log(preview);
+            
+           /* let image = new Image();
+            image.height = 100;
+            image.title = file.name;
+            image.src = this.result;
+            preview.appendChild( image ); */
+            preview.current.height = 400;
+            preview.current.width = 400;
+            preview.current.src = this.result;
+          }, false);
+
+        reader.readAsDataURL(file);
+    
+    }
 
 
     const getHobbyValue = e => {
@@ -408,10 +428,21 @@ export const Profil = (props) => {
 
                     </div>
 
-                    <div className="form-group">
-                        <label for="exampleFormControlFile1" className="display-9">Ajouter une photo de profil</label>
-                        <input type="file" class="form-control-file" id="exampleFormControlFile1" onChange={ (ev) => {console.log(ev.target.files[0])}}/>
+                    <div style={{
+                        display: 'flex',
+                        flexDirection: 'row',
+                        justifyContent: 'center'
+                    }}>
+                        <div className="form-group" style={{background: 'red',margin:'5px'}}>
+                            <label for="exampleFormControlFile1" className="display-9">Ajouter une photo de profil</label>
+                            <input type="file" class="form-control-file" id="exampleFormControlFile1" onChange={onUploadPicture}/>
+                        </div>
+                        <div style={{background: 'purple', margin:'5px'}}>
+                            <img src="" ref={preview} />
+                        </div>
                     </div>
+
+
 
                 </div>
 
