@@ -1,7 +1,6 @@
 import React, {useEffect} from 'react'
 import Menu from "../Menu";
 
-
 const styleFormProfil = {
     inputText : {
         'background': '#000',
@@ -33,19 +32,14 @@ export const Profil = (props) => {
         let reader = new FileReader();
 
         reader.addEventListener("load", function () { // no arraow here, we need this in this context from listener
-            console.log(preview);
-            
-           /* let image = new Image();
-            image.height = 100;
-            image.title = file.name;
-            image.src = this.result;
-            preview.appendChild( image ); */
             preview.current.height = 400;
             preview.current.width = 400;
             preview.current.src = this.result;
           }, false);
 
         reader.readAsDataURL(file);
+
+
     
     }
 
@@ -382,7 +376,7 @@ export const Profil = (props) => {
     <option value="WF">Wallis et futuna</option>
     <option value="YE">Yémen</option>
     <option value="ZM">Zambie</option>
-    <option value="ZW">Zimbabwe​​​​​</option>
+    <option value="ZW">Zimbabwe</option>
 </select>
 </div>
 
@@ -390,7 +384,7 @@ export const Profil = (props) => {
 <div className="">
     <div className="form-group">
         <div className="mt-4 rainbow-box">
-            <select class="form-select form-control form-control-lg" aria-label="Default select example">
+            <select className="form-select form-control form-control-lg" aria-label="Default select example">
             <option value="h">Homme</option>
             <option value="f">Femme</option>
             <option value="a">Autre</option>
@@ -403,7 +397,7 @@ export const Profil = (props) => {
 <p className="text-center display-4 text-white">Je recherche</p>
 <div className="form-group">
 <div className="mt-4 rainbow-box">
-        <select class="form-select form-control form-control-lg" aria-label="Default select example">
+        <select className="form-select form-control form-control-lg" aria-label="Default select example">
         <option value="RAL">Relation Amicale</option>
         <option value="RAM">Relation Amoureuse</option>
         <option value="RS">Relation Sexuelle</option>
@@ -416,7 +410,7 @@ export const Profil = (props) => {
 <p className="text-center display-4 text-white">Hobbies</p>
         {
             hobbies.map( hobby => {
-                return (<div class="rainbow-box btn btn-md p-2" id={hobby.name} onClick={getHobbyValue}>{hobby.name}</div>
+                return (<div className="rainbow-box btn btn-md p-2" id={hobby.name} onClick={getHobbyValue}>{hobby.name}</div>
                 );
             })
         }
@@ -435,14 +429,16 @@ export const Profil = (props) => {
                     }}>
                         <div className="form-group" style={{background: 'red',margin:'5px'}}>
                             <label for="exampleFormControlFile1" className="display-9">Ajouter une photo de profil</label>
-                            <input type="file" class="form-control-file" id="exampleFormControlFile1" onChange={onUploadPicture}/>
+                            <input type="file" className="form-control-file" id="exampleFormControlFile1" onChange={onUploadPicture}/>
                         </div>
-                        <div style={{background: 'purple', margin:'5px'}}>
-                            <img src="" ref={preview} />
+                        <div>
+                            <img src="" ref={preview}  alt="preview"/>
                         </div>
                     </div>
 
-
+                    <button className="" onClick={(ev)=> console.log("SUBMIT")}>
+                        click me
+                    </button>
 
                 </div>
 
