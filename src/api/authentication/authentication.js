@@ -34,6 +34,20 @@ const verifyPermission = (roleTarget) => {
     })
 };
 
+export const getUserDetails = () => {
+    const headers = {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem('apiPpcToken')}`
+    }
+
+    return fetch(`${config.apiPpc}/token/verify`, {
+        method: 'get',
+        credentials: 'include',
+        headers
+    })
+}
+
 export const auth = {
     register,
     login,

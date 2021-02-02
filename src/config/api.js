@@ -2,6 +2,7 @@
 
 
 const config = {
+    apiPpc:'http://localhost:5999/api/v1',
     apiUrl: 'http://localhost:9999/api/v1', // API for auth
     apiUrlMapZulian: 'http://localhost:8080/api/v1', // APi for map
     // at least, should be one path (proxy with nginx)

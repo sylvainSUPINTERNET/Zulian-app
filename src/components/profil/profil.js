@@ -1,4 +1,5 @@
 import React, {useEffect} from 'react'
+import {getUserDetails} from "../../api/authentication/authentication"
 import Menu from "../Menu";
 
 const styleFormProfil = {
@@ -24,6 +25,7 @@ export const Profil = (props) => {
 
 
     let [selectedHobbies, setSelectedHobbies] = React.useState([]);
+    let [userDetails, setUserDetails] = React.useState({});
     let preview = React.useRef(null);
 
     const onUploadPicture = ev => {
@@ -67,6 +69,7 @@ export const Profil = (props) => {
         setSelectedHobbies(selectedHobbies);
     }
 
+    // TODO get a real list ...
     const [hobbies, setHobbies] = React.useState([
         {
             "name":"sortie"
@@ -99,8 +102,20 @@ export const Profil = (props) => {
             "name": "théâtre"
         }
     ]);
+
+    const test = async () => {
+        let resp = await getUserDetails();
+        let jsonData = await resp.json();
+        return jsonData
+    }
+
     useEffect( () => {
         console.log(selectedHobbies)
+
+        let userDetail = test().then( data => {
+            setUserDetails(data);
+        })
+
     }, [selectedHobbies])
     return (
 
@@ -125,6 +140,7 @@ export const Profil = (props) => {
                                 <div className="form-group">
                                     <input type="city" className="form-control form-control-lg  rainbow-box" id="cityInput" placeholder="Paris"/>
                                 </div>
+<pre>{JSON.stringify(userDetails)}</pre>
 
 <div className="form-group  rainbow-box">
 <select className="form-control form-control-lg">
