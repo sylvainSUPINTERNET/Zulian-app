@@ -26,10 +26,12 @@ export const Profil = (props) => {
 
     let [selectedHobbies, setSelectedHobbies] = React.useState([]);
     let [userDetails, setUserDetails] = React.useState({});
+    let [media, setMedia] = React.useState(null);
     let preview = React.useRef(null);
 
     const onUploadPicture = ev => {
         const file = ev.target.files[0];
+        setMedia(file);
 
         let reader = new FileReader();
 
@@ -103,6 +105,18 @@ export const Profil = (props) => {
         }
     ]);
 
+
+    const submitProfil = (ev) => {
+        ev.preventDefault();
+
+        const {data} = userDetails;
+
+        // TODO => getEmail + find a way to get uuid or ID of user to generate the record for ppc-api-media
+
+        console.log(userDetails);
+        console.log(media);
+        
+    }
     const test = async () => {
         let resp = await getUserDetails();
         let jsonData = await resp.json();
@@ -112,7 +126,7 @@ export const Profil = (props) => {
     useEffect( () => {
         console.log(selectedHobbies)
 
-        let userDetail = test().then( data => {
+       test().then( data => {
             setUserDetails(data);
         })
 
@@ -133,7 +147,7 @@ export const Profil = (props) => {
                 <div class="collapse" id="collapseContainer">
                     <div className="d-flex">
                         <div className="w-100 text-center p-2">
-                            <form className="">
+                            <form className="" onSubmit={submitProfil}>
                                 <div className="form-group">
                                     <input type="nickname" className="form-control form-control-lg  rainbow-box" id="nicknameInput" placeholder="Nom d'utilisateur"/>
                                 </div>
@@ -432,6 +446,7 @@ export const Profil = (props) => {
         }
 </div>
 
+                            <button type="submit">Submit</button>
 
                             </form>
                         </div>
@@ -452,9 +467,6 @@ export const Profil = (props) => {
                         </div>
                     </div>
 
-                    <button className="" onClick={(ev)=> console.log("SUBMIT")}>
-                        click me
-                    </button>
 
                 </div>
 
