@@ -23,6 +23,7 @@ const Menu = (props) => {
                     <a className="nav-item nav-link menu-nav-text" href="/">Accueil</a>
                     <a className="nav-item nav-link menu-nav-text" href="/profil">Mon profil</a>
                     <a className="nav-item nav-link menu-nav-text" href="/search">Rechercher</a>
+                    <a className="nav-item nav-link menu-nav-text" href="/samples">Samples</a>
                     <a className="nav-item nav-link menu-nav-text" href="/faq">FAQ</a>
 
                     {/*

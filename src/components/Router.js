@@ -19,6 +19,7 @@ import {Search} from "./search/search";
 import {Profil} from "./profil/profil";
 import Cookies from 'universal-cookie';
 import config from "../config/api";
+import {Samples} from "./samples/samples";
 
 export const Root = ( {store} ) => {
     const verifyRole = async (roleName) => {
@@ -48,6 +49,7 @@ export const Root = ( {store} ) => {
                 <Route exact path="/" component={App}/>
                 <Route exact path="/search" component={Search} />
                 <Route exact path="/profil" component={Profil} />
+                <Route exact path="/samples" component={Samples}/>
                 <Route exact path="/auth/redirect" render={ (props) => {
                     // Verify redirection JWT (contains only userInfos + role / permissions => infos from OAuth2)
                     let token = queryString.parse(props.location.search)["tok"]

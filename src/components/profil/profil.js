@@ -1,6 +1,7 @@
 import React, {useEffect} from 'react'
 import {getUserDetails} from "../../api/authentication/authentication"
 import Menu from "../Menu";
+import {uploadMedia} from "../../api/media/media";
 
 const styleFormProfil = {
     inputText : {
@@ -106,15 +107,14 @@ export const Profil = (props) => {
     ]);
 
 
-    const submitProfil = (ev) => {
+    const submitProfil = async (ev) => {
         ev.preventDefault();
 
         const {data} = userDetails;
+        const { id, email } = data;
 
-        // TODO => getEmail + find a way to get uuid or ID of user to generate the record for ppc-api-media
-
-        console.log(userDetails);
-        console.log(media);
+        let resp = await uploadMedia(media,email,id);
+        console.log(resp);
         
     }
     const test = async () => {
@@ -144,7 +144,7 @@ export const Profil = (props) => {
                         <i className="fa fa-plus rainbow"> </i>  Creer un profile
                     </button>
                 </div>
-                <div class="collapse" id="collapseContainer">
+                <div className="collapse" id="collapseContainer">
                     <div className="d-flex">
                         <div className="w-100 text-center p-2">
                             <form className="" onSubmit={submitProfil}>

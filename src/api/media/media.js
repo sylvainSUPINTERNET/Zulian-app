@@ -14,6 +14,9 @@ export const uploadMedia = async (fileObject, user_email, user_id) => {
         method: 'POST',
         body: formData
     })
+    console.log(req.status);
+    console.log(req.body)
     const resp = await req.json();
+    console.log(resp);
     return resp;
 }
