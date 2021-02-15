@@ -1,53 +1,62 @@
 import React, {useEffect, useState} from "react";
 
 export const TreeList= (props) => {
-    const [node, setNodes] = useState([]);
-    /*
-        TODO
-        => Nodejs side, create folder for sampels
-        => pas de relation one to many, on fait un truck plutot du style les samples
-     */
-
-    /*
-    If we click on Node => display lsit of URL and if display on dashboard the MP3
-    node = {name: "", "contents": "MP3 URL files"}
-    [
-        {
-          subNode: [
-              node: {
-                    subNodes: [Node]
-              }
-          ]
-        }
-
-    ]
+    const [samples, setSamples] = useState([]);
+    const [albums, setAlbums] = useState([]);
+    const [orderedAlbums, setOrderedAlbums] = useState([]); // combine response samples + albums, based on albumUuid (given by sample)
 
 
-     */
+    // albums each contains uuid
+    // samples each contains uuid + albumUuid
 
-    // 1 node = directory
-    // 2
+    const mockSamples = async () => {
+        return new Promise( resolve => {
+            resolve([{
+                uuid: "xdxdx",
+                albumUuid: "1234"
+            }, {
+                uuid: "abcd",
+                albumUuid: "4567"
+            }])
+        })
+    }
+
+    const mockAlbums = () => {
+        return new Promise( resolve => {
+            resolve([{
+                uuid: "1234",
+            }, {
+                uuid: "4567",
+            },
+                {
+                    uuid: "7899",
+                }])
+        })
+    }
+
+    const combineAlbumsWithSamples = (albums, samples) => {
+
+        console.log("ok")
+        console.log(albums)
+        console.log(samples)
+    }
 
     useEffect(() => {
-        setNodes([
-            {
-                "test": "ok"
-            }
-        ])
+
+        const test = async () => {
+            let alb = await mockAlbums()
+            setAlbums(alb)
+            let samp = await mockSamples()
+            setSamples(samp)
+            combineAlbumsWithSamples(alb, samp)
+        }
+        test()
+
     }, [])
 
     return (
         <div className="">
-            <ul>
-                <li>
-                    ok
-                    <ul>
-                        <li>
-                            salut
-                        </li>
-                    </ul>
-                </li>
-            </ul>
+            <pre>{JSON.stringify(samples)}</pre>
         </div>
     )
 
