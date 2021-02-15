@@ -3,8 +3,9 @@ import React, {useEffect, useState} from "react";
 export const TreeList= (props) => {
     const [samples, setSamples] = useState([]);
     const [albums, setAlbums] = useState([]);
-    const [orderedAlbums, setOrderedAlbums] = useState([]); // combine response samples + albums, based on albumUuid (given by sample)
 
+    let [cacheAlbums, setCacheAlbums] = useState([]);
+    const [cacheSamples, setCacheSamples] = useState([]);
 
     // albums each contains uuid
     // samples each contains uuid + albumUuid
@@ -36,9 +37,47 @@ export const TreeList= (props) => {
 
     const combineAlbumsWithSamples = (albums, samples) => {
 
-        console.log("ok")
-        console.log(albums)
-        console.log(samples)
+        let combined = [];
+
+        // Get all albums (unique)
+        albums.map( (album, i) => {
+            if ( !cacheAlbums.includes(album.uuid) ) {
+                cacheAlbums = [...cacheAlbums, album.uuid]
+                setCacheAlbums([new Set(cacheAlbums)]);
+                combined[i] = album;
+            }
+        })
+
+        samples.map( sample => {
+            if ( cacheAlbums.includes(sample.albumUuid) ) {
+                let position = cacheAlbums.indexOf(sample.albumUuid);
+                console.log(position);
+
+                if ( typeof combined[position] !== "undefined" ) {
+                    console.log("HERE",combined)
+                    combined[position] = {
+                        samples: [...combined[position].samples, sample]
+                    }
+                } else {
+                    combined[position] = {
+                        album: cacheAlbums[position],
+                        samples: [
+                            sample
+                        ]
+                    }
+                }
+
+                /*
+                combined[positionForCombined] = {
+                    album: cacheAlbums[positionForCombined],
+                    samples:
+                }*/
+
+            }
+        });
+
+
+        console.log(combined);
     }
 
     useEffect(() => {
