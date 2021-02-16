@@ -5,7 +5,6 @@ export const TreeList= (props) => {
     const [albums, setAlbums] = useState([]);
 
     let [cacheAlbums, setCacheAlbums] = useState([]);
-    const [cacheSamples, setCacheSamples] = useState([]);
 
     // albums each contains uuid
     // samples each contains uuid + albumUuid
@@ -18,7 +17,15 @@ export const TreeList= (props) => {
             }, {
                 uuid: "abcd",
                 albumUuid: "4567"
-            }])
+            },
+                {
+                    uuid: "bbhh",
+                    albumUuid: "7899"
+                },
+                {
+                    uuid: "xxrr",
+                    albumUuid: "7899"
+                }])
         })
     }
 
@@ -31,7 +38,9 @@ export const TreeList= (props) => {
             },
                 {
                     uuid: "7899",
-                }])
+                },    {
+                    uuid: "8888",
+                },])
         })
     }
 
@@ -44,20 +53,17 @@ export const TreeList= (props) => {
             if ( !cacheAlbums.includes(album.uuid) ) {
                 cacheAlbums = [...cacheAlbums, album.uuid]
                 setCacheAlbums([new Set(cacheAlbums)]);
-                combined[i] = album;
             }
         })
 
         samples.map( sample => {
             if ( cacheAlbums.includes(sample.albumUuid) ) {
+
                 let position = cacheAlbums.indexOf(sample.albumUuid);
-                console.log(position);
+
 
                 if ( typeof combined[position] !== "undefined" ) {
-                    console.log("HERE",combined)
-                    combined[position] = {
-                        samples: [...combined[position].samples, sample]
-                    }
+                    combined[position].samples = [...combined[position].samples, sample];
                 } else {
                     combined[position] = {
                         album: cacheAlbums[position],
@@ -67,12 +73,14 @@ export const TreeList= (props) => {
                     }
                 }
 
-                /*
-                combined[positionForCombined] = {
-                    album: cacheAlbums[positionForCombined],
-                    samples:
-                }*/
-
+            } else {
+                // TODO => not working because we loop OVER samples, and so if one album is not linked to the sample, never added to the list
+                // album with nothing inside
+                let position = cacheAlbums.indexOf(sample.albumUuid);
+                combined[position] = {
+                    album: cacheAlbums[position],
+                    samples: []
+                }
             }
         });
 
