@@ -54,16 +54,24 @@ export const TreeList= (props) => {
                 cacheAlbums = [...cacheAlbums, album.uuid]
                 setCacheAlbums([new Set(cacheAlbums)]);
             }
-        })
+        });
+
+        // dont pass by reference !
+        let tmpAlbums = [...cacheAlbums];
+
 
         samples.map( sample => {
             if ( cacheAlbums.includes(sample.albumUuid) ) {
 
                 let position = cacheAlbums.indexOf(sample.albumUuid);
+                tmpAlbums[position] = ""
 
 
-                if ( typeof combined[position] !== "undefined" ) {
-                    combined[position].samples = [...combined[position].samples, sample];
+                if (typeof combined[position] !== "undefined") {
+                    combined[position] = {
+                        album: cacheAlbums[position],
+                        samples:[...combined[position].samples, sample]
+                    }
                 } else {
                     combined[position] = {
                         album: cacheAlbums[position],
@@ -72,17 +80,17 @@ export const TreeList= (props) => {
                         ]
                     }
                 }
+            }
+        });
 
-            } else {
-                // TODO => not working because we loop OVER samples, and so if one album is not linked to the sample, never added to the list
-                // album with nothing inside
-                let position = cacheAlbums.indexOf(sample.albumUuid);
-                combined[position] = {
-                    album: cacheAlbums[position],
+        tmpAlbums.map( (al,i) => {
+            if ( al !== "") {
+                combined[i] = {
+                    album: al,
                     samples: []
                 }
             }
-        });
+        })
 
 
         console.log(combined);
