@@ -1,4 +1,9 @@
 import React, {useEffect, useState} from "react";
+import musicFolderIcon from '../../icons/folder.svg';
+import musicFolderColorizedIcon from '../../icons/folder-colorized.svg';
+import musicFolderOpen from '../../icons/folder-open.svg';
+
+import Style from "./treeList.style";
 
 export const TreeList= (props) => {
     const [samples, setSamples] = useState([]);
@@ -6,6 +11,7 @@ export const TreeList= (props) => {
 
     let [cacheAlbums, setCacheAlbums] = useState([]);
 
+    let [albumsWithSamplesList, setAlbumsWithSamplesList] = useState([]);
     // albums each contains uuid
     // samples each contains uuid + albumUuid
 
@@ -92,8 +98,7 @@ export const TreeList= (props) => {
             }
         })
 
-
-        console.log(combined);
+        setAlbumsWithSamplesList(combined);
     }
 
     useEffect(() => {
@@ -111,7 +116,15 @@ export const TreeList= (props) => {
 
     return (
         <div className="">
-            <pre>{JSON.stringify(samples)}</pre>
+            <code>{JSON.stringify(albumsWithSamplesList)}</code>
+            {
+                albumsWithSamplesList.map(e => {
+                    return <div style={{background: 'red', display:'flex', flexFlow: 'row wrap', justifyContent: 'flex-start',margin: '10px'}}>
+                        <img id={e.album} onClick={ (ev) => ev.target.src = (new URL(ev.target.src).pathname === musicFolderColorizedIcon ? musicFolderOpen : musicFolderColorizedIcon) } src={musicFolderColorizedIcon} style={Style.icon}/>
+                        <p style={{background: 'green'}}>{e.album}</p>
+                    </div>
+                })
+            }
         </div>
     )
 
