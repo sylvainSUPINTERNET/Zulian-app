@@ -12,6 +12,8 @@ export const TreeList= (props) => {
     let [cacheAlbums, setCacheAlbums] = useState([]);
 
     let [albumsWithSamplesList, setAlbumsWithSamplesList] = useState([]);
+
+    let [currentSamplesList, setCurrentSamplesList] = useState([])
     // albums each contains uuid
     // samples each contains uuid + albumUuid
 
@@ -48,6 +50,19 @@ export const TreeList= (props) => {
                     uuid: "8888",
                 },])
         })
+    }
+
+    const clickOnMusicFolder = (ev) => {
+        ev.target.src = (new URL(ev.target.src).pathname === musicFolderColorizedIcon ? musicFolderOpen : musicFolderColorizedIcon)
+        let filterAlbumUuid = ev.target.id;
+
+        if ( new URL(ev.target.src).pathname === musicFolderOpen ) {
+            let currentSamples = albumsWithSamplesList.filter(combined => {
+                return combined.album === filterAlbumUuid
+            });
+
+            setCurrentSamplesList(currentSamples[0].samples);
+        }
     }
 
     const combineAlbumsWithSamples = (albums, samples) => {
@@ -120,8 +135,11 @@ export const TreeList= (props) => {
             {
                 albumsWithSamplesList.map(e => {
                     return <div style={{background: 'red', display:'flex', flexFlow: 'row wrap', justifyContent: 'flex-start',margin: '10px'}}>
-                        <img id={e.album} onClick={ (ev) => ev.target.src = (new URL(ev.target.src).pathname === musicFolderColorizedIcon ? musicFolderOpen : musicFolderColorizedIcon) } src={musicFolderColorizedIcon} style={Style.icon}/>
+                        <img id={e.album} onClick={clickOnMusicFolder} src={musicFolderColorizedIcon} style={Style.icon}/>
                         <p style={{background: 'green'}}>{e.album}</p>
+                        {
+                            <pre>{JSON.stringify(currentSamplesList)}</pre>
+                        }
                     </div>
                 })
             }
