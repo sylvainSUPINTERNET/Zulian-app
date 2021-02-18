@@ -65,13 +65,13 @@ export const TreeList= (props) => {
         console.log(ev.target.id);
 
         if ( !display.has(ev.target.id) ) {
-            // TODO display the sampels section
-            display.add(ev.target.id);
-            setDisplay(display);
+            // For rerender, else react does not detect the Set change
+            let newDisplay = new Set(new Set([...display.add(ev.target.id)]));
+            setDisplay(newDisplay);
         } else {
-            // remove it and hide the section
             display.delete(ev.target.id);
-            setDisplay(display);
+            let newDisplay = new Set(new Set([...display]));
+            setDisplay(newDisplay);
         }
         console.log(display)
     }
@@ -142,14 +142,13 @@ export const TreeList= (props) => {
 
     return (
         <div className="">
-            <code>{JSON.stringify(albumsWithSamplesList)}</code>
             {
                 albumsWithSamplesList.map(e => {
                     return <div style={{background: 'red', display:'flex', flexFlow: 'row wrap', justifyContent: 'flex-start',margin: '10px'}}>
                         <img id={e.album} onClick={clickOnMusicFolder} src={musicFolderColorizedIcon} style={Style.icon}/>
                         <p style={{background: 'green'}}>{e.album}</p>
                         {
-                            <ul className={display === false ? 'd-none': ''}>
+                            <ul className={display.has(e.album) === true ? 'd-block': 'd-none'}>
                                 {
                                     e.samples.map( sample => {
                                         return <p>{sample.uuid}</p>
