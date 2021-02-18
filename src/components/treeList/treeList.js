@@ -9,11 +9,12 @@ export const TreeList= (props) => {
     const [samples, setSamples] = useState([]);
     const [albums, setAlbums] = useState([]);
 
+    const [display, setDisplay] = useState(new Set());
+
     let [cacheAlbums, setCacheAlbums] = useState([]);
 
     let [albumsWithSamplesList, setAlbumsWithSamplesList] = useState([]);
 
-    let [currentSamplesList, setCurrentSamplesList] = useState([])
     // albums each contains uuid
     // samples each contains uuid + albumUuid
 
@@ -60,9 +61,19 @@ export const TreeList= (props) => {
             let currentSamples = albumsWithSamplesList.filter(combined => {
                 return combined.album === filterAlbumUuid
             });
-
-            setCurrentSamplesList(currentSamples[0].samples);
         }
+        console.log(ev.target.id);
+
+        if ( !display.has(ev.target.id) ) {
+            // TODO display the sampels section
+            display.add(ev.target.id);
+            setDisplay(display);
+        } else {
+            // remove it and hide the section
+            display.delete(ev.target.id);
+            setDisplay(display);
+        }
+        console.log(display)
     }
 
     const combineAlbumsWithSamples = (albums, samples) => {
@@ -138,7 +149,13 @@ export const TreeList= (props) => {
                         <img id={e.album} onClick={clickOnMusicFolder} src={musicFolderColorizedIcon} style={Style.icon}/>
                         <p style={{background: 'green'}}>{e.album}</p>
                         {
-                            <pre>{JSON.stringify(currentSamplesList)}</pre>
+                            <ul className={display === false ? 'd-none': ''}>
+                                {
+                                    e.samples.map( sample => {
+                                        return <p>{sample.uuid}</p>
+                                    })
+                                }
+                            </ul>
                         }
                     </div>
                 })
