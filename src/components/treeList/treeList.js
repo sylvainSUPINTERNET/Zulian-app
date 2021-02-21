@@ -15,6 +15,7 @@ export const TreeList= (props) => {
     let [cacheAlbums, setCacheAlbums] = useState([]);
 
     let [albumsWithSamplesList, setAlbumsWithSamplesList] = useState([]);
+    let [samplesAsB64ForAlbum, setSamplesAsB64ForAlbum] = useState([]);
 
     // albums each contains uuid
     // samples each contains uuid + albumUuid
@@ -55,12 +56,12 @@ export const TreeList= (props) => {
                 },    {
                     uuid: "8888",
                 }, {
-                uuid: "bc46b3c0-3d4d-4ac9-942f-93b778edeac5b"
+                uuid: "38fcd3a7-c611-473e-879a-a259360c67e3"
                 }])
         })
     }
 
-    const clickOnMusicFolder = (ev) => {
+    const clickOnMusicFolder = async (ev) => {
         ev.target.src = (new URL(ev.target.src).pathname === musicFolderColorizedIcon ? musicFolderOpen : musicFolderColorizedIcon)
         let filterAlbumUuid = ev.target.id;
 
@@ -74,9 +75,9 @@ export const TreeList= (props) => {
         if ( !display.has(ev.target.id) ) {
             // For rerender, else react does not detect the Set change
             let newDisplay = new Set(new Set([...display.add(ev.target.id)]));
-            let t = getSamplesAsB64ForAlbum(ev.target.id, localStorage.getItem("apiPpcToken"))
+            let { data } = await getSamplesAsB64ForAlbum(ev.target.id, localStorage.getItem("apiPpcToken"))
             console.log("GET SAMPELS AS B64")
-            console.log(t);
+            setSamplesAsB64ForAlbum(data);
             setDisplay(newDisplay);
         } else {
             display.delete(ev.target.id);
@@ -163,15 +164,13 @@ export const TreeList= (props) => {
                     return <div style={{background: 'red', display:'flex', flexFlow: 'row wrap', justifyContent: 'flex-start',margin: '10px'}}>
                         <img id={e.album} onClick={clickOnMusicFolder} src={musicFolderColorizedIcon} style={Style.icon}/>
                         <p style={{background: 'green'}}>{e.album}</p>
-                        <div>
-                            ok
-                            <audio src="data:audio/mpeg;base64," controls></audio>
-                        </div>
                         {
                             <ul className={display.has(e.album) === true ? 'd-block': 'd-none'}>
                                 {
-                                    e.samples.map( sample => {
-                                        return <p>{sample.uuid}</p>
+                                    samplesAsB64ForAlbum.map( sample => {
+                                        return <li>
+                                            <audio src={sample.b64} controls></audio>
+                                        </li>
                                     })
                                 }
                             </ul>
