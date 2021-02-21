@@ -4,6 +4,7 @@ import musicFolderColorizedIcon from '../../icons/folder-colorized.svg';
 import musicFolderOpen from '../../icons/folder-open.svg';
 
 import Style from "./treeList.style";
+import {getSamplesAsB64ForAlbum} from "../../api/media/media";
 
 export const TreeList= (props) => {
     const [samples, setSamples] = useState([]);
@@ -34,6 +35,10 @@ export const TreeList= (props) => {
                 {
                     uuid: "xxrr",
                     albumUuid: "7899"
+                },
+                {
+                    uuid: "b43329b4-06df-40a7-bbc5-ab1d318271cb",
+                    albumUuid: "bc46b3c0-3d4d-4ac9-942f-93b778edeac5b"
                 }])
         })
     }
@@ -49,7 +54,9 @@ export const TreeList= (props) => {
                     uuid: "7899",
                 },    {
                     uuid: "8888",
-                },])
+                }, {
+                uuid: "bc46b3c0-3d4d-4ac9-942f-93b778edeac5b"
+                }])
         })
     }
 
@@ -67,12 +74,18 @@ export const TreeList= (props) => {
         if ( !display.has(ev.target.id) ) {
             // For rerender, else react does not detect the Set change
             let newDisplay = new Set(new Set([...display.add(ev.target.id)]));
+            let t = getSamplesAsB64ForAlbum(ev.target.id, localStorage.getItem("apiPpcToken"))
+            console.log("GET SAMPELS AS B64")
+            console.log(t);
             setDisplay(newDisplay);
         } else {
             display.delete(ev.target.id);
             let newDisplay = new Set(new Set([...display]));
             setDisplay(newDisplay);
         }
+
+
+        console.log("TO SEND ?")
         console.log(display)
     }
 
@@ -125,6 +138,7 @@ export const TreeList= (props) => {
         })
 
         setAlbumsWithSamplesList(combined);
+
     }
 
     useEffect(() => {
@@ -134,7 +148,9 @@ export const TreeList= (props) => {
             setAlbums(alb)
             let samp = await mockSamples()
             setSamples(samp)
+
             combineAlbumsWithSamples(alb, samp)
+
         }
         test()
 
@@ -147,6 +163,10 @@ export const TreeList= (props) => {
                     return <div style={{background: 'red', display:'flex', flexFlow: 'row wrap', justifyContent: 'flex-start',margin: '10px'}}>
                         <img id={e.album} onClick={clickOnMusicFolder} src={musicFolderColorizedIcon} style={Style.icon}/>
                         <p style={{background: 'green'}}>{e.album}</p>
+                        <div>
+                            ok
+                            <audio src="data:audio/mpeg;base64," controls></audio>
+                        </div>
                         {
                             <ul className={display.has(e.album) === true ? 'd-block': 'd-none'}>
                                 {

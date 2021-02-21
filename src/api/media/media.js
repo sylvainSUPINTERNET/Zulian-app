@@ -20,3 +20,18 @@ export const uploadMedia = async (fileObject, user_email, user_id) => {
     console.log(resp);
     return resp;
 }
+
+export const getSamplesAsB64ForAlbum = async (albumUuid, token) => {
+    const { URL } = apiConf.mediaJava
+
+    const req = await fetch(`${URL}samples/audio/b64?albumUuid=${albumUuid}`, {
+        method: 'GET',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        }
+    })
+
+    return await req.json();
+}
