@@ -40,6 +40,9 @@ export const TreeList= (props) => {
                 {
                     uuid: "b43329b4-06df-40a7-bbc5-ab1d318271cb",
                     albumUuid: "bc46b3c0-3d4d-4ac9-942f-93b778edeac5b"
+                }, {
+                albumUuid:'2125ef5a-597c-4c35-a197-52cc9ed5d5aa',
+                    uuid: "4d0640f4-c8e1-4128-ad5d-414885407c5a"
                 }])
         })
     }
@@ -56,7 +59,10 @@ export const TreeList= (props) => {
                 },    {
                     uuid: "8888",
                 }, {
-                uuid: "38fcd3a7-c611-473e-879a-a259360c67e3"
+                uuid: "d48ee7ed-0936-45e8-b270-e6feb66c7065"
+                },
+                {
+                    uuid: '2125ef5a-597c-4c35-a197-52cc9ed5d5aa'
                 }])
         })
     }
@@ -65,12 +71,20 @@ export const TreeList= (props) => {
         ev.target.src = (new URL(ev.target.src).pathname === musicFolderColorizedIcon ? musicFolderOpen : musicFolderColorizedIcon)
         let filterAlbumUuid = ev.target.id;
 
+        let i = -1;
         if ( new URL(ev.target.src).pathname === musicFolderOpen ) {
-            let currentSamples = albumsWithSamplesList.filter(combined => {
-                return combined.album === filterAlbumUuid
+            let currentSamples = albumsWithSamplesList.filter( (combined, index) => {
+                if ( combined.album === filterAlbumUuid ) {
+                    i = index;
+                    return combined.album === filterAlbumUuid
+                }
             });
         }
         console.log(ev.target.id);
+
+        console.log("CURRENT SAMPLES")
+        console.log(i);
+
 
         if ( !display.has(ev.target.id) ) {
             // For rerender, else react does not detect the Set change
@@ -88,6 +102,8 @@ export const TreeList= (props) => {
 
         console.log("TO SEND ?")
         console.log(display)
+        console.log("COMBINED")
+        console.log(albumsWithSamplesList);
     }
 
     const combineAlbumsWithSamples = (albums, samples) => {
@@ -116,14 +132,16 @@ export const TreeList= (props) => {
                 if (typeof combined[position] !== "undefined") {
                     combined[position] = {
                         album: cacheAlbums[position],
-                        samples:[...combined[position].samples, sample]
+                        samples:[...combined[position].samples, sample],
+                        samplesAsB64: []
                     }
                 } else {
                     combined[position] = {
                         album: cacheAlbums[position],
                         samples: [
                             sample
-                        ]
+                        ],
+                        samplesAsB64: []
                     }
                 }
             }
@@ -133,12 +151,15 @@ export const TreeList= (props) => {
             if ( al !== "") {
                 combined[i] = {
                     album: al,
-                    samples: []
+                    samples: [],
+                    samplesAsB64: []
                 }
             }
         })
 
         setAlbumsWithSamplesList(combined);
+
+        console.log(combined);
 
     }
 
