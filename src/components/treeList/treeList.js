@@ -6,7 +6,7 @@ import musicFolderOpen from '../../icons/folder-open.svg';
 import Style from "./treeList.style";
 import {getSamplesAsB64ForAlbum} from "../../api/media/media";
 
-export const TreeList= (props) => {
+export const TreeList = (props) => {
     const [samples, setSamples] = useState([]);
     const [albums, setAlbums] = useState([]);
 
@@ -15,13 +15,13 @@ export const TreeList= (props) => {
     let [cacheAlbums, setCacheAlbums] = useState([]);
 
     let [albumsWithSamplesList, setAlbumsWithSamplesList] = useState([]);
-    let [samplesAsB64ForAlbum, setSamplesAsB64ForAlbum] = useState([]);
+
 
     // albums each contains uuid
     // samples each contains uuid + albumUuid
 
     const mockSamples = async () => {
-        return new Promise( resolve => {
+        return new Promise(resolve => {
             resolve([{
                 uuid: "xdxdx",
                 albumUuid: "1234"
@@ -41,14 +41,14 @@ export const TreeList= (props) => {
                     uuid: "b43329b4-06df-40a7-bbc5-ab1d318271cb",
                     albumUuid: "bc46b3c0-3d4d-4ac9-942f-93b778edeac5b"
                 }, {
-                albumUuid:'2125ef5a-597c-4c35-a197-52cc9ed5d5aa',
+                    albumUuid: '2125ef5a-597c-4c35-a197-52cc9ed5d5aa',
                     uuid: "4d0640f4-c8e1-4128-ad5d-414885407c5a"
                 }])
         })
     }
 
     const mockAlbums = () => {
-        return new Promise( resolve => {
+        return new Promise(resolve => {
             resolve([{
                 uuid: "1234",
             }, {
@@ -56,10 +56,10 @@ export const TreeList= (props) => {
             },
                 {
                     uuid: "7899",
-                },    {
+                }, {
                     uuid: "8888",
                 }, {
-                uuid: "d48ee7ed-0936-45e8-b270-e6feb66c7065"
+                    uuid: "d48ee7ed-0936-45e8-b270-e6feb66c7065"
                 },
                 {
                     uuid: '2125ef5a-597c-4c35-a197-52cc9ed5d5aa'
@@ -72,28 +72,30 @@ export const TreeList= (props) => {
         let filterAlbumUuid = ev.target.id;
 
         let i = -1;
-        if ( new URL(ev.target.src).pathname === musicFolderOpen ) {
-            let currentSamples = albumsWithSamplesList.filter( (combined, index) => {
-                if ( combined.album === filterAlbumUuid ) {
-                    i = index;
-                    return combined.album === filterAlbumUuid
-                }
-            });
-        }
+        albumsWithSamplesList.filter((combined, index) => {
+            if (combined.album === filterAlbumUuid) {
+                i = index;
+                return combined.album === filterAlbumUuid
+            }
+        });
         console.log(ev.target.id);
 
-        console.log("CURRENT SAMPLES")
-        console.log(i);
-
-
-        if ( !display.has(ev.target.id) ) {
+        if (!display.has(ev.target.id)) {
             // For rerender, else react does not detect the Set change
             let newDisplay = new Set(new Set([...display.add(ev.target.id)]));
-            let { data } = await getSamplesAsB64ForAlbum(ev.target.id, localStorage.getItem("apiPpcToken"))
+            let {data} = await getSamplesAsB64ForAlbum(ev.target.id, localStorage.getItem("apiPpcToken"))
             console.log("GET SAMPELS AS B64")
-            setSamplesAsB64ForAlbum(data);
+            if (i !== -1) {
+                console.log(albumsWithSamplesList[i]["samplesAsB64"])
+                console.log([...albumsWithSamplesList[i]["samplesAsB64"], ...data])
+                albumsWithSamplesList[i]["samplesAsB64"] = [...albumsWithSamplesList[i]["samplesAsB64"], ...data];
+                setAlbumsWithSamplesList(albumsWithSamplesList);
+                console.log(albumsWithSamplesList);
+            }
             setDisplay(newDisplay);
         } else {
+            console.log(i);
+            albumsWithSamplesList[i]["samplesAsB64"] = [];
             display.delete(ev.target.id);
             let newDisplay = new Set(new Set([...display]));
             setDisplay(newDisplay);
@@ -111,8 +113,8 @@ export const TreeList= (props) => {
         let combined = [];
 
         // Get all albums (unique)
-        albums.map( (album, i) => {
-            if ( !cacheAlbums.includes(album.uuid) ) {
+        albums.map((album, i) => {
+            if (!cacheAlbums.includes(album.uuid)) {
                 cacheAlbums = [...cacheAlbums, album.uuid]
                 setCacheAlbums([new Set(cacheAlbums)]);
             }
@@ -122,8 +124,8 @@ export const TreeList= (props) => {
         let tmpAlbums = [...cacheAlbums];
 
 
-        samples.map( sample => {
-            if ( cacheAlbums.includes(sample.albumUuid) ) {
+        samples.map(sample => {
+            if (cacheAlbums.includes(sample.albumUuid)) {
 
                 let position = cacheAlbums.indexOf(sample.albumUuid);
                 tmpAlbums[position] = ""
@@ -132,7 +134,7 @@ export const TreeList= (props) => {
                 if (typeof combined[position] !== "undefined") {
                     combined[position] = {
                         album: cacheAlbums[position],
-                        samples:[...combined[position].samples, sample],
+                        samples: [...combined[position].samples, sample],
                         samplesAsB64: []
                     }
                 } else {
@@ -147,8 +149,8 @@ export const TreeList= (props) => {
             }
         });
 
-        tmpAlbums.map( (al,i) => {
-            if ( al !== "") {
+        tmpAlbums.map((al, i) => {
+            if (al !== "") {
                 combined[i] = {
                     album: al,
                     samples: [],
@@ -182,13 +184,20 @@ export const TreeList= (props) => {
         <div className="">
             {
                 albumsWithSamplesList.map(e => {
-                    return <div style={{background: 'red', display:'flex', flexFlow: 'row wrap', justifyContent: 'flex-start',margin: '10px'}}>
-                        <img id={e.album} onClick={clickOnMusicFolder} src={musicFolderColorizedIcon} style={Style.icon}/>
+                    return <div style={{
+                        background: 'red',
+                        display: 'flex',
+                        flexFlow: 'row wrap',
+                        justifyContent: 'flex-start',
+                        margin: '10px'
+                    }}>
+                        <img id={e.album} onClick={clickOnMusicFolder} src={musicFolderColorizedIcon}
+                             style={Style.icon}/>
                         <p style={{background: 'green'}}>{e.album}</p>
                         {
-                            <ul className={display.has(e.album) === true ? 'd-block': 'd-none'}>
+                            <ul className={display.has(e.album) === true ? 'd-block' : 'd-none'}>
                                 {
-                                    samplesAsB64ForAlbum.map( sample => {
+                                    e.samplesAsB64.map(sample => {
                                         return <li>
                                             <audio src={sample.b64} controls></audio>
                                         </li>
