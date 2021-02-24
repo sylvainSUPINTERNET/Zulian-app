@@ -184,16 +184,15 @@ export const TreeList = (props) => {
         <div className="">
             {
                 albumsWithSamplesList.map(e => {
-                    return <div style={{
-                        background: 'red',
+                    return <div className="rainbow-box" style={{
                         display: 'flex',
                         flexFlow: 'row wrap',
-                        justifyContent: 'flex-start',
+                        justifyContent: 'start',
                         margin: '10px'
                     }}>
                         <img id={e.album} onClick={clickOnMusicFolder} src={musicFolderColorizedIcon}
                              style={Style.icon}/>
-                        <p style={{background: 'green'}}>{e.album}</p>
+                        <p style={Style.album}>{e.album}</p>
                         {
                             <ul className={display.has(e.album) === true ? 'd-block' : 'd-none'}>
                                 {

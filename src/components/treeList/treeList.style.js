@@ -2,9 +2,12 @@ const Style = {
     icon : {
         "width": "50px",
         "height": "50px",
-        "background": "grey",
-        "cursor": "pointer"
-
+        "cursor": "pointer",
+        'margin': '10px'
+    },
+    album : {
+        margin: '10px',
+        'color': 'white'
     }
 }
 
