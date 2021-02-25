@@ -38,11 +38,11 @@ export const TreeList = (props) => {
                     albumUuid: "7899"
                 },
                 {
-                    uuid: "b43329b4-06df-40a7-bbc5-ab1d318271cb",
-                    albumUuid: "bc46b3c0-3d4d-4ac9-942f-93b778edeac5b"
+                    uuid: '61af071f-0f16-4741-be3d-4f9b153abfa9',
+                    albumUuid: "9daacaef-349d-4287-be38-e7e3a1525b0c"
                 }, {
-                    albumUuid: '2125ef5a-597c-4c35-a197-52cc9ed5d5aa',
-                    uuid: "4d0640f4-c8e1-4128-ad5d-414885407c5a"
+                    uuid: '61af071f-0f16-4741-be3d-4f9b153abfa9',
+                    albumUuid: "9daacaef-349d-4287-be38-e7e3a1525b0c"
                 }])
         })
     }
@@ -62,7 +62,7 @@ export const TreeList = (props) => {
                     uuid: "d48ee7ed-0936-45e8-b270-e6feb66c7065"
                 },
                 {
-                    uuid: '2125ef5a-597c-4c35-a197-52cc9ed5d5aa'
+                    uuid: '9daacaef-349d-4287-be38-e7e3a1525b0c',
                 }])
         })
     }
@@ -190,15 +190,20 @@ export const TreeList = (props) => {
                         justifyContent: 'start',
                         margin: '10px'
                     }}>
-                        <img id={e.album} onClick={clickOnMusicFolder} src={musicFolderColorizedIcon}
-                             style={Style.icon}/>
-                        <p style={Style.album}>{e.album}</p>
+                        <div style={{display: 'flex',
+                            flexFlow: 'row wrap',
+                            justifyContent: 'start', flex: '100%' , background: 'red'}}>
+                            <img id={e.album} onClick={clickOnMusicFolder} src={musicFolderColorizedIcon}
+                                 style={Style.icon}/>
+                            <p style={Style.album}>{e.album}</p>
+                        </div>
                         {
-                            <ul className={display.has(e.album) === true ? 'd-block' : 'd-none'}>
+                            <ul className={display.has(e.album) === true ? 'd-block' : 'd-none'} style={Style.sampleList}>
                                 {
                                     e.samplesAsB64.map(sample => {
                                         return <li>
-                                            <audio src={sample.b64} controls></audio>
+                                            <audio className="rainbow-box" style={Style.audio} src={sample.b64} controls></audio>
+                                            <audio className="rainbow-box" style={Style.audio} src={sample.b64} controls></audio>
                                         </li>
                                     })
                                 }

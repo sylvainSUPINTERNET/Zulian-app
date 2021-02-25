@@ -161,3 +161,9 @@ body {
 }
 
 
+audio::-webkit-media-controls-panel {
+    background-color: #f1e7fe;
+}
+
+
+
