@@ -39,7 +39,8 @@ export const TreeList = (props) => {
                 },
                 {
                     uuid: '61af071f-0f16-4741-be3d-4f9b153abfa9',
-                    albumUuid: "9daacaef-349d-4287-be38-e7e3a1525b0c"
+                    albumUuid: "9daacaef-349d-4287-be38-e7e3a1525b0c",
+                    displayName:"TEST DISPLAY NAME"
                 }, {
                     uuid: '61af071f-0f16-4741-be3d-4f9b153abfa9',
                     albumUuid: "9daacaef-349d-4287-be38-e7e3a1525b0c"
@@ -62,7 +63,7 @@ export const TreeList = (props) => {
                     uuid: "d48ee7ed-0936-45e8-b270-e6feb66c7065"
                 },
                 {
-                    uuid: '9daacaef-349d-4287-be38-e7e3a1525b0c',
+                    uuid: '8dc2ca43-aef6-42bd-80ff-315f2a9255bf',
                 }])
         })
     }
@@ -190,18 +191,22 @@ export const TreeList = (props) => {
                         justifyContent: 'start',
                         margin: '10px'
                     }}>
+
                         <div style={{display: 'flex',
                             flexFlow: 'row wrap',
-                            justifyContent: 'start', flex: '100%' , background: 'red'}}>
+                            justifyContent: 'start', flex: '1'}}>
                             <img id={e.album} onClick={clickOnMusicFolder} src={musicFolderColorizedIcon}
                                  style={Style.icon}/>
                             <p style={Style.album}>{e.album}</p>
                         </div>
                         {
                             <ul className={display.has(e.album) === true ? 'd-block' : 'd-none'} style={Style.sampleList}>
+
                                 {
                                     e.samplesAsB64.map(sample => {
-                                        return <li>
+                                        return <li style={Style.sampleContentList}>
+                                            <audio className="rainbow-box" style={Style.audio} src={sample.b64} controls></audio>
+                                            <audio className="rainbow-box" style={Style.audio} src={sample.b64} controls></audio>
                                             <audio className="rainbow-box" style={Style.audio} src={sample.b64} controls></audio>
                                             <audio className="rainbow-box" style={Style.audio} src={sample.b64} controls></audio>
                                         </li>

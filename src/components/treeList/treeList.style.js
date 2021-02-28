@@ -13,13 +13,16 @@ const Style = {
     padding: '1px',
     borderRadius:' 5px',
     backgroundColor: '#f1e7fe',
-    margin: '20px auto',
+    margin: '10px',
     overflow: 'hidden',
     },
     sampleList: {
         display: 'flex',
         flexFlow: 'row wrap',
         justifyContent: 'space-between'
+    },
+    sampleContentList: {
+        listStyleType: 'none'
     }
 
 }

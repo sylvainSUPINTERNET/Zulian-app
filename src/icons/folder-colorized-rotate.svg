@@ -37,15 +37,7 @@
     <linearGradient id="SVGID_11_" gradientUnits="userSpaceOnUse" x1="214.038" x2="287.165" xlink:href="#lg1"
                     y1="297.962" y2="224.835"/>
     <g>
-        <circle cx="256" cy="256" fill="url(#SVGID_1_)" r="256">
-        <animateTransform attributeName="transform"
-                          attributeType="XML"
-                          type="rotate"
-                          from="0 10 0"
-                          to="0 -45 0"
-                          dur="2s"
-                          repeatCount="indefinite"/>
-        </circle>
+        <circle cx="256" cy="256" fill="url(#SVGID_1_)" r="256"/>
         <circle cx="256" cy="256" fill="url(#SVGID_2_)" r="256"/>
         <path d="m85.853 152.844c-19.324 30.448-30.767 65.619-30.753 103.156-.034 54.029 23.771 103.429 60.575 140.325 18.122.447 36.245.808 54.367 1.082-28.978-82.401-58.077-164.275-84.189-244.563z"
               fill="url(#SVGID_3_)"/>
