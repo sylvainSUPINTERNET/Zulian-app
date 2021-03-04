@@ -4,5 +4,8 @@ export default {
     },
     mediaJava: {
         URL: "http://localhost:7777/api/v1/"
+    },
+    chat: {
+        URL: "http://localhost:4001"
     }
 }

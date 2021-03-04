@@ -5,12 +5,22 @@ import {TreeList} from "../treeList/treeList";
 import add from '../../icons/add.svg';
 import {Style} from "../profil/profil.style";
 import {album} from "../../api/sampleAlbum/sampleAlbum";
-
+import socketIOClient from "socket.io-client";
+import * as conf from "../../api/conf"
 export const Samples= (props) => {
 
     const [newAlbum, setNewAlbum] = React.useState("");
     const [disable, setDisable] = React.useState(false);
     const [isLoading, setIsLoading] = React.useState(false);
+
+//INTERESSTING : https://www.valentinog.com/blog/socket-react/
+
+    useEffect( () => {
+        const socket = socketIOClient(conf.default.chat.URL);
+        socket.on("channel1", data => {
+            console.log("Response : ", data)
+        })
+    }, []);
 
     const createAlbumSubmit = async ev => {
         ev.preventDefault();
