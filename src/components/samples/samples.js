@@ -20,6 +20,10 @@ export const Samples= (props) => {
         socket.on("channel1", data => {
             console.log("Response : ", data)
         })
+
+        // WHEN LEAVE APP AND COMPONENT GET DESTROYED CLEAN UP THE EFFECT
+        return () => socket.disconnect();
+
     }, []);
 
     const createAlbumSubmit = async ev => {
@@ -36,6 +40,7 @@ export const Samples= (props) => {
         } else {
             console.log("NOT OK")
         }
+
         console.log("CREATE", ev);
     }
 
