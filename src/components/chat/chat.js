@@ -5,6 +5,7 @@ import conf from "../../api/conf";
 import confChat from "../../api/chatConf";
 import {rooms} from "../../api/rooms/rooms";
 import {getUserDetails} from "../../api/authentication/authentication";
+import {users} from "../../api/users/users";
 
 export const Chat = () => {
 
@@ -13,6 +14,20 @@ export const Chat = () => {
     const [loadedRooms, setLoadedRooms] = React.useState([]);
     const [currentSocket, setCurrentSocket] = React.useState(null);
 
+
+    // TODO => STEP 0
+    // TODO creation of profiles
+    // TODO get ALL profiles instead of users
+    // TODO => create card for each user + onClick interessting event + userDataTargeted to create the room with both uuid
+    // TODO => on click, get profile user uuid + current logged user uuid to join a room
+
+    // TODO => STEP 1 send message
+    const getUsersProfiles = async () => {
+        const resp = await users.getUsers();
+        const jsonUsers = await resp.json();
+        setProfiles(jsonUsers);
+        return jsonUsers;
+    }
 
     const getUserInfos = async () => {
         const resp = await getUserDetails()
@@ -38,7 +53,8 @@ export const Chat = () => {
 
     }
 
-    const interestingProfile = (event) => {
+    const interestingProfile = (event, userTarget) => {
+
         // TODO
         // socket io => join room
         // user 1 => socket
@@ -46,6 +62,7 @@ export const Chat = () => {
 
     }
     useEffect( () => {
+        getUsersProfiles()
         const socket = socketIOClient(conf.chat.URL);
         setCurrentSocket(socket);
         getUserInfos().then( data => {
@@ -62,8 +79,29 @@ export const Chat = () => {
             <Menu/>
         </header>
         <div>
+            {
+                profiles.map( (profile, i) => {
+                    return <div>
+                        <p key={i}> { profile.email }</p>
+                    </div>
+                })
+            }
             <div className="d-flex flex-row justify-content-end mr-5 mt-5">
                 <div className="card rainbow-box black-background" style={{width: "40rem", color:'ghostwhite'}}>
+                    <div className="card-body">
+                        <h5 className="card-title">Johnny le Ouf, 40 ans</h5>
+                        <p className="card-text">Chomeur au RSA</p>
+                        <p className="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce eget nisi euismod, molestie augue vitae, tristique mi. Curabitur egestas pharetra elit vel tempor. Aliquam sagittis feugiat sapien in pulvinar.</p>
+                        <div className="d-flex flex-row justify-content-between">
+                            <a href="#" className="btn btn-danger">Pas mon style</a>
+                            <a href="#" className="btn btn-warning">Match !</a>
+                            <a href="#" className="btn btn-success" onClick={ event => {
+                                interestingProfile(event, "TEST");
+                            }}>Intéressant</a>
+                        </div>
+                    </div>
+
+                    {/*
                     <div id="carouselExampleControls" className="carousel slide" data-ride="carousel">
                         <div className="carousel-inner">
                             <div className="carousel-item active">
@@ -87,18 +125,7 @@ export const Chat = () => {
                             <span className="sr-only">Next</span>
                         </a>
                     </div>
-
-                    <div className="card-body">
-                            <h5 className="card-title">Johnny le Ouf, 40 ans</h5>
-                            <p className="card-text">Chomeur au RSA</p>
-                            <p className="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce eget nisi euismod, molestie augue vitae, tristique mi. Curabitur egestas pharetra elit vel tempor. Aliquam sagittis feugiat sapien in pulvinar.</p>
-                            <div className="d-flex flex-row justify-content-between">
-                                <a href="#" className="btn btn-danger">Pas mon style</a>
-                                <a href="#" className="btn btn-warning">Match !</a>
-                                <a href="#" className="btn btn-success" onClick={interestingProfile}>Intéressant</a>
-                            </div>
-
-                        </div>
+                    */}
                 </div>
             </div>
         </div>
