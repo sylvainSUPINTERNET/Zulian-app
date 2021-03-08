@@ -30,6 +30,13 @@ export const Profil = (props) => {
     let [media, setMedia] = React.useState(null);
     let preview = React.useRef(null);
 
+
+    let [inputUserName, setInputUserName] = React.useState("");
+    let [inputCountry, setInputCountry] = React.useState("FR");
+    let [inputCity, setInputCity] = React.useState("Paris");
+    let [inputRelationKind, setInputRelationKind] = React.useState("RAL");
+    let [inputGender, setInputGender] = React.useState("h");
+
     const onUploadPicture = ev => {
         const file = ev.target.files[0];
         setMedia(file);
@@ -108,15 +115,31 @@ export const Profil = (props) => {
 
 
     const submitProfil = async (ev) => {
+        console.log("hobbies ", selectedHobbies)
+        console.log("country ",inputCountry);
+        console.log("gender ", inputGender)
+        console.log("city ", inputCity)
+        console.log("username ", inputUserName)
+        console.log("relation kind ",inputRelationKind)
+
         ev.preventDefault();
 
         const {data} = userDetails;
         const { id, email } = data;
 
         let resp = await uploadMedia(media,email,id);
-        console.log(resp);
-        
+
+        if ( resp.error && resp.error === false) {
+            console.log("CREATE PROFILE");
+        }
     }
+
+    const onChangeInput = (ev, type) => {
+        if ( type === "username") {
+
+        }
+    }
+
     const test = async () => {
         let resp = await getUserDetails();
         let jsonData = await resp.json();
@@ -149,15 +172,15 @@ export const Profil = (props) => {
                         <div className="w-100 text-center p-2">
                             <form className="" onSubmit={submitProfil}>
                                 <div className="form-group">
-                                    <input type="nickname" className="form-control form-control-lg  rainbow-box" id="nicknameInput" placeholder="Nom d'utilisateur"/>
+                                    <input type="text" value={inputUserName} onInput={e => setInputUserName(e.target.value)} className="form-control form-control-lg  rainbow-box" id="nicknameInput" placeholder="Nom d'utilisateur"/>
                                 </div>
                                 <div className="form-group">
-                                    <input type="city" className="form-control form-control-lg  rainbow-box" id="cityInput" placeholder="Paris"/>
+                                    <input type="city" value={inputCity} onInput={e => setInputCity(e.target.value)} className="form-control form-control-lg  rainbow-box" id="cityInput" placeholder="Paris"/>
                                 </div>
 <pre>{JSON.stringify(userDetails)}</pre>
 
 <div className="form-group  rainbow-box">
-<select className="form-control form-control-lg">
+<select className="form-control form-control-lg" value={inputCountry} onChange={ event => setInputCountry(event.target.value)}>
     <option value="CA">Canada</option>
     <option value="AF">Afghanistan</option>
     <option value="ZA">Afrique du sud</option>
@@ -236,7 +259,7 @@ export const Profil = (props) => {
     <option value="FO">Féroé, îles</option>
     <option value="FJ">Fidji</option>
     <option value="FI">Finlande</option>
-    <option value="FR">France</option>
+    <option value="FR" defaultValue={inputCountry}>France</option>
     <option value="GA">Gabon</option>
     <option value="GM">Gambie</option>
     <option value="GE">Géorgie</option>
@@ -414,8 +437,10 @@ export const Profil = (props) => {
 <div className="">
     <div className="form-group">
         <div className="mt-4 rainbow-box">
-            <select className="form-select form-control form-control-lg" aria-label="Default select example">
-            <option value="h">Homme</option>
+            <select className="form-select form-control form-control-lg" aria-label="Default select example"
+                    value={inputGender}
+                    onChange={ event => setInputGender(event.target.value)}>
+            <option value="h" defaultValue={inputGender}>Homme</option>
             <option value="f">Femme</option>
             <option value="a">Autre</option>
             </select>
@@ -427,8 +452,9 @@ export const Profil = (props) => {
 <p className="text-center display-4 text-white">Je recherche</p>
 <div className="form-group">
 <div className="mt-4 rainbow-box">
-        <select className="form-select form-control form-control-lg" aria-label="Default select example">
-        <option value="RAL">Relation Amicale</option>
+        <select className="form-select form-control form-control-lg" aria-label="Default select example" value={inputRelationKind}
+        onChange={ event => setInputRelationKind(event.target.value)}>
+        <option value="RAL" defaultValue={inputRelationKind}>Relation Amicale</option>
         <option value="RAM">Relation Amoureuse</option>
         <option value="RS">Relation Sexuelle</option>
         </select>
