@@ -6,6 +6,7 @@ import confChat from "../../api/chatConf";
 import {rooms} from "../../api/rooms/rooms";
 import {getUserDetails} from "../../api/authentication/authentication";
 import {users} from "../../api/users/users";
+import {profil} from "../../api/profil/profil";
 
 export const Chat = () => {
 
@@ -23,10 +24,12 @@ export const Chat = () => {
 
     // TODO => STEP 1 send message
     const getUsersProfiles = async () => {
-        const resp = await users.getUsers();
-        const jsonUsers = await resp.json();
-        setProfiles(jsonUsers);
-        return jsonUsers;
+        const resp = await profil.getProfiles();
+        const {profiles} = await resp.json();
+        console.log(profiles);
+
+        setProfiles(profiles);
+        return profiles;
     }
 
     const getUserInfos = async () => {
@@ -81,27 +84,22 @@ export const Chat = () => {
         <div>
             {
                 profiles.map( (profile, i) => {
-                    return <div>
-                        <p key={i}> { profile.email }</p>
-                    </div>
-                })
-            }
-            <div className="d-flex flex-row justify-content-end mr-5 mt-5">
-                <div className="card rainbow-box black-background" style={{width: "40rem", color:'ghostwhite'}}>
-                    <div className="card-body">
-                        <h5 className="card-title">Johnny le Ouf, 40 ans</h5>
-                        <p className="card-text">Chomeur au RSA</p>
-                        <p className="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce eget nisi euismod, molestie augue vitae, tristique mi. Curabitur egestas pharetra elit vel tempor. Aliquam sagittis feugiat sapien in pulvinar.</p>
-                        <div className="d-flex flex-row justify-content-between">
-                            <a href="#" className="btn btn-danger">Pas mon style</a>
-                            <a href="#" className="btn btn-warning">Match !</a>
-                            <a href="#" className="btn btn-success" onClick={ event => {
-                                interestingProfile(event, "TEST");
-                            }}>Intéressant</a>
-                        </div>
-                    </div>
+                    return <div className="d-flex flex-row justify-content-end mr-5 mt-5">
+                        <div className="card rainbow-box black-background" style={{width: "40rem", color:'ghostwhite'}}>
+                            <div className="card-body">
+                                <h5 className="card-title">{profile.username}</h5>
+                                <p className="card-text">Chomeur au RSA</p>
+                                <p className="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce eget nisi euismod, molestie augue vitae, tristique mi. Curabitur egestas pharetra elit vel tempor. Aliquam sagittis feugiat sapien in pulvinar.</p>
+                                <div className="d-flex flex-row justify-content-between">
+                                    <a href="#" className="btn btn-danger">Pas mon style</a>
+                                    <a href="#" className="btn btn-warning">Match !</a>
+                                    <a href="#" className="btn btn-success" onClick={ event => {
+                                        interestingProfile(event, "TEST");
+                                    }}>Intéressant</a>
+                                </div>
+                            </div>
 
-                    {/*
+                            {/*
                     <div id="carouselExampleControls" className="carousel slide" data-ride="carousel">
                         <div className="carousel-inner">
                             <div className="carousel-item active">
@@ -126,8 +124,10 @@ export const Chat = () => {
                         </a>
                     </div>
                     */}
-                </div>
-            </div>
+                        </div>
+                    </div>
+                })
+            }
         </div>
     </div>)
 }

@@ -6,7 +6,7 @@ const createProfile = body => {
     let hobbiesToString = "";
     hobbies.map( (el, i) => i === 0 ? hobbiesToString = hobbiesToString.concat(el.name) : hobbiesToString = hobbiesToString.concat(",",el.name));
 
-    return fetch(`${config.apiPpc}/profile`,{
+    return fetch(`${config.apiPpc}/profiles`,{
         method: 'post',
         body: JSON.stringify({
             username,
@@ -24,6 +24,18 @@ const createProfile = body => {
     });
 }
 
+const getProfiles = () => {
+    return fetch(`${config.apiPpc}/profiles`,{
+        method: 'get',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${localStorage.getItem("apiPpcToken")}`
+        }
+    });
+}
+
 export const profil = {
-    createProfile
+    createProfile,
+    getProfiles
 }

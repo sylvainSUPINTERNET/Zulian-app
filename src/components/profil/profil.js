@@ -2,6 +2,7 @@ import React, {useEffect} from 'react'
 import {getUserDetails} from "../../api/authentication/authentication"
 import Menu from "../Menu";
 import {uploadMedia} from "../../api/media/media";
+import {profil} from "../../api/profil/profil";
 
 const styleFormProfil = {
     inputText : {
@@ -50,9 +51,6 @@ export const Profil = (props) => {
           }, false);
 
         reader.readAsDataURL(file);
-
-
-    
     }
 
 
@@ -129,14 +127,18 @@ export const Profil = (props) => {
 
         let resp = await uploadMedia(media,email,id);
 
-        if ( resp.error && resp.error === false) {
-            console.log("CREATE PROFILE");
-        }
-    }
+        if ( resp.error === false ) {
 
-    const onChangeInput = (ev, type) => {
-        if ( type === "username") {
-
+            let respProfile = await profil.createProfile({
+                username: inputUserName,
+                city: inputCity,
+                country: inputCountry,
+                gender: inputGender,
+                relationKind: inputRelationKind,
+                hobbies
+            })
+            let respJson = respProfile.json();
+            console.log("PROFILE RESP", respJson);
         }
     }
 
