@@ -7,6 +7,7 @@ import {rooms} from "../../api/rooms/rooms";
 import {getUserDetails} from "../../api/authentication/authentication";
 import {users} from "../../api/users/users";
 import {profil} from "../../api/profil/profil";
+import { v4 as uuidv4 } from 'uuid';
 
 export const Chat = () => {
 
@@ -56,13 +57,11 @@ export const Chat = () => {
 
     }
 
-    const interestingProfile = (event, userTarget) => {
-
-        // TODO
-        // socket io => join room
-        // user 1 => socket
-        // socket => rooms default + room with the profil target
-
+    const interestingProfile = (event, profile) => {
+        currentSocket.emit(confChat.joinChannel, {
+            userName: profile.username,
+            roomName: uuidv4()
+        });
     }
     useEffect( () => {
         getUsersProfiles()
@@ -94,7 +93,7 @@ export const Chat = () => {
                                     <a href="#" className="btn btn-danger">Pas mon style</a>
                                     <a href="#" className="btn btn-warning">Match !</a>
                                     <a href="#" className="btn btn-success" onClick={ event => {
-                                        interestingProfile(event, "TEST");
+                                        interestingProfile(event, profile);
                                     }}>Intéressant</a>
                                 </div>
                             </div>
