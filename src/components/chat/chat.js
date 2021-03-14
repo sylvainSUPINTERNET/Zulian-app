@@ -3,7 +3,7 @@ import Menu from "../Menu";
 import socketIOClient from "socket.io-client";
 import conf from "../../api/conf";
 import confChat from "../../api/chatConf";
-import {rooms} from "../../api/rooms/rooms";
+import {rooms as room, rooms} from "../../api/rooms/rooms";
 import {getUserDetails} from "../../api/authentication/authentication";
 import {users} from "../../api/users/users";
 import {profil} from "../../api/profil/profil";
@@ -16,14 +16,6 @@ export const Chat = () => {
     const [loadedRooms, setLoadedRooms] = React.useState([]);
     const [currentSocket, setCurrentSocket] = React.useState(null);
 
-
-    // TODO => STEP 0
-    // TODO creation of profiles
-    // TODO get ALL profiles instead of users
-    // TODO => create card for each user + onClick interessting event + userDataTargeted to create the room with both uuid
-    // TODO => on click, get profile user uuid + current logged user uuid to join a room
-
-    // TODO => STEP 1 send message
     const getUsersProfiles = async () => {
         const resp = await profil.getProfiles();
         const {profiles} = await resp.json();
@@ -42,6 +34,8 @@ export const Chat = () => {
 
     const loadRooms = async (socket, userInfos) => {
         const resp = await rooms.getMyRooms();
+        console.log("USER INFO")
+        console.log(userInfos)
 
         if ( resp.status === 200 ) {
             const {data} = await resp.json();
@@ -49,7 +43,10 @@ export const Chat = () => {
             if ( data.length > 0 ) {
                 data.map( room => socket.emit(confChat.joinChannel, {
                     roomName: room.uuid,
-                    userName: userInfos.data.name
+                    userName: userInfos.data.name,
+                    userFirstname:userInfos.given_name,
+                    userFullName: userInfos.name,
+                    userUuid: userInfos.uuid
                 }));
             }
             return data;
@@ -57,19 +54,38 @@ export const Chat = () => {
 
     }
 
-    const interestingProfile = (event, profile) => {
-        currentSocket.emit(confChat.joinChannel, {
-            userName: profile.username,
-            roomName: uuidv4()
-        });
+    const interestingProfile = async (event, profile) => {
+        const displayName = uuidv4();
+        const targetUserName = profile.username;
+        const targetUserUuid = profile.user.uuid
+        
+       const resp = await room.createRoom({displayName, targetUserUuid});
+       const jsonData = await resp.json();
+
+       if ( resp.status === 200 ) {
+           currentSocket.emit(confChat.joinChannel, {
+               userName: targetUserName,
+               roomName: displayName
+           });
+       }
+
     }
+
     useEffect( () => {
         getUsersProfiles()
         const socket = socketIOClient(conf.chat.URL);
+
         setCurrentSocket(socket);
+
+        socket.on( `welcome-user`,data => {
+            console.log("LISTENING")
+            console.log(data)
+        })
+
         getUserInfos().then( data => {
             loadRooms(socket, data);
         }).catch(err => console.log(err));
+
 
         // WHEN LEAVE APP AND COMPONENT GET DESTROYED CLEAN UP THE EFFECT
         return () => socket.disconnect();
