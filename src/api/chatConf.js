@@ -1,3 +1,4 @@
 export default {
-    joinChannel: "join"
+    joinChannel: "join",
+    connectedUser: "connectedUser"
 }

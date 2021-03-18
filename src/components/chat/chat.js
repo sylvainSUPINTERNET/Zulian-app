@@ -41,13 +41,21 @@ export const Chat = () => {
             const {data} = await resp.json();
             setLoadedRooms(data);
             if ( data.length > 0 ) {
+                // Loading rooms and connect to it
                 data.map( room => socket.emit(confChat.joinChannel, {
                     roomName: room.uuid,
                     userName: userInfos.data.name,
-                    userFirstname:userInfos.given_name,
-                    userFullName: userInfos.name,
-                    userUuid: userInfos.uuid
+                    userFirstname:userInfos.data.given_name,
+                    userFullName: userInfos.data.name,
+                    userUuid: userInfos.data.uuid,
+                    isLoadingRooms: true
                 }));
+
+                // Listen for each user's room events.
+                data.map( room => socket.on(`${room.uuid}-${confChat.connectedUser}`, (...args) => {
+                        console.log(`Room : ${room.uuid} => ${args}`)
+                    })
+                )
             }
             return data;
         }
@@ -56,7 +64,7 @@ export const Chat = () => {
 
     const interestingProfile = async (event, profile) => {
         const displayName = uuidv4();
-        const targetUserName = profile.username;
+
         const targetUserUuid = profile.user.uuid
         
        const resp = await room.createRoom({displayName, targetUserUuid});
@@ -64,8 +72,10 @@ export const Chat = () => {
 
        if ( resp.status === 200 ) {
            currentSocket.emit(confChat.joinChannel, {
-               userName: targetUserName,
-               roomName: displayName
+               targetProfile: profile,
+               initiator: userInfos,
+               roomName: displayName,
+               isLoadingRooms: false
            });
        }
 
@@ -92,11 +102,30 @@ export const Chat = () => {
 
     }, []);
 
+    // https://stackoverflow.com/questions/53392965/set-two-flex-items-side-by-side-in-a-flexbox-column
     return (<div>
         <header className="">
             <Menu/>
         </header>
-        <div>
+        <div style={{"background": "red"}}>
+            <div className="" style={{display:"flex", flexWrap: "wrap"}}>
+                <div className="column-item" style={{flex: "1 0 1%", margin: "", background:"green"}}>
+                    <h2>Contact</h2>
+                </div>
+                <div className="column-item" style={{flex: "1 0 30%", margin: "", background: 'purple'}}>
+                </div>
+                <div className="column-item" style={{flex: "1 0 30%", margin: "", background:'pink'}}>
+                </div>
+            </div>
+
+            {
+                loadedRooms.map( room => {
+                    return <ul>
+                        <pre>{JSON.stringify(room)}</pre>
+                        <li>{room.displayName}</li>
+                    </ul>
+                })
+            }
             {
                 profiles.map( (profile, i) => {
                     return <div className="d-flex flex-row justify-content-end mr-5 mt-5">
