@@ -109,23 +109,29 @@ export const Chat = () => {
         </header>
         <div style={{"background": "red"}}>
             <div className="" style={{display:"flex", flexWrap: "wrap"}}>
-                <div className="column-item" style={{flex: "1 0 1%", margin: "", background:"green"}}>
-                    <h2>Contact</h2>
+              <div style={{background: 'yellow', flex:1, flexBasis: "20%"}}>
+                  {
+                      loadedRooms.map( room => {
+                          return <div>
+                              <div className="card">
+                                  <div className="card-body">
+                                      <p>{room.displayName}</p>
+                                  </div>
+                              </div>
+                          </div>
+                      })
+                  }
+              </div>
+                <div style={{background: 'green', flex:1, flexBasis: "33.33%"}}>
+                    pop
                 </div>
-                <div className="column-item" style={{flex: "1 0 30%", margin: "", background: 'purple'}}>
-                </div>
-                <div className="column-item" style={{flex: "1 0 30%", margin: "", background:'pink'}}>
+                <div style={{background: 'purple', flex:1, flexBasis: "33.33%"}}>
+                    pop
                 </div>
             </div>
 
-            {
-                loadedRooms.map( room => {
-                    return <ul>
-                        <pre>{JSON.stringify(room)}</pre>
-                        <li>{room.displayName}</li>
-                    </ul>
-                })
-            }
+
+
             {
                 profiles.map( (profile, i) => {
                     return <div className="d-flex flex-row justify-content-end mr-5 mt-5">

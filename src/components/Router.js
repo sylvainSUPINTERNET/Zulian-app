@@ -21,6 +21,7 @@ import Cookies from 'universal-cookie';
 import config from "../config/api";
 import {Samples} from "./samples/samples";
 import {Chat} from "./chat/chat";
+import {Streaming} from "./streaming/Streaming";
 
 export const Root = ( {store} ) => {
     const verifyRole = async (roleName) => {
@@ -52,7 +53,7 @@ export const Root = ( {store} ) => {
                 <Route exact path="/profil" component={Profil} />
                 <Route exact path="/samples" component={Samples}/>
                 <Route exact path="/chat" component={Chat}/>
-
+                <Route exact path="/streaming" component={Streaming}/>
                 <Route exact path="/auth/redirect" render={ (props) => {
                     // Verify redirection JWT (contains only userInfos + role / permissions => infos from OAuth2)
                     let token = queryString.parse(props.location.search)["tok"]
